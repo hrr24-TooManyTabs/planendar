@@ -3,7 +3,13 @@ import React from 'react';
 const Weekview = (props) => {
 
   return (
-    <h2>Weekview</h2>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12">
+          <h2>Weekview</h2>
+        </div>
+      </div>
+    </div>
   );
 };
 
