@@ -9,11 +9,20 @@ const app = express();
 
 //auth
 
+app.use(session({
+  secret: 'agdiyhabdiwabhidwadias',
+  resave: false,
+  saveUninitialized: true,
+}));
+
+
 app.get('/signup', requestHandler.getSignup);
 app.post('/signup', requestHandler.postSignup);
 app.get('/login', requestHandler.getLogin);
 app.post('/login', requestHandler.postLogin);
 app.get('/logout', requestHandler.logout);
+
+
 
 //signed in
 
@@ -24,11 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.use(session({
-  secret: 'agdiyhabdiwabhidwadias',
-  resave: false,
-  saveUninitialized: true,
-}));
 
 app.get('/', requestHandler.index);
 
