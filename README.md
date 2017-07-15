@@ -1,12 +1,12 @@
-# Project Name
+# Planendar
 
-> Pithy project description
+> Planendar is an 'all features included' calendar application and schedule builder.
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Andrew Foresi
+  - __Scrum Master__: Alex Jungroth
+  - __Development Team Members__: Placid Rodrigues, Kevin MacFarlane
 
 ## Table of Contents
 
