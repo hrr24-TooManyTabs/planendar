@@ -1,5 +1,4 @@
-var express = require('express');
-var app = express();
+var app = require('./server-config.js');
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
