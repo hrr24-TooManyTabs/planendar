@@ -1,19 +1,9 @@
 import React from 'react';
+import CreateAppointment from './CreateAppointment.jsx';
 
 const Navbar = (props) => {
 
   return (
-  /*<div>
-    <h2>Navbar</h2>
-    <form>
-      <label>
-        Name:
-        <input type="text" name="name" />
-      </label>
-      <input type="submit" value="Submit" />
-    </form>
-    </div>*/
-
     <nav className="navbar navbar-default">
       <div className="container">
         {/*<!-- Brand and toggle get grouped for better mobile display -->*/}
@@ -24,11 +14,12 @@ const Navbar = (props) => {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">Brand</a>
+          <a className="navbar-brand" href="#">Planendar</a>
         </div>
 
         {/*<!-- Collect the nav links, forms, and other content for toggling -->*/}
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        {/*
           <ul className="nav navbar-nav">
             <li className="active"><a href="#">Link <span className="sr-only">(current)</span></a></li>
             <li><a href="#">Link</a></li>
@@ -45,12 +36,17 @@ const Navbar = (props) => {
               </ul>
             </li>
           </ul>
+        */}
+        {/*
           <form className="navbar-form navbar-left">
             <div className="form-group">
               <input type="text" className="form-control" placeholder="Search"/>
             </div>
             <button type="submit" className="btn btn-default">Submit</button>
           </form>
+        */}
+          <CreateAppointment></CreateAppointment>
+        {/*
           <ul className="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>
             <li className="dropdown">
@@ -64,6 +60,7 @@ const Navbar = (props) => {
               </ul>
             </li>
           </ul>
+        */}
         </div>{/*<!-- /.navbar-collapse -->*/}
       </div>{/*<!-- /.container-fluid -->*/}
     </nav>
