@@ -6,7 +6,8 @@ var knex = require('knex')({
   client: 'sqlite3',
   connection: {
       filename: 'planendar.sql'
-  }
+  },
+  useNullAsDefault: true
 })
 
 var database = require('Bookshelf')(knex);
