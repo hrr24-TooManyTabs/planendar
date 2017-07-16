@@ -37,6 +37,11 @@ const CreateAppointment = ({reminders}) => {
         <div className="form-group">
           <input type="text" className="form-control" placeholder="End Time"/>
         </div>
+
+        <div className="form-group">
+          <textarea className="form-control" placeholder="Description" rows="1" cols="148"></textarea>
+        </div>
+
       </form>
 
       <ul className="nav navbar-nav">
@@ -48,9 +53,12 @@ const CreateAppointment = ({reminders}) => {
             <li><a href="#">Something else here</a></li>
             <li role="separator" className="divider"></li>
             <li><a href="#">Separated link</a></li>
-            {/*{reminders.map((reminder, i) => (
-              return <li>{reminder}<button>Delete</button></li>;
-            ))}*/}
+            {reminders.map((reminder, i) => {
+              console.log('reminder: ', reminder);
+              return (
+                <li key={i}>{reminder} min<button>Delete</button></li>
+              );
+            })}
           </ul>
         </li>
       </ul>

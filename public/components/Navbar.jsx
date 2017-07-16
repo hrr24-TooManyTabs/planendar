@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateAppointment from './CreateAppointment.jsx';
 
-const Navbar = (props) => {
+const Navbar = ({reminders}) => {
 
   return (
     <nav className="navbar navbar-default">
@@ -45,7 +45,7 @@ const Navbar = (props) => {
             <button type="submit" className="btn btn-default">Submit</button>
           </form>
         */}
-          <CreateAppointment></CreateAppointment>
+          <CreateAppointment reminders={reminders}></CreateAppointment>
         {/*
           <ul className="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>
