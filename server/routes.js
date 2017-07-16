@@ -1,11 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const session = require('express-session')
-const bodyParser = require('body-parser')
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const partials = require('express-partials');
 const requestHandler = require('../lib/request-handler.js');
 
 const app = express();
+
+app.set('views', path.join(__dirname, '/../views'));
+app.set('view engine', 'ejs');
+app.use(partials());
 
 //auth
 
