@@ -3,9 +3,9 @@ var express = require('express');
 var path = require('path');
 
 var knex = require('knex')({
-  client: 'mysql',
+  client: 'sqlite3',
   connection: {
-    filename: path.join(__dirname, 'planendar.sql');
+      filename: 'planendar.sql'
   }
 })
 
@@ -43,4 +43,4 @@ database.knex.schema.createTable('reminders', function(reminders) {
   console.log("reminders table exists, ", table);
 })
 
-module.exports.database = database;
+module.exports = database;
