@@ -1,4 +1,4 @@
-var app = require('../server/server.js');
+// var app = require('../server/server.js');
 var express = require('express');
 var path = require('path');
 
