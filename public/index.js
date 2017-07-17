@@ -1,3 +1,5 @@
+// import 'jquery/dist/jquery.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
