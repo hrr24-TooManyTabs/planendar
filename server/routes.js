@@ -8,6 +8,9 @@ const requestHandler = require('../lib/request-handler.js');
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.set('views', path.join(__dirname, '/../views'));
 app.set('view engine', 'ejs');
 app.use(partials());
@@ -27,17 +30,7 @@ app.get('/login', requestHandler.getLogin);
 app.post('/login', requestHandler.postLogin);
 app.get('/logout', requestHandler.logout);
 
-
-
-//signed in
-
-app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded());
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(cors());
-
 
 app.get('/', requestHandler.index);
 
