@@ -24,6 +24,8 @@ coverage
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 build/
 
+# Sqlite DB file
+db/planendar.sql
 
 # Dependency directorys
 # Deployed apps should consider commenting these lines out:
