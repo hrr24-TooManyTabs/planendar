@@ -42,6 +42,7 @@ app.get('/schedule', requestHandler.getSchedule);
 app.post('/schedule', requestHandler.postSchedule);
 app.put('/schedule/:id', requestHandler.updateSchedule);
 
+app.get('/users', requestHandler.getAllUsers);
 
 app.use(express.static(path.join(__dirname, '/../public')));
 
