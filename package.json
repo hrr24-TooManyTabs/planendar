@@ -29,6 +29,7 @@
     "express-session": "^1.15.3",
     "jquery": "^3.2.1",
     "knex": "^0.13.0",
+    "moment": "^2.18.1",
     "mysql": "^2.13.0",
     "react": "^15.6.1",
     "react-big-calendar": "^0.14.4",

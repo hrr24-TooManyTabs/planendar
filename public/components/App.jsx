@@ -19,7 +19,9 @@ export default class App extends React.Component {
         start_date: '',
         start_date_time: '',
         title: ''
-      }
+      },
+      events: []
+
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -103,6 +105,36 @@ export default class App extends React.Component {
     });
   }
 
+
+  mergeDateTime(date, dateTime) {
+    let temp
+  }
+
+  getAppointments() {
+    $.ajax({
+      type: 'GET',
+      url: '/schedule',
+      success: function(appointments) {
+        let events = []
+        appointments.map((appointment, i) => {
+          start = this.mergeDateTime(appointment.startDate, appointment.startDateTime)
+          end = this.mergeDateTime(appointment.endDate, appointment.endDateTime)
+          events[i] = {
+            title: appointment.title,
+            start: start,
+            end: end
+          }
+        })
+
+        this.setState({events: events})
+
+      }.bind(this),
+      error: function(err) {
+        console.error('Error in getting appointments', error);
+      }.bind(this)
+    });
+  }
+
   render() {
     return(
       <div>
@@ -116,9 +148,16 @@ export default class App extends React.Component {
          updateReminder={this.updateNewReminder}
          updateAppointment={this.updateNewAppointment}></Navbar>
 
-        <Calendar />
+        <Calendar events={this.state.events}/>
 
       </div>
     );
   }
 }
+
+
+/*
+<Weekview></Weekview>
+*/
+
+

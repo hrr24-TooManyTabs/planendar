@@ -3,8 +3,12 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import events from '../events'
+import moment from 'moment';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.less';
+BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
@@ -22,16 +26,16 @@ class Dnd extends React.Component {
     const { events } = this.state;
 
     const index = events.indexOf(event);
-    const updatedEvent = { ...event, start, end };
+    const updatedEvent = { event, start, end };
 
     const nextEvents = [...events]
-    nextevents.splice(index, 1, updatedevent)
+    nextEvents.splice(index, 1, updatedEvent)
 
     this.setState({
-      events: nextevents
+      events: nextEvents
     })
 
-    alert('${event.title} was dropped onto ${event.start}');
+    alert('Test');
   }
 
   render() {
@@ -39,7 +43,7 @@ class Dnd extends React.Component {
       <DragAndDropCalendar
         selectable
         events={this.state.events}
-        onEventDrop={this.moveTask}
+        onEventDrop={this.moveEvent}
         defaultView='week'
       />
     )
@@ -49,3 +53,4 @@ class Dnd extends React.Component {
 }
 
 export default DragDropContext(HTML5Backend)(Dnd)
+
