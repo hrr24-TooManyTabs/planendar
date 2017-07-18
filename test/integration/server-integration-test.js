@@ -38,6 +38,17 @@ describe('', function() {
 
   });
 
+  describe('Priviledged Access', () => {
+
+    it('Redirects a non signed in user from home page to login page', (done) => {
+      request('http://localhost:4568', (err, res, body) => {
+        expect(res.req.path).to.equal('/login');
+        done();
+      });
+    });
+
+  });
+
   describe('Account Creation:', function() {
 
     it('Signup creates a user record', function(done) {
