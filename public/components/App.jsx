@@ -6,17 +6,17 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      newReminders: ['0', '5', '10', '15'],
+      newReminders: [],
       reminderInput: {
         minutes: ''
       },
       appointmentInput: {
-        desciption: '',
+        description: '',
         end_date: '',
         end_date_time: '',
         location: '',
         start_date: '',
-        start_datae_time: '',
+        start_date_time: '',
         title: ''
       }
     };
@@ -28,63 +28,76 @@ export default class App extends React.Component {
   }
 
   createNewReminder() {
-    console.log('createNewReminder');
+    //console.log('createNewReminder');
     this.setState((prevState) => {
-      return {newReminders: prevState.push(prevState.reminderInput.minutes),
-        reminderInput: {minutes: 0}};
+      var minutes = parseInt(prevState.reminderInput.minutes, 10);
+      prevState.newReminders.push(minutes);
+      prevState.reminderInput.minutes = '';
+      return {newReminders: prevState.newReminders,
+        reminderInput: prevState.reminderInput};
     });
   }
 
   deleteNewReminder(key) {
-    console.log('deleteNewReminder');
+    //console.log('deleteNewReminder');
     this.setState((prevState) => {
+      //console.log(key);
       prevState.newReminders.splice(key, 1);
       return {newReminders: prevState.newReminders};
     });
   }
 
   createNewAppointment() {
-    console.log('createNewAppointment');
+    //console.log('createNewAppointment');
+    //console.log(this.state.appointmentInput);
+    var newAppointmentData = Object.assign({}, this.state.appointmentInput);
+    newAppointmentData.reminders = this.state.newReminders;
+    //console.log('newAppointmentData', newAppointmentData);
     $.ajax({
-      url: '/appointments',
+      url: '/schedule',
       type: 'POST',
-      data: this.state.appointmentInput,
+      data: newAppointmentData,
       dataType: 'json',
       success: function(response) {
-        console.log('success', response);
+        //console.log('success', response);
         this.setState({
+          newReminders: [],
+          reminderInput: {
+            minutes: ''
+          },
           appointmentInput: {
-            desciption: '',
+            description: '',
             end_date: '',
             end_date_time: '',
             location: '',
             start_date: '',
-            start_datae_time: '',
+            start_date_time: '',
             title: ''
           }
         });
-        //post reminders to server
-      },
+      }.bind(this),
       error: function(err) {
         console.error(err);
-      }
+      }.bind(this)
     })
   }
 
   updateNewReminder(key, value) {
-    console.log('updateNewReminder');
-    this.setState({
-      reminderInput: {
-        key: value
+    //console.log('updateNewReminder');
+    this.setState((prevState) => {
+      prevState.reminderInput[key] = value;
+      return {
+        reminderInput: prevState.reminderInput
       }
     });
   }
 
   updateNewAppointment(key, value) {
-    console.log('updateNewAppointment');
-    this.setState({
-      appointmentInput: {
-        key: value
+    //console.log('updateNewAppointment');
+    this.setState((prevState) => {
+      prevState.appointmentInput[key] = value;
+      return {
+        appointmentInput: prevState.appointmentInput
       }
     });
   }
