@@ -1,16 +1,16 @@
-var app = require('../server/server.js');
+// var app = require('../server/server.js');
 var express = require('express');
 var path = require('path');
 
 var knex = require('knex')({
   client: 'sqlite3',
   connection: {
-      filename: 'planendar.sql'
+      filename: path.join(__dirname, '/planendar.sql')
   },
   useNullAsDefault: true
 })
 
-var db = require('Bookshelf')(knex);
+var db = require('bookshelf')(knex);
 
 db.knex.schema.hasTable('users').then(function(exists) {
   if(!exists) {
