@@ -34,9 +34,9 @@ db.knex.schema.hasTable('appointments').then(function(exists) {
       appointments.string('title', 140);
       appointments.string('description', 300);
       appointments.date('start_date');
-      appointments.dateTime('start_date_time');
+      appointments.string('start_date_time');
       appointments.date('end_date');
-      appointments.dateTime('end_date_time');
+      appointments.string('end_date_time');
     }).then((table) => {
       console.log("Created table ", table);
     });
