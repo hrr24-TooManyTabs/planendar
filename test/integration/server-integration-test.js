@@ -154,4 +154,53 @@ describe('', function() {
 
   }); // Account Login
 
+  describe('Scheduling', () => {
+    let requestWithSession = request.defaults({jar: true});
+
+    let hashedPass = bcrypt.hashSync('testpass', null);
+
+    beforeEach((done) => {
+      new User({
+        'name': 'Test User',
+        'email': 'testuser@test.com',
+        'password': hashedPass
+      })
+      .save()
+      .then(() => {
+        let options = {
+          'method': 'POST',
+          'uri': 'http://localhost:4568/login',
+          'form': {
+            'email': 'testuser@test.com',
+            'password': 'testpass'
+          }
+        };
+        requestWithSession(options, (err, res, body) => {
+          done();
+        });
+      });
+    }); // beforeEach
+
+    it('Posting a schedule creates a db record', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/schedule',
+        'form': {
+          'title': 'Test title',
+          'description': 'Test description',
+          'start_date': 'start_date',
+          'start_date_time': 'start_date_time',
+          'end_date': 'end_date',
+          'end_date_time': 'end_date_time'
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+
+  }; // Scheduling
+
 });
