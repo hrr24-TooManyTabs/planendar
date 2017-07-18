@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.js",
-    "start": "nodemon server/server.js",
+    "start": "concurrently \"nodemon server/server.js\" \"npm run bundle\"",
     "bundle": "webpack --watch"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "body-parser": "^1.17.2",
     "bookshelf": "^0.10.3",
     "bootstrap": "^3.3.7",
+    "concurrently": "^3.5.0",
     "cors": "^2.8.4",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
