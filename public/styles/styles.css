@@ -1,3 +1,7 @@
 .login-signup-panel-body {
   padding-top: 30px;
 }
+
+textarea {
+  resize: none;
+}
