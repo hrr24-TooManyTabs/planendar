@@ -1,9 +1,14 @@
 const request = require('request');
 const express = require('express');
 const expect = require('chai').expect;
+const bcrypt = require('bcrypt-nodejs');
 const app = require('../../server/routes.js');
 const db = require('../../db/config.js');
 const handler = require('../../lib/request-handler.js');
+
+const User = db.Model.extend({
+  tableName: 'users'
+});
 
 describe('', function() {
   let server;
@@ -33,7 +38,7 @@ describe('', function() {
 
   });
 
-  describe('Account Creation', function() {
+  describe('Account Creation:', function() {
 
     it('Signup creates a user record', function(done) {
       let options = {
@@ -44,7 +49,7 @@ describe('', function() {
           'email': 'testuser@test.com',
           'password': 'testpass'
         }
-      }
+      };
 
       request(options, (err, res, body) => {
         if(err) {
@@ -68,5 +73,74 @@ describe('', function() {
           });
       });
     });
+
+    it('Signup logs in a new user', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/signup',
+        'form': {
+          'name': 'Test User',
+          'email': 'testuser@test.com',
+          'password': 'testpass'
+        }
+      };
+
+      request(options, (err, res, body) => {
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+
   });
+
+  describe('Account Login:', (params) => {
+
+    let requestWithSession = request.defaults({jar: true});
+
+    let hashedPass = bcrypt.hashSync('testpass', null);
+
+    beforeEach((done) => {
+      new User({
+        'name': 'Test User',
+        'email': 'testuser@test.com',
+        'password': hashedPass
+      })
+      .save()
+      .then(() => done());
+    });
+
+    it('Logs in an existing user', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/login',
+        'form': {
+          'email': 'testuser@test.com',
+          'password': 'testpass'
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+
+    it('Keeps Non-existing user to login page', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/login',
+        'form': {
+          'email': 'nonexisting@user.com',
+          'password': 'password'
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        expect(res.headers.location).to.equal('/login');
+        done();
+      });
+    });
+
+  }); // Account Login
+
 });
