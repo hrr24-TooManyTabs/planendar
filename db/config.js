@@ -5,7 +5,7 @@ var path = require('path');
 var knex = require('knex')({
   client: 'sqlite3',
   connection: {
-      filename: 'planendar.sql'
+      filename: path.join(__dirname, '/planendar.sql')
   },
   useNullAsDefault: true
 })
