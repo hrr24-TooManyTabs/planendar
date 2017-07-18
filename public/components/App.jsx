@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar.jsx';
 import Weekview from './Weekview.jsx';
+import Calendar from './Calendar.jsx';
 
 export default class App extends React.Component {
   constructor() {
@@ -114,7 +115,9 @@ export default class App extends React.Component {
          createAppointment={this.createNewAppointment}
          updateReminder={this.updateNewReminder}
          updateAppointment={this.updateNewAppointment}></Navbar>
-        <Weekview></Weekview>
+
+        <Calendar />
+
       </div>
     );
   }
