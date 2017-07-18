@@ -6,10 +6,10 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      newReminders: ['0', '5', '10', '15']
+      newReminders: ['0', '5', '10', '15'],
       reminderInput: {
         minutes: ''
-      }
+      },
       appointmentInput: {
         desciption: '',
         end_date: '',
@@ -63,6 +63,7 @@ export default class App extends React.Component {
             title: ''
           }
         });
+        //post reminders to server
       },
       error: function(err) {
         console.error(err);
