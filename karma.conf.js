@@ -12,7 +12,7 @@ module.exports = function (config) {
     preprocessors: {
       './public/dist/bundle.js': ['webpack'],
       './tests.webpack.js': [ 'webpack', 'sourcemap'], //preprocess with webpack and our sourcemap loader
-      './test/frontend/frontend-unit-test.js': [ 'babel' ]
+      './test/frontend/*.js': [ 'webpack', 'babel' ]
     },
     reporters: [ 'mocha', 'coverage' ], //report results in this format
     webpack: webpackConfig,
