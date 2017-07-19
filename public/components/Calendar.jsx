@@ -3,7 +3,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-import events from '../events'
+//import events from '../events'
 import moment from 'moment';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -16,7 +16,7 @@ class Dnd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      events: events
+      events: props.events
     }
 
     this.moveEvent = this.moveEvent.bind(this)

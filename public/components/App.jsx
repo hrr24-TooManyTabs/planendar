@@ -107,7 +107,10 @@ export default class App extends React.Component {
 
 
   mergeDateTime(date, dateTime) {
-    let temp
+    let dateSplit = date.split('-');
+    let dateTimeSplit = dateTime.split(':');
+
+    return new Date(dateSplit[0], dateSplit[1], dateSplit[2], dateTimeSplit[0], dateTimeSplit[1]);
   }
 
   getAppointments() {
@@ -115,10 +118,11 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
-        let events = []
+        console.log(appointments)
+        let events = [];
         appointments.map((appointment, i) => {
-          start = this.mergeDateTime(appointment.startDate, appointment.startDateTime)
-          end = this.mergeDateTime(appointment.endDate, appointment.endDateTime)
+          start = this.mergeDateTime(appointment.startDate, appointment.startDateTime);
+          end = this.mergeDateTime(appointment.endDate, appointment.endDateTime);
           events[i] = {
             title: appointment.title,
             start: start,
@@ -133,6 +137,10 @@ export default class App extends React.Component {
         console.error('Error in getting appointments', error);
       }.bind(this)
     });
+  }
+
+  componentDidMount() {
+    this.getAppointments()
   }
 
   render() {
