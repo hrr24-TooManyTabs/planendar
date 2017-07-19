@@ -42,6 +42,37 @@ describe('', function() {
         }
       });
 
+    // let testAppoinmentData = db.knex('appointments')
+      db.knex('appointments')
+      .where({
+        'title': 'Test title',
+        'description': 'Test description',
+        'start_date': '2017-07-19',
+        'start_date_time': '01:00',
+        'end_date': '2017-07-19',
+        'end_date_time': '02:00',
+        'location': 'Dhaka'
+      })
+      .del()
+      .catch(error => {
+        throw {
+          type: 'DatabaseError',
+          message: 'Failed to create test setup data'
+        }
+      });
+
+    // db.knex('reminders')
+    //   .where('appointment_id', '=', testAppoinmentData.id)
+    //   .del()
+    //   .catch(error => {
+    //     throw {
+    //       type: 'DatabaseError',
+    //       message: 'Failed to create test setup data'
+    //     }
+    //   });
+
+
+
   });
 
   describe('Priviledged Access', () => {
