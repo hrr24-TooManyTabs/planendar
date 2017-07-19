@@ -53,9 +53,14 @@ export default class App extends React.Component {
   createNewAppointment() {
     //console.log('createNewAppointment');
     //console.log(this.state.appointmentInput);
-    var newAppointmentData = Object.assign({}, this.state.appointmentInput);
+    //var newAppointmentData = Object.assign({}, this.state.appointmentInput);
+    var newAppointmentData = {};
+
+    for (var data in this.state.appointmentInput) {
+      newAppointmentData[data] = this.state.appointmentInput[data];
+    }
     newAppointmentData.reminders = this.state.newReminders;
-    //console.log('newAppointmentData', newAppointmentData);
+    console.log('newAppointmentData', newAppointmentData);
     $.ajax({
       url: '/schedule',
       type: 'POST',
@@ -170,7 +175,7 @@ export default class App extends React.Component {
         })
         //console.log(events)
         this.setState({events: events})
-        console.log(this.state.events)
+        console.log('App', this.state.events);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);

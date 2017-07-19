@@ -4,7 +4,7 @@ webpackConfig.entry = function(){return {}};
 module.exports = function (config) {
   config.set({
     basePath: '',
-    browsers: [ process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome' ], //run in Chrome
+    browsers: [ 'Chrome' ], //run in Chrome
     singleRun: true, //just run once by default
     frameworks: [ 'mocha' ], //use the mocha test framework
     files: [
