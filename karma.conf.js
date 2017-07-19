@@ -3,11 +3,16 @@ webpackConfig.entry = function(){return {}};
 
 module.exports = function (config) {
   config.set({
-    browsers: [ 'Chrome' ], //run in Chrome
+    basePath: '',
+    browsers: [ process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome' ], //run in Chrome
     singleRun: true, //just run once by default
     frameworks: [ 'mocha' ], //use the mocha test framework
     files: [
-      './tests.webpack.js' //just load this file
+      './tests.webpack.js', //just load this file
+      {
+        pattern: './test/frontend/*.js',
+        included: false
+      }
     ],
     preprocessors: {
       './public/dist/bundle.js': ['webpack'],
