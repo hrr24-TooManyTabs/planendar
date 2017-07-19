@@ -15,7 +15,7 @@ export default class App extends React.Component {
         description: '',
         end_date: '',
         end_date_time: '',
-        location: '',
+        //location: '',
         start_date: '',
         start_date_time: '',
         title: ''
@@ -110,37 +110,63 @@ export default class App extends React.Component {
     let dateSplit = date.split('-');
     let dateTimeSplit = dateTime.split(':');
 
-    return new Date(dateSplit[0], dateSplit[1], dateSplit[2], dateTimeSplit[0], dateTimeSplit[1]);
+    let res = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2], dateTimeSplit[0], dateTimeSplit[1]);
+    //console.log(res)
+    return res
   }
 
-  getAppointments() {
+/*  getAppointments() {
+    $.ajax({
+      type: 'GET',
+      url: '/schedule',
+      success: function(appointments) {
+        //console.log(appointments)
+        let events = [];
+        //console.log(events)
+        appointments.map((appointment, i) => {
+          let start = this.mergeDateTime(appointment.start_date, appointment.start_date_time);
+          let end = this.mergeDateTime(appointment.end_date, appointment.end_date_time);
+          events.push({
+            title: appointment.title,
+            start: start,
+            end: end
+          })
+        })
+        //console.log(events)
+        this.setState({events: events})
+        console.log(this.state.events)
+      }.bind(this),
+      error: function(err) {
+        console.error('Error in getting appointments', error);
+      }.bind(this)
+    });
+  }*/
+
+  componentDidMount() {
     $.ajax({
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
         console.log(appointments)
         let events = [];
+        //console.log(events)
         appointments.map((appointment, i) => {
-          start = this.mergeDateTime(appointment.startDate, appointment.startDateTime);
-          end = this.mergeDateTime(appointment.endDate, appointment.endDateTime);
-          events[i] = {
+          let start = this.mergeDateTime(appointment.start_date, appointment.start_date_time);
+          let end = this.mergeDateTime(appointment.end_date, appointment.end_date_time);
+          events.push({
             title: appointment.title,
             start: start,
             end: end
-          }
+          })
         })
-
+        //console.log(events)
         this.setState({events: events})
-
+        console.log(this.state.events)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
       }.bind(this)
     });
-  }
-
-  componentDidMount() {
-    this.getAppointments()
   }
 
   render() {

@@ -38,7 +38,13 @@ class Dnd extends React.Component {
     alert('Test');
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({events: nextProps.events})
+    //console.log(this.state.events)
+  }
+
   render() {
+    console.log(this.state.events)
     return (
       <DragAndDropCalendar
         selectable
