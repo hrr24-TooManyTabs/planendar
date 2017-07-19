@@ -11,8 +11,8 @@ module.exports = function (config) {
     ],
     preprocessors: {
       './public/dist/bundle.js': ['webpack'],
-      './tests.webpack.js': [ 'webpack', 'sourcemap' ] //preprocess with webpack and our sourcemap loader
-      //adding ,'babel' causes warnings, but we might want to add it back in to test in
+      './tests.webpack.js': [ 'webpack', 'sourcemap', 'babel' ] //preprocess with webpack and our sourcemap loader
+      //adding ,'babel' causes warnings, but it might be the only thing that makes the import statements compile
     },
     reporters: [ 'mocha', 'coverage' ], //report results in this format
     webpack: webpackConfig,
