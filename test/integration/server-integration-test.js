@@ -276,8 +276,118 @@ describe('', function() {
       });
     });
 
-    xit('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
-      // code
+    it('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/schedule',
+        'form': {
+          'title': 'Test title',
+          'description': 'Test description',
+          'start_date': '2017-07-19',
+          'start_date_time': '01:00',
+          'end_date': '2017-07-19',
+          'end_date_time': '02:00',
+          'location': 'Dhaka',
+          'reminders': [ '5', '10', '30' ]
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        // expect(true).to.equal(true);
+        if(err) {
+          console.log('DatabaseError in Account Creation');
+          throw {
+            type: 'DatabaseError',
+            message: 'Failed to create test setup data'
+          };
+        }
+
+        db.knex('appointments')
+          .where({
+            'title': 'Test title',
+            'description': 'Test description',
+            'start_date': '2017-07-19',
+            'start_date_time': '01:00',
+            'end_date_time': '02:00',
+            'location': 'Dhaka'
+          })
+          .then(appointment => {
+            if(appointment[0] && appointment[0]['title']) {
+              var title = appointment[0]['title'];
+              var description = appointment[0]['description'];
+              var start_date = appointment[0]['start_date'];
+              var start_date_time = appointment[0]['start_date_time'];
+              var end_date = appointment[0]['end_date'];
+              var end_date_time = appointment[0]['end_date_time'];
+              var location = appointment[0]['location'];
+            }
+            expect(title).to.equal('Test title');
+            expect(description).to.equal('Test description');
+            expect(start_date).to.equal('2017-07-19');
+            expect(start_date_time).to.equal('01:00');
+            expect(end_date).to.equal('2017-07-19');
+            expect(end_date_time).to.equal('02:00');
+            expect(location).to.equal('Dhaka');
+            done();
+          });
+      });
+    });
+
+    it('Can create a schedule without reminders', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/schedule',
+        'form': {
+          'title': 'Test title',
+          'description': 'Test description',
+          'start_date': '2017-07-19',
+          'start_date_time': '01:00',
+          'end_date': '2017-07-19',
+          'end_date_time': '02:00',
+          'location': 'Dhaka'
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        // expect(true).to.equal(true);
+        if(err) {
+          console.log('DatabaseError in Account Creation');
+          throw {
+            type: 'DatabaseError',
+            message: 'Failed to create test setup data'
+          };
+        }
+
+        db.knex('appointments')
+          .where({
+            'title': 'Test title',
+            'description': 'Test description',
+            'start_date': '2017-07-19',
+            'start_date_time': '01:00',
+            'end_date': '2017-07-19',
+            'end_date_time': '02:00',
+            'location': 'Dhaka'
+          })
+          .then(appointment => {
+            if(appointment[0] && appointment[0]['title']) {
+              var title = appointment[0]['title'];
+              var description = appointment[0]['description'];
+              var start_date = appointment[0]['start_date'];
+              var start_date_time = appointment[0]['start_date_time'];
+              var end_date = appointment[0]['end_date'];
+              var end_date_time = appointment[0]['end_date_time'];
+              var location = appointment[0]['location'];
+            }
+            expect(title).to.equal('Test title');
+            expect(description).to.equal('Test description');
+            expect(start_date).to.equal('2017-07-19');
+            expect(start_date_time).to.equal('01:00');
+            expect(end_date).to.equal('2017-07-19');
+            expect(end_date_time).to.equal('02:00');
+            expect(location).to.equal('Dhaka');
+            done();
+          });
+      });
     });
 
   }); // Scheduling
