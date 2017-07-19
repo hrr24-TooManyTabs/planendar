@@ -4,7 +4,7 @@ webpackConfig.entry = function(){return {}};
 module.exports = function (config) {
   config.set({
     basePath: '',
-    browsers: [ 'Chrome' ], //run in Chrome
+    browsers: [ process.env.TRAVIS ? 'Chrome_travis_ci' : 'Chrome' ], //run in Chrome
     singleRun: true, //just run once by default
     frameworks: [ 'mocha' ], //use the mocha test framework
     files: [
@@ -23,6 +23,12 @@ module.exports = function (config) {
     coverageReporter: {
       type: 'html', //produces a html document after code is run
       dir: 'coverage/' //path to created html doc
+    },
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
     }
   });
 };
