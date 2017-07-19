@@ -9,10 +9,6 @@ module.exports = function (config) {
     frameworks: [ 'mocha' ], //use the mocha test framework
     files: [
       './tests.webpack.js', //just load this file
-      {
-        pattern: './test/frontend/*.js',
-        included: false
-      }
     ],
     preprocessors: {
       './public/dist/bundle.js': ['webpack'],

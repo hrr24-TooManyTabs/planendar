@@ -19,16 +19,19 @@ describe('sanity check', function() {
 });
 
 describe('app', function () {
-  it('renders app without problems', function () {
+  it('renders app without problems', function (done) {
     var app = TestUtils.renderIntoDocument(<App/>);
     //var app = document.createElement(<App/>);
     //console.log('app', app);
+    //The get request in component did mount may be causing this, the test may need to simulate creating a user and/or logging in
+    //WARN [web-server]: 404: /schedule
     expect(app).toExist;
+    done();
   });
 });
 
 describe('navbar', function () {
-  it('renders navbar without problems', function () {
+  it('renders navbar without problems', function (done) {
     var navbar = TestUtils.renderIntoDocument(<Navbar
       reminders={[]}
       reminderInput={{minutes: ''}}
@@ -48,12 +51,13 @@ describe('navbar', function () {
       updateAppointment={function(){}}/>);
     //console.log('navbar', navbar);
     expect(navbar).toExist;
+    done();
   });
 });
 
 
 describe('createAppointment', function () {
-  it('renders createAppointment without problems', function () {
+  it('renders createAppointment without problems', function (done) {
     var createAppointment = TestUtils.renderIntoDocument(<CreateAppointment       reminders={[]}
       reminderInput={{minutes: ''}}
       appointmentInput={{
@@ -72,5 +76,6 @@ describe('createAppointment', function () {
       updateAppointment={function(){}}/>);
     //console.log('createAppointment', createAppointment);
     expect(createAppointment).toExist;
+    done();
   });
 });
