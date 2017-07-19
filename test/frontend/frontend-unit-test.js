@@ -1,9 +1,9 @@
 var React = require('react');
 var TestUtils = require('react-dom/test-utils'); //I like using the Test Utils, but you can just use the DOM API instead.
 var expect = require('expect.js');
-import App from '../../public/components/App.jsx';
-import Navbar from '../../public/components/Navbar.jsx';
-import CreateAppointment from '../../public/components/CreateAppointment.jsx'
+var App = require('../../public/components/App.jsx');
+var Navbar = require('../../public/components/Navbar.jsx');
+var CreateAppointment = require('../../public/components/CreateAppointment.jsx');
 //var App = require('../../public/components/App.jsx'); //my root-test lives in components/__tests__/, so this is how I require in my components.
 
 describe('sanity check', function() {
@@ -14,7 +14,8 @@ describe('sanity check', function() {
 
 describe('app', function () {
   it('renders app without problems', function () {
-    var app = TestUtils.renderIntoDocument(<App/>);
+    console.log(window);
+    var app = document.createElement(<App/>);
     //console.log('app', app);
     expect(app).toExist;
   });
