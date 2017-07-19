@@ -63,6 +63,14 @@ export default class App extends React.Component {
       dataType: 'json',
       success: function(response) {
         //console.log('success', response);
+        let events = this.state.events;
+        let start = this.mergeDateTime(response.start_date, response.start_date_time);
+        let end = this.mergeDateTime(response.end_date, response.end_date_time);
+        events.push({
+          title: response.title,
+          start: start,
+          end: end
+        })
         this.setState({
           newReminders: [],
           reminderInput: {
@@ -76,7 +84,8 @@ export default class App extends React.Component {
             start_date: '',
             start_date_time: '',
             title: ''
-          }
+          },
+          events: events
         });
       }.bind(this),
       error: function(err) {
