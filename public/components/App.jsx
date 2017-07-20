@@ -20,7 +20,8 @@ export default class App extends React.Component {
         start_date_time: '',
         title: ''
       },
-      events: []
+      events: [],
+      userInformation: []
 
     };
     this.createNewReminder = this.createNewReminder.bind(this);
@@ -29,6 +30,8 @@ export default class App extends React.Component {
     this.createUserProfile = this.createUserProfile.bind(this);
     this.updateNewReminder = this.updateNewReminder.bind(this);
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
+
+    // var profileInfo = [];
 
   }
 
@@ -158,7 +161,6 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
-        console.log(appointments)
         let events = [];
         //console.log(events)
         appointments.map((appointment, i) => {
@@ -172,10 +174,22 @@ export default class App extends React.Component {
         })
         //console.log(events)
         this.setState({events: events})
-        console.log(this.state.events)
+        console.log('state', this.state.events)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
+      }.bind(this)
+    });
+
+    $.ajax({
+      type: 'GET',
+      url: '/profile',
+      success: function(userInfo) {
+        this.setState({userInformation :userInfo})
+        console.log('SUCCESS ', userInfo)
+      }.bind(this),
+      error: function(err) {
+        console.error('Error in getting user information', err);
       }.bind(this)
     });
   }
@@ -196,7 +210,9 @@ export default class App extends React.Component {
          createAppointment={this.createNewAppointment}
          userProfile={this.createUserProfile}
          updateReminder={this.updateNewReminder}
-         updateAppointment={this.updateNewAppointment}></Navbar>
+         updateAppointment={this.updateNewAppointment}
+         profileInformation={this.state.userInformation}
+         ></Navbar>
 
         <Calendar events={this.state.events}/>
       </div>
