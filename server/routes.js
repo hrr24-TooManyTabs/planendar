@@ -42,7 +42,10 @@ app.get('/schedule', requestHandler.getSchedule);
 app.post('/schedule', requestHandler.postSchedule);
 app.put('/schedule/:id', requestHandler.updateSchedule);
 
+// The followings are created for testing purposes
 app.get('/users', requestHandler.getAllUsers);
+app.get('/reminders', requestHandler.getAllReminders);
+app.get('/allschedules', requestHandler.getAllSchedules);
 
 app.use(express.static(path.join(__dirname, '/../public')));
 
