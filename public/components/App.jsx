@@ -190,7 +190,6 @@ export default class App extends React.Component {
       url: '/profile',
       success: function(userInfo) {
         this.setState({userInformation :userInfo})
-        console.log('SUCCESS ', userInfo)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
