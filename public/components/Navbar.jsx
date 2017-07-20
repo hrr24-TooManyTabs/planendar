@@ -2,7 +2,8 @@ import React from 'react';
 import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
 
-const Navbar = ({reminders, createReminder, deleteReminder, createAppointment, userProfile}) => {
+
+const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, userProfile}) => {
 
   return (
     <nav className="navbar navbar-default">
@@ -48,11 +49,16 @@ const Navbar = ({reminders, createReminder, deleteReminder, createAppointment, u
         */}
           <CreateAppointment
           reminders={reminders}
+          reminderInput={reminderInput}
+          appointmentInput={appointmentInput}
           createReminder={createReminder}
           deleteReminder={deleteReminder}
-          createAppointment={createAppointment}></CreateAppointment>
+          createAppointment={createAppointment}
+          updateReminder={updateReminder}
+          updateAppointment={updateAppointment}></CreateAppointment>
 
           <UserProfile userProfile={userProfile}></UserProfile>
+
         {/*
           <ul className="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>
