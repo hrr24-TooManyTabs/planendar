@@ -11,6 +11,7 @@ export default class App extends React.Component {
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
     this.createNewAppointment = this.createNewAppointment.bind(this);
+    this.createUserProfile = this.createUserProfile.bind(this);
   }
 
   createNewReminder() {
@@ -25,6 +26,10 @@ export default class App extends React.Component {
     console.log('createNewAppointment');
   }
 
+  createUserProfile() {
+    console.log('createUserProfile');
+  }
+
   render() {
     return(
       <div>
@@ -32,7 +37,8 @@ export default class App extends React.Component {
          reminders={this.state.newReminders}
          createReminder={this.createNewReminder}
          deleteReminder={this.deleteNewReminder}
-         createAppointment={this.createNewAppointment}></Navbar>
+         createAppointment={this.createNewAppointment}
+         userProfile={this.createUserProfile}></Navbar>
         <Weekview></Weekview>
       </div>
     );
