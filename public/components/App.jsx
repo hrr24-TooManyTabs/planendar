@@ -203,6 +203,7 @@ export default class App extends React.Component {
 
 
   render() {
+    console.log(this.state.appointmentInput.end_date)
     return(
       <div>
         <Navbar

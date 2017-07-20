@@ -49,7 +49,7 @@ class Dnd extends React.Component {
   }
 
   render() {
-    console.log(this.state.events)
+    //console.log(this.state.events)
     return (
       <DragAndDropCalendar
         selectable

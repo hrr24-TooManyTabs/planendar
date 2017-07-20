@@ -1,4 +1,7 @@
 import React from 'react';
+import DateTime from 'react-datetime'
+
+import 'react-datetime/css/react-datetime.css'
 
 const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment}) => {
 
@@ -93,22 +96,20 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
         <label>&ensp;Start</label>
 
+        {/*
         <div className="form-group">
-          <input style={{fontSize: .7 + "em"}} type="date" className="form-control" placeholder="Start Date" name="start_date" value={appointmentInput.start_date} onChange={handleAppointmentChange} required/>
+          <input type="datetime-local" className="form-control" placeholder="Start Date and Time"/>
         </div>
+        */}
 
-        <div className="form-group">
-          <input style={{fontSize: .7 + "em"}} type="time" className="form-control" placeholder="Start Time" name="start_date_time" value={appointmentInput.start_date_time} onChange={handleAppointmentChange} required/>
-        </div>
+        <DateTime name={'start_date'} value={appointmentInput.start_date} onBlur={handleAppointmentChange}/>
+
+
 
         <label>&ensp;Finish</label>
-        <div className="form-group">
-          <input style={{fontSize: .7 + "em"}} type="date" className="form-control" placeholder="End Date" name="end_date" value={appointmentInput.end_date} onChange={handleAppointmentChange}/>
-        </div>
 
-        <div className="form-group">
-          <input style={{fontSize: .7 + "em"}} type="time" className="form-control" placeholder="End Time" name="end_date_time" value={appointmentInput.end_date_time} onChange={handleAppointmentChange} required/>
-        </div>
+        <DateTime onBlur={handleAppointmentChange} inputProps={{'name':'end_date'}}/>
+
 
         <div className="form-group">
           <textarea rows="1" cols="30" maxLength="17" className="form-control" placeholder="Description" name="description" value={appointmentInput.description} onChange={handleAppointmentChange}></textarea>
@@ -146,3 +147,40 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 };
 
 export default CreateAppointment;
+
+
+/*
+<div className="form-group">
+  <input type="date" className="form-control" placeholder="Start Date" name="start_date" value={appointmentInput.start_date} onChange={handleAppointmentChange} required/>
+</div>
+
+<div className="form-group">
+  <input type="time" className="form-control" placeholder="Start Time" name="start_date_time" value={appointmentInput.start_date_time} onChange={handleAppointmentChange} required/>
+</div>
+
+<div className="form-group">
+  <input type="date" className="form-control" placeholder="End Date" name="end_date" value={appointmentInput.end_date} onChange={handleAppointmentChange}/>
+</div>
+
+<div className="form-group">
+  <input type="time" className="form-control" placeholder="End Time" name="end_date_time" value={appointmentInput.end_date_time} onChange={handleAppointmentChange} required/>
+</div>
+
+
+<div className="form-group">
+  <input style={{fontSize: .7 + "em"}} type="date" className="form-control" placeholder="Start Date" name="start_date" value={appointmentInput.start_date} onChange={handleAppointmentChange} required/>
+</div>
+
+<div className="form-group">
+  <input style={{fontSize: .7 + "em"}} type="time" className="form-control" placeholder="Start Time" name="start_date_time" value={appointmentInput.start_date_time} onChange={handleAppointmentChange} required/>
+</div>
+
+<label>&ensp;Finish</label>
+<div className="form-group">
+  <input style={{fontSize: .7 + "em"}} type="date" className="form-control" placeholder="End Date" name="end_date" value={appointmentInput.end_date} onChange={handleAppointmentChange}/>
+</div>
+
+<div className="form-group">
+  <input style={{fontSize: .7 + "em"}} type="time" className="form-control" placeholder="End Time" name="end_date_time" value={appointmentInput.end_date_time} onChange={handleAppointmentChange} required/>
+</div>
+*/
