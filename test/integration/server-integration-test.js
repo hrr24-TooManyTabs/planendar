@@ -42,37 +42,45 @@ describe('', function() {
         }
       });
 
-    // let testAppoinmentData = db.knex('appointments')
-      db.knex('appointments')
-      .where({
-        'title': 'Test title',
-        'description': 'Test description',
-        'start_date': '2017-07-19',
-        'start_date_time': '01:00',
-        'end_date': '2017-07-19',
-        'end_date_time': '02:00',
-        'location': 'Dhaka'
-      })
-      .del()
-      .catch(error => {
-        throw {
-          type: 'DatabaseError',
-          message: 'Failed to create test setup data'
-        }
-      });
+    // db.knex('appointments')
+    //   .where({
+    //     'title': 'Test title',
+    //     'description': 'Test description',
+    //     'start_date': '2017-07-19',
+    //     'start_date_time': '01:00',
+    //     'end_date': '2017-07-19',
+    //     'end_date_time': '02:00',
+    //     'location': 'Dhaka'
+    //   })
+    //   .then(testAppointment => {
+    //     // console.log('testAppointment', testAppointment[0].id);
 
-    // db.knex('reminders')
-    //   .where('appointment_id', '=', testAppoinmentData.id)
-    //   .del()
-    //   .catch(error => {
-    //     throw {
-    //       type: 'DatabaseError',
-    //       message: 'Failed to create test setup data'
-    //     }
+    //     db.knex('reminders')
+    //       .where('appointment_id', testAppointment[0].id)
+    //       .del()
+    //       .catch(error => {
+    //         throw {
+    //           type: 'DatabaseError',
+    //           message: 'Failed to create test setup data',
+    //           error: error
+    //         }
+    //       });
+
+    //     return testAppointment;
+    //   })
+    //   .then((testAppointment) => {
+    //     console.log('testAppointment line 72:', testAppointment[0].id);
+
+    //     db.knex('appointments')
+    //       .where('id', testAppointment[0].id)
+    //       .del()
+    //       .catch(error => {
+    //         throw {
+    //           type: 'DatabaseError',
+    //           message: 'Failed to create test setup data'
+    //         }
+    //       });
     //   });
-
-
-
   });
 
   describe('Priviledged Access', () => {
@@ -217,6 +225,49 @@ describe('', function() {
         });
       });
     }); // beforeEach
+
+    afterEach((done) => {
+      db.knex('appointments')
+      .where({
+        'title': 'Test title',
+        'description': 'Test description',
+        'start_date': '2017-07-19',
+        'start_date_time': '01:00',
+        'end_date': '2017-07-19',
+        'end_date_time': '02:00',
+        'location': 'Dhaka'
+      })
+      .then(testAppointment => {
+        // console.log('testAppointment', testAppointment[0].id);
+
+        db.knex('reminders')
+          .where('appointment_id', testAppointment[0].id)
+          .del()
+          .catch(error => {
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data',
+              error: error
+            }
+          });
+
+        return testAppointment;
+      })
+      .then((testAppointment) => {
+        // console.log('testAppointment line 257:', testAppointment[0].id);
+
+        db.knex('appointments')
+          .where('id', testAppointment[0].id)
+          .del()
+          .catch(error => {
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data'
+            }
+          });
+      })
+      .then(() => done());
+    });
 
     it('Posting a schedule creates a db record', (done) => {
       let options = {
