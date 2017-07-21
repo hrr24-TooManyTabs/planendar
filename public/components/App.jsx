@@ -30,6 +30,7 @@ export default class App extends React.Component {
     this.createUserProfile = this.createUserProfile.bind(this);
     this.updateNewReminder = this.updateNewReminder.bind(this);
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
+    this.sendAppointment = this.sendAppointment.bind(this);
 
     // var profileInfo = [];
 
@@ -201,6 +202,10 @@ export default class App extends React.Component {
     console.log('createUserProfile');
   }
 
+  sendAppointment() {
+    console.log('sendAppointment');
+  }
+
   render() {
     return(
       <div>
@@ -215,6 +220,7 @@ export default class App extends React.Component {
          updateReminder={this.updateNewReminder}
          updateAppointment={this.updateNewAppointment}
          profileInformation={this.state.userInformation}
+         sendAppointment={this.sendAppointment}
          ></Navbar>
 
         <Calendar events={this.state.events}/>
