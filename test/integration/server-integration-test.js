@@ -43,7 +43,7 @@ describe('', function() {
       });
   });
 
-  xdescribe('Priviledged Access', () => {
+  describe('Priviledged Access', () => {
 
     it('Redirects a non signed in user from home page to login page', (done) => {
       request('http://localhost:4568', (err, res, body) => {
@@ -54,7 +54,7 @@ describe('', function() {
 
   });
 
-  xdescribe('Account Creation:', function() {
+  describe('Account Creation:', function() {
 
     it('Signup creates a user record', function(done) {
       let options = {
@@ -125,7 +125,7 @@ describe('', function() {
       .then(() => done());
     });
 
-    xit('Logs in an existing user', (done) => {
+    it('Logs in an existing user', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/login',
@@ -141,7 +141,7 @@ describe('', function() {
       });
     });
 
-    xit('Keeps Non-existing user to login page', (done) => {
+    it('Keeps Non-existing user to login page', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/login',
@@ -229,7 +229,7 @@ describe('', function() {
       .then(() => done());
     });
 
-    xit('Posting a schedule creates a db record', (done) => {
+    it('Posting a schedule creates a db record', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -287,7 +287,7 @@ describe('', function() {
       });
     });
 
-    xit('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
+    it('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -344,7 +344,7 @@ describe('', function() {
       });
     });
 
-    xit('Can create a schedule without reminders', (done) => {
+    it('Can create a schedule without reminders', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -401,7 +401,7 @@ describe('', function() {
       });
     });
 
-    xit('Deleting a schedule removes schedule record from db', (done) => {
+    it('Deleting a schedule removes schedule record from db', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -413,7 +413,7 @@ describe('', function() {
           'end_date': '2017-07-19',
           'end_date_time': '02:00',
           'location': 'Dhaka',
-          'reminders': [ '5', '10', '30' ]
+          'reminders': [ '5', '10' ]
         }
       };
 
@@ -449,33 +449,31 @@ describe('', function() {
             .where('id', id)
             .then(found => {
               expect(found).to.be.empty;
-              done();
+              // done();
+            })
+            .then(() => {
+              db.knex('reminders')
+                .where({
+                  'appointment_id': id,
+                  'id': reminders[0]['id']
+                })
+                .then(found => {
+                  // console.log('found reminder after delete', found);
+                  expect(found).to.be.empty;
+                });
+            })
+            .then(() => {
+              db.knex('reminders')
+                .where({
+                  'appointment_id': id,
+                  'id': reminders[1]['id']
+                })
+                .then(found => {
+                  // console.log('found reminder after delete', found);
+                  expect(found).to.be.empty;
+                  done();
+                });
             });
-
-          // let reminder1 = reminders[0];
-          // console.log('reminder1', reminder1);
-          // let reminder2 = reminders[1];
-          // let reminder3 = reminders[2];
-
-          // db.knex('reminders')
-          //   .where({
-          //     'id': reminder1.id
-          //   })
-          //   .then((found) => {
-          //     console.log('found', found);
-          //     expect(found).to.not.exist();
-          //     done();
-          //   });
-
-          // console.log('reminders', reminders);
-          // reminders.forEach(function(reminder) {
-          //   db.knex('reminders').where('id', reminder.id)
-          //     .then((foundReminder) => {
-          //       console.log('foundReminder', foundReminder);
-          //       // expect(foundReminder).to.not.exist();
-          //     })
-          // });
-
         });
 
       });
