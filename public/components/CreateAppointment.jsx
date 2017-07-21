@@ -1,9 +1,9 @@
 import React from 'react';
 import DateTime from 'react-datetime'
-
+import moment from 'moment'
 import 'react-datetime/css/react-datetime.css'
 
-const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment}) => {
+const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, currentEvent}) => {
 
   //Calls createReminder to add the new reminder to the state in App
   const handleCreateReminder = (e) => {
@@ -84,31 +84,54 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     updateAppointment(e.target.name, e.target.value);
   };
 
+  const handleStartChange = (e) => {
+    //console.log(e._d)
+    let time = moment(e._d).toArray();
+    let startDate = time[0] + '/' + time[1] + '/' + time[2]
+    //console.log(startDate)
+    let startDateTime = time[3] + ':' + time[4]
+    //console.log(startDateTime)
+    updateAppointment('appointmentInput.start_date', startDate)
+    updateAppointment('appointmentInput.start_date_time', startDateTime)
+  }
+
+  const handleEndChange = (e) => {
+    let time = moment(e._d).toArray();
+    let endDate = time[0] + '/' + time[1] + '/' + time[2]
+    let endDateTime = time[3] + ':' + time[4]
+    updateAppointment('appointmentInput.end_date', endDate)
+    updateAppointment('appointmentInput.end_date_time', endDateTime)
+  }
+
+  const appointmentButton = () => {
+    if (currentEvent === false) {
+      return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>)
+    } else {
+      return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update Appointment</button>)
+    }
+  }
+
   return (
     <div>
       <form className="navbar-form">
-        <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>
         <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
+
+
+        {appointmentButton()}
 
         <div className="form-group">
           <input maxLength="11" type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
         </div>
 
         <label>&ensp;Start</label>
-
-        {/*
         <div className="form-group">
-          <input type="datetime-local" className="form-control" placeholder="Start Date and Time"/>
+          <DateTime onBlur={handleStartChange} value={appointmentInput.end_date}/>
         </div>
-        */}
-
-        <DateTime name={'start_date'} value={appointmentInput.start_date} onBlur={handleAppointmentChange}/>
-
-
 
         <label>&ensp;Finish</label>
-
-        <DateTime onBlur={handleAppointmentChange} inputProps={{'name':'end_date'}}/>
+        <div className="form-group">
+          <DateTime onBlur={handleEndChange} value={appointmentInput.end_date}/>
+        </div>
 
 
         <div className="form-group">

@@ -23,20 +23,20 @@ class Dnd extends React.Component {
   }
 
   moveEvent({ event, start, end }) {
-    const { events } = this.state;
+     const { events } = this.state;
 
-    const index = events.indexOf(event);
-    const updatedEvent = { event, start, end };
+     const idx = events.indexOf(event);
+     const updatedEvent = { event, start, end };
 
-    const nextEvents = [...events]
-    nextEvents.splice(index, 1, updatedEvent)
+     const nextEvents = [...events]
+     nextEvents.splice(idx, 1, updatedEvent)
 
-    this.setState({
-      events: nextEvents
-    })
+     this.setState({
+       events: nextEvents
+     })
 
-    alert('Test');
-  }
+     alert(`${event.title} was dropped onto ${event.start}`);
+   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({events: nextProps.events})
@@ -56,6 +56,7 @@ class Dnd extends React.Component {
         events={this.state.events}
         onEventDrop={this.moveEvent}
         defaultView='week'
+        onSelectEvent={event => this.props.selectEvent(event)}
       />
     )
   }

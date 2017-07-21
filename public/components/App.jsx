@@ -15,16 +15,14 @@ export default class App extends React.Component {
         description: '',
         end_date: '',
         end_date_time: '',
-        //location: '',
+        location: '',
         start_date: '',
         start_date_time: '',
         title: ''
       },
       events: [],
-      profileInformation: []
-
-
-
+      profileInformation: [],
+      currentEvent: false
 
 
     };
@@ -33,7 +31,7 @@ export default class App extends React.Component {
     this.createNewAppointment = this.createNewAppointment.bind(this);
     this.updateNewReminder = this.updateNewReminder.bind(this);
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
-
+    this.selectEvent = this.selectEvent.bind(this);
 
   }
 
@@ -60,14 +58,21 @@ export default class App extends React.Component {
   createNewAppointment() {
     var newAppointmentData = {};
 
+    if (currentEvent === true) {
+      let type = 'POST'
+    } else {
+      let type = 'PUT'
+    }
+
     for (var data in this.state.appointmentInput) {
       newAppointmentData[data] = this.state.appointmentInput[data];
     }
+
     newAppointmentData.reminders = this.state.newReminders;
     console.log('newAppointmentData', newAppointmentData);
     $.ajax({
       url: '/schedule',
-      type: 'POST',
+      type: type,
       data: newAppointmentData,
       dataType: 'json',
       success: function(response) {
@@ -93,7 +98,8 @@ export default class App extends React.Component {
             start_date_time: '',
             title: ''
           },
-          events: events
+          events: events,
+          currentEvent: false
         });
       }.bind(this),
       error: function(err) {
@@ -132,32 +138,29 @@ export default class App extends React.Component {
     return res
   }
 
-/*  getAppointments() {
-    $.ajax({
-      type: 'GET',
-      url: '/schedule',
-      success: function(appointments) {
-        //console.log(appointments)
-        let events = [];
-        //console.log(events)
-        appointments.map((appointment, i) => {
-          let start = this.mergeDateTime(appointment.start_date, appointment.start_date_time);
-          let end = this.mergeDateTime(appointment.end_date, appointment.end_date_time);
-          events.push({
-            title: appointment.title,
-            start: start,
-            end: end
-          })
-        })
-        //console.log(events)
-        this.setState({events: events})
-        console.log(this.state.events)
-      }.bind(this),
-      error: function(err) {
-        console.error('Error in getting appointments', error);
-      }.bind(this)
+  selectEvent(event) {
+    console.log(event)
+    //this.setState({currentEvent:event});
+    //console.log(this.state.currentEvent);
+    this.setState({
+      newReminders: [],
+      reminderInput: {
+        minutes: ''
+      },
+      appointmentInput: {
+        description: '',
+        end_date: event.end,
+        end_date_time: '',
+        location: '',
+        start_date: event.start,
+        start_date_time: '',
+        title: event.title
+      },
+      currentEvent: true
     });
-  }*/
+    console.log(this.state.appointmentInput)
+  }
+
 
   componentDidMount() {
     $.ajax({
@@ -203,7 +206,7 @@ export default class App extends React.Component {
 
 
   render() {
-    console.log(this.state.appointmentInput.end_date)
+    //console.log(this.state)
     return(
       <div>
         <Navbar
@@ -216,9 +219,10 @@ export default class App extends React.Component {
          updateReminder={this.updateNewReminder}
          updateAppointment={this.updateNewAppointment}
          profileInformation={this.state.profileInformation}
-         ></Navbar>
+         currentEvent={this.state.currentEvent}></Navbar>
 
-        <Calendar events={this.state.events}/>
+        <Calendar events={this.state.events} selectEvent={this.selectEvent}/>
+
       </div>
     );
   }
