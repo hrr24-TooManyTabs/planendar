@@ -41,49 +41,9 @@ describe('', function() {
           message: 'Failed to create test setup data'
         }
       });
-
-    // db.knex('appointments')
-    //   .where({
-    //     'title': 'Test title',
-    //     'description': 'Test description',
-    //     'start_date': '2017-07-19',
-    //     'start_date_time': '01:00',
-    //     'end_date': '2017-07-19',
-    //     'end_date_time': '02:00',
-    //     'location': 'Dhaka'
-    //   })
-    //   .then(testAppointment => {
-    //     // console.log('testAppointment', testAppointment[0].id);
-
-    //     db.knex('reminders')
-    //       .where('appointment_id', testAppointment[0].id)
-    //       .del()
-    //       .catch(error => {
-    //         throw {
-    //           type: 'DatabaseError',
-    //           message: 'Failed to create test setup data',
-    //           error: error
-    //         }
-    //       });
-
-    //     return testAppointment;
-    //   })
-    //   .then((testAppointment) => {
-    //     console.log('testAppointment line 72:', testAppointment[0].id);
-
-    //     db.knex('appointments')
-    //       .where('id', testAppointment[0].id)
-    //       .del()
-    //       .catch(error => {
-    //         throw {
-    //           type: 'DatabaseError',
-    //           message: 'Failed to create test setup data'
-    //         }
-    //       });
-    //   });
   });
 
-  describe('Priviledged Access', () => {
+  xdescribe('Priviledged Access', () => {
 
     it('Redirects a non signed in user from home page to login page', (done) => {
       request('http://localhost:4568', (err, res, body) => {
@@ -94,7 +54,7 @@ describe('', function() {
 
   });
 
-  describe('Account Creation:', function() {
+  xdescribe('Account Creation:', function() {
 
     it('Signup creates a user record', function(done) {
       let options = {
@@ -165,7 +125,7 @@ describe('', function() {
       .then(() => done());
     });
 
-    it('Logs in an existing user', (done) => {
+    xit('Logs in an existing user', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/login',
@@ -181,7 +141,7 @@ describe('', function() {
       });
     });
 
-    it('Keeps Non-existing user to login page', (done) => {
+    xit('Keeps Non-existing user to login page', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/login',
@@ -238,8 +198,8 @@ describe('', function() {
         'location': 'Dhaka'
       })
       .then(testAppointment => {
-        // console.log('testAppointment', testAppointment[0].id);
-
+        // console.log('testAppointment', testAppointment);
+        if(testAppointment[0] === undefined) return;
         db.knex('reminders')
           .where('appointment_id', testAppointment[0].id)
           .del()
@@ -255,7 +215,7 @@ describe('', function() {
       })
       .then((testAppointment) => {
         // console.log('testAppointment line 257:', testAppointment[0].id);
-
+        if(testAppointment === undefined) return;
         db.knex('appointments')
           .where('id', testAppointment[0].id)
           .del()
@@ -269,7 +229,7 @@ describe('', function() {
       .then(() => done());
     });
 
-    it('Posting a schedule creates a db record', (done) => {
+    xit('Posting a schedule creates a db record', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -327,7 +287,7 @@ describe('', function() {
       });
     });
 
-    it('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
+    xit('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -384,7 +344,7 @@ describe('', function() {
       });
     });
 
-    it('Can create a schedule without reminders', (done) => {
+    xit('Can create a schedule without reminders', (done) => {
       let options = {
         'method': 'POST',
         'uri': 'http://localhost:4568/schedule',
@@ -439,6 +399,87 @@ describe('', function() {
             done();
           });
       });
+    });
+
+    it('Deleting a schedule removes schedule record from db', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/schedule',
+        'form': {
+          'title': 'Test Appointment to remove',
+          'description': 'Test description',
+          'start_date': '2017-07-19',
+          'start_date_time': '01:00',
+          'end_date': '2017-07-19',
+          'end_date_time': '02:00',
+          'location': 'Dhaka',
+          'reminders': [ '5', '10', '30' ]
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        if(err) {
+          console.log('DatabaseError in Adding Schedule for Delete');
+          throw {
+            type: 'DatabaseError',
+            message: 'Failed to create test setup data'
+          };
+        }
+
+        let responseBody = JSON.parse(body);
+        // console.log('responseBody', responseBody);
+        let id = responseBody.id;
+        let reminders = responseBody.reminders;
+        // done();
+        let options = {
+          'method': 'DELETE',
+          'uri': `http://localhost:4568/schedule/${id}`,
+        };
+
+        requestWithSession(options, (err, res, body) => {
+          if(err) {
+            console.log('DatabaseError in Deleting Schedule');
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data'
+            };
+          }
+
+          db.knex('appointments')
+            .where('appointment_id', id)
+            .then(found => {
+              expect(found).to.be.empty;
+              done();
+            });
+
+          // let reminder1 = reminders[0];
+          // console.log('reminder1', reminder1);
+          // let reminder2 = reminders[1];
+          // let reminder3 = reminders[2];
+
+          // db.knex('reminders')
+          //   .where({
+          //     'id': reminder1.id
+          //   })
+          //   .then((found) => {
+          //     console.log('found', found);
+          //     expect(found).to.not.exist();
+          //     done();
+          //   });
+
+          // console.log('reminders', reminders);
+          // reminders.forEach(function(reminder) {
+          //   db.knex('reminders').where('id', reminder.id)
+          //     .then((foundReminder) => {
+          //       console.log('foundReminder', foundReminder);
+          //       // expect(foundReminder).to.not.exist();
+          //     })
+          // });
+
+        });
+
+      });
+
     });
 
   }); // Scheduling
