@@ -41,6 +41,7 @@ app.put('/profile', requestHandler.updateProfile);
 app.get('/schedule', requestHandler.getSchedule);
 app.post('/schedule', requestHandler.postSchedule);
 app.put('/schedule/:id', requestHandler.updateSchedule);
+app.delete('/schedule/:id', requestHandler.deleteSchedule);
 
 // The followings are created for testing purposes
 app.get('/users', requestHandler.getAllUsers);
