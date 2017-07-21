@@ -19,6 +19,7 @@ db.knex.schema.hasTable('users').then(function(exists) {
       users.string('name', 254);
       users.string('email', 254);
       users.string('password', 254);
+      users.string('photo', 1000).defaultTo('https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg');
     }).then((table) => {
       console.log("Created table ", table);
     });
