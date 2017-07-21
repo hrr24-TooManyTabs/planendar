@@ -51,7 +51,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create</button>
 
         <div className="form-group">
-          <input type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
+          <input maxLength="11" type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
         </div>
 
         <label>&ensp;Start</label>
@@ -74,11 +74,11 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         </div>
 
         <div className="form-group">
-          <textarea rows="1" cols="30" maxLength="40" className="form-control" placeholder="Description" name="description" value={appointmentInput.description} onChange={handleAppointmentChange}></textarea>
+          <textarea rows="1" cols="30" maxLength="17" className="form-control" placeholder="Description" name="description" value={appointmentInput.description} onChange={handleAppointmentChange}></textarea>
         </div>
 
         <div className="form-group">
-          <textarea rows="1" cols="30" maxLength="40" className="form-control" placeholder="Location" name="location" value={appointmentInput.location} onChange={handleAppointmentChange}></textarea>
+          <textarea rows="1" cols="30" maxLength="17" className="form-control" placeholder="Location" name="location" value={appointmentInput.location} onChange={handleAppointmentChange}></textarea>
         </div>
 
         <label>&emsp;</label>
