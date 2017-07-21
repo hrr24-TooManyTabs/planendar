@@ -554,7 +554,21 @@ describe('', function() {
               expect(end_date_time).to.equal('03:00');
               expect(location).to.equal('New York');
               // done();
-              return updatedAppointment[0].id;
+
+              let updatedAppointmentId = updatedAppointment[0].id;
+
+              db.knex('appointments')
+                .where('id', updatedAppointmentId)
+                .del()
+                .catch(error => {
+                  throw {
+                    type: 'DatabaseError',
+                    message: 'Failed to delete updated appointment',
+                    error: error
+                  }
+                });
+
+              return updatedAppointmentId;
             })
             .then(updatedAppointmentId => {
               db.knex('reminders')
@@ -591,34 +605,17 @@ describe('', function() {
                 .then(updatedReminder => {
                   // console.log('updated reminder', updatedReminder);
                   expect(updatedReminder[0]['minutes']).to.equal(30);
-                  done();
                 });
+
+              return updatedAppointmentId;
+            })
+            .then(updatedAppointmentId => { // delete updated reminders after testing
+              db.knex('reminders')
+                .where('appointment_id', updatedAppointmentId)
+                .andWhere('minutes', 'in', [15, 30])
+                .del()
+                .then(() => done());
             });
-
-          // let reminder1 = reminders[0];
-          // console.log('reminder1', reminder1);
-          // let reminder2 = reminders[1];
-          // let reminder3 = reminders[2];
-
-          // db.knex('reminders')
-          //   .where({
-          //     'id': reminder1.id
-          //   })
-          //   .then((found) => {
-          //     console.log('found', found);
-          //     expect(found).to.not.exist();
-          //     done();
-          //   });
-
-          // console.log('reminders', reminders);
-          // reminders.forEach(function(reminder) {
-          //   db.knex('reminders').where('id', reminder.id)
-          //     .then((foundReminder) => {
-          //       console.log('foundReminder', foundReminder);
-          //       // expect(foundReminder).to.not.exist();
-          //     })
-          // });
-
         });
       });
     }); // Updating a schedule updates record in db
