@@ -33,6 +33,8 @@ app.get('/logout', requestHandler.logout);
 app.get('/editProfile', requestHandler.displayProfile);
 app.post('/editProfile', requestHandler.editProfile);
 
+app.post('/shareAppointment', requestHandler.sendAppointment);
+
 
 app.use(cors());
 

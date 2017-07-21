@@ -3,7 +3,7 @@ import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
 
 
-const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, userProfile, profileInformation, sendAppointment}) => {
+const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, userProfile, profileInformation}) => {
 
   return (
     <nav className="navbar navbar-default">

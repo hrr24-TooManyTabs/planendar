@@ -32,6 +32,36 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     }
   };
 
+  const shareAppointment = (e) => {
+    e.preventDefault();
+    if ((appointmentInput.title !== '') &&
+      (appointmentInput.start_date !== '') &&
+      (appointmentInput.start_date_time !== '') &&
+      (appointmentInput.end_date_time !== '')) {
+      let emailContent = {
+        title: appointmentInput.title,
+        start_date: appointmentInput.start_date,
+        start_date_time: appointmentInput.start_date_time,
+        end_date_time: appointmentInput.end_date_time
+      }
+
+      $.ajax({
+      url: '/shareAppointment',
+      type: 'POST',
+      data: emailContent,
+      dataType: 'json',
+      success: function(response) {
+        console.log('THIS IS WHAT YOU SENT: ', response);
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+      }.bind(this)
+    })
+
+
+    }
+  }
+
   const handleReminderChange = (e) => {
     //console.log('handleReminderChange');
     //console.log('e.target.name', e.target.name);
@@ -61,6 +91,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     <div>
       <form className="navbar-form">
         <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>
+        <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
 
         <div className="form-group">
           <input type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
