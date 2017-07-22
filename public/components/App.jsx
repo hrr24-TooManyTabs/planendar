@@ -56,9 +56,10 @@ export default class App extends React.Component {
 
   //Posts an appointment with its reminders to the server
   createNewAppointment() {
+
     var newAppointmentData = {};
 
-    if (currentEvent === true) {
+    if (currentEvent === false) {
       let type = 'POST'
     } else {
       let type = 'PUT'
@@ -207,6 +208,7 @@ export default class App extends React.Component {
 
   render() {
     //console.log(this.state)
+    $('.calendar-box').height($(window).height() - 50)
     return(
       <div>
         <Navbar
@@ -221,8 +223,9 @@ export default class App extends React.Component {
          profileInformation={this.state.profileInformation}
          currentEvent={this.state.currentEvent}></Navbar>
 
-        <Calendar events={this.state.events} selectEvent={this.selectEvent}/>
-
+        <div className='calendar-box'>
+          <Calendar events={this.state.events} selectEvent={this.selectEvent}/>
+        </div>
       </div>
     );
   }
