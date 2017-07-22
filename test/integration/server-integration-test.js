@@ -41,46 +41,6 @@ describe('', function() {
           message: 'Failed to create test setup data'
         }
       });
-
-    // db.knex('appointments')
-    //   .where({
-    //     'title': 'Test title',
-    //     'description': 'Test description',
-    //     'start_date': '2017-07-19',
-    //     'start_date_time': '01:00',
-    //     'end_date': '2017-07-19',
-    //     'end_date_time': '02:00',
-    //     'location': 'Dhaka'
-    //   })
-    //   .then(testAppointment => {
-    //     // console.log('testAppointment', testAppointment[0].id);
-
-    //     db.knex('reminders')
-    //       .where('appointment_id', testAppointment[0].id)
-    //       .del()
-    //       .catch(error => {
-    //         throw {
-    //           type: 'DatabaseError',
-    //           message: 'Failed to create test setup data',
-    //           error: error
-    //         }
-    //       });
-
-    //     return testAppointment;
-    //   })
-    //   .then((testAppointment) => {
-    //     console.log('testAppointment line 72:', testAppointment[0].id);
-
-    //     db.knex('appointments')
-    //       .where('id', testAppointment[0].id)
-    //       .del()
-    //       .catch(error => {
-    //         throw {
-    //           type: 'DatabaseError',
-    //           message: 'Failed to create test setup data'
-    //         }
-    //       });
-    //   });
   });
 
   describe('Priviledged Access', () => {
@@ -238,8 +198,8 @@ describe('', function() {
         'location': 'Dhaka'
       })
       .then(testAppointment => {
-        // console.log('testAppointment', testAppointment[0].id);
-
+        // console.log('testAppointment', testAppointment);
+        if(testAppointment[0] === undefined) return;
         db.knex('reminders')
           .where('appointment_id', testAppointment[0].id)
           .del()
@@ -255,7 +215,7 @@ describe('', function() {
       })
       .then((testAppointment) => {
         // console.log('testAppointment line 257:', testAppointment[0].id);
-
+        if(testAppointment === undefined) return;
         db.knex('appointments')
           .where('id', testAppointment[0].id)
           .del()
@@ -440,6 +400,225 @@ describe('', function() {
           });
       });
     });
+
+    it('Deleting a schedule removes schedule record from db', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/schedule',
+        'form': {
+          'title': 'Test Appointment to remove',
+          'description': 'Test description',
+          'start_date': '2017-07-19',
+          'start_date_time': '01:00',
+          'end_date': '2017-07-19',
+          'end_date_time': '02:00',
+          'location': 'Dhaka',
+          'reminders': [ '5', '10' ]
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        if(err) {
+          console.log('DatabaseError in Adding Schedule for Delete');
+          throw {
+            type: 'DatabaseError',
+            message: 'Failed to create test setup data'
+          };
+        }
+
+        let responseBody = JSON.parse(body);
+        // console.log('responseBody', responseBody);
+        let id = responseBody.id;
+        let reminders = responseBody.reminders;
+        // done();
+        let options = {
+          'method': 'DELETE',
+          'uri': `http://localhost:4568/schedule/${id}`,
+        };
+
+        requestWithSession(options, (err, res, body) => {
+          if(err) {
+            console.log('DatabaseError in Deleting Schedule');
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data'
+            };
+          }
+
+          db.knex('appointments')
+            .where('id', id)
+            .then(found => {
+              expect(found).to.be.empty;
+              // done();
+            })
+            .then(() => {
+              db.knex('reminders')
+                .where({
+                  'appointment_id': id,
+                  'id': reminders[0]['id']
+                })
+                .then(found => {
+                  // console.log('found reminder after delete', found);
+                  expect(found).to.be.empty;
+                });
+            })
+            .then(() => {
+              db.knex('reminders')
+                .where({
+                  'appointment_id': id,
+                  'id': reminders[1]['id']
+                })
+                .then(found => {
+                  // console.log('found reminder after delete', found);
+                  expect(found).to.be.empty;
+                  done();
+                });
+            });
+        });
+
+      });
+
+    }); // Deleting a schedule removes schedule record from db
+
+    it('Updating a schedule updates record in db', (done) => {
+      let options = {
+        'method': 'POST',
+        'uri': 'http://localhost:4568/schedule',
+        'form': {
+          'title': 'Test Appointment to update',
+          'description': 'Test description',
+          'start_date': '2017-07-19',
+          'start_date_time': '01:00',
+          'end_date': '2017-07-19',
+          'end_date_time': '02:00',
+          'location': 'Dhaka',
+          'reminders': [ '5', '10', '30' ]
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        if(err) {
+          console.log('DatabaseError in Adding Schedule for Delete');
+          throw {
+            type: 'DatabaseError',
+            message: 'Failed to create test setup data'
+          };
+        }
+
+        let responseBody = JSON.parse(body);
+        // console.log('responseBody', responseBody);
+        let id = responseBody.id;
+        let reminders = responseBody.reminders;
+        // done();
+        let options = {
+          'method': 'PUT',
+          'uri': `http://localhost:4568/schedule/${id}`,
+          'form': {
+            'title': 'Test Appointment Updated',
+            'description': 'Test description updated',
+            'start_date': '2017-07-20',
+            'start_date_time': '02:00',
+            'end_date': '2017-07-20',
+            'end_date_time': '03:00',
+            'location': 'New York',
+            'reminders': [ '15', '30' ]
+          }
+        };
+
+        requestWithSession(options, (err, res, body) => {
+          if(err) {
+            console.log('DatabaseError in Deleting Schedule');
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data'
+            };
+          }
+
+          db.knex('appointments')
+            .where('id', id)
+            .then(updatedAppointment => {
+              if(updatedAppointment[0] && updatedAppointment[0]['title']) {
+                var title = updatedAppointment[0]['title'];
+                var description = updatedAppointment[0]['description'];
+                var start_date = updatedAppointment[0]['start_date'];
+                var start_date_time = updatedAppointment[0]['start_date_time'];
+                var end_date = updatedAppointment[0]['end_date'];
+                var end_date_time = updatedAppointment[0]['end_date_time'];
+                var location = updatedAppointment[0]['location'];
+              }
+              expect(title).to.equal('Test Appointment Updated');
+              expect(description).to.equal('Test description updated');
+              expect(start_date).to.equal('2017-07-20');
+              expect(start_date_time).to.equal('02:00');
+              expect(end_date).to.equal('2017-07-20');
+              expect(end_date_time).to.equal('03:00');
+              expect(location).to.equal('New York');
+              // done();
+
+              let updatedAppointmentId = updatedAppointment[0].id;
+
+              db.knex('appointments')
+                .where('id', updatedAppointmentId)
+                .del()
+                .catch(error => {
+                  throw {
+                    type: 'DatabaseError',
+                    message: 'Failed to delete updated appointment',
+                    error: error
+                  }
+                });
+
+              return updatedAppointmentId;
+            })
+            .then(updatedAppointmentId => {
+              db.knex('reminders')
+                .where({
+                  'appointment_id': updatedAppointmentId,
+                  'minutes': 5
+                })
+                .then(found => {
+                  expect(found).to.be.empty;
+                });
+
+              return updatedAppointmentId;
+            })
+            .then(updatedAppointmentId => {
+              // console.log('updatedAppointmentId', updatedAppointmentId);
+              db.knex('reminders')
+                .where({
+                  'appointment_id': updatedAppointmentId,
+                  'minutes': 15
+                })
+                .then(updatedReminder => {
+                  // console.log('updated reminder', updatedReminder);
+                  expect(updatedReminder[0]['minutes']).to.equal(15);
+                });
+              return updatedAppointmentId;
+            })
+            .then(updatedAppointmentId => {
+              // console.log('updatedAppointmentId', updatedAppointmentId);
+              db.knex('reminders')
+                .where({
+                  'appointment_id': updatedAppointmentId,
+                  'minutes': 30
+                })
+                .then(updatedReminder => {
+                  // console.log('updated reminder', updatedReminder);
+                  expect(updatedReminder[0]['minutes']).to.equal(30);
+                });
+
+              return updatedAppointmentId;
+            })
+            .then(updatedAppointmentId => { // delete updated reminders after testing
+              db.knex('reminders')
+                .where('appointment_id', updatedAppointmentId)
+                .andWhere('minutes', 'in', [15, 30])
+                .del()
+                .then(() => done());
+            });
+        });
+      });
+    }); // Updating a schedule updates record in db
 
   }); // Scheduling
 

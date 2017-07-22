@@ -43,6 +43,11 @@ class Dnd extends React.Component {
     //console.log(this.state.events)
   }
 
+  //prevent calendar from rerendering unnecessarily
+  shouldComponentUpdate(nextProps) {
+    return (this.state.events !== nextProps.events);
+  }
+
   render() {
     console.log(this.state.events)
     return (
