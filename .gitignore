@@ -18,7 +18,9 @@ coverage
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
+
 # keys and other private data that should not be visible on git
+public/apixu.js
 .env
 
 # Compiled Dirs (http://nodejs.org/api/addons.html)
