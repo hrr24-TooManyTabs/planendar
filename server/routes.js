@@ -30,6 +30,12 @@ app.get('/login', requestHandler.getLogin);
 app.post('/login', requestHandler.postLogin);
 app.get('/logout', requestHandler.logout);
 
+app.get('/editProfile', requestHandler.displayProfile);
+app.post('/editProfile', requestHandler.editProfile);
+
+app.post('/shareAppointment', requestHandler.sendAppointment);
+
+
 app.use(cors());
 
 app.get('/', requestHandler.index);

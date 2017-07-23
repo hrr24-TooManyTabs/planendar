@@ -48,7 +48,9 @@ describe('navbar', function () {
       deleteReminder={function(){}}
       createAppointment={function(){}}
       updateReminder={function(){}}
-      updateAppointment={function(){}}/>);
+      updateAppointment={function(){}}
+      profileInformation={[]}
+      />);
     //console.log('navbar', navbar);
     expect(navbar).toExist;
     done();

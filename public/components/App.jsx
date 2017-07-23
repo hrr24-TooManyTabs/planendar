@@ -20,14 +20,23 @@ export default class App extends React.Component {
         start_date_time: '',
         title: ''
       },
-      events: []
+      events: [],
+      profileInformation: []
+
+
+
+
 
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
     this.createNewAppointment = this.createNewAppointment.bind(this);
+    // this.createUserProfile = this.createUserProfile.bind(this);
     this.updateNewReminder = this.updateNewReminder.bind(this);
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
+
+    // var profileInfo = [];
+
   }
 
   //Adds a reminder to the newReminders array in state
@@ -155,9 +164,20 @@ export default class App extends React.Component {
   componentDidMount() {
     $.ajax({
       type: 'GET',
+      url: '/profile',
+      success: function(userInfo) {
+        this.setState({profileInformation :userInfo})
+        console.log("STATE ", this.state.profileInformation[0].name)
+      }.bind(this),
+      error: function(err) {
+        console.error('Error in getting user information', err);
+      }.bind(this)
+    })
+
+    $.ajax({
+      type: 'GET',
       url: '/schedule',
       success: function(appointments) {
-        console.log(appointments)
         let events = [];
         //console.log(events)
         appointments.map((appointment, i) => {
@@ -171,13 +191,18 @@ export default class App extends React.Component {
         })
         //console.log(events)
         this.setState({events: events})
-        console.log('App', this.state.events);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
       }.bind(this)
-    });
+    })
+
   }
+
+  // createUserProfile() {
+  //   console.log('createUserProfile');
+  // }
+
 
   render() {
     return(
@@ -190,10 +215,11 @@ export default class App extends React.Component {
          deleteReminder={this.deleteNewReminder}
          createAppointment={this.createNewAppointment}
          updateReminder={this.updateNewReminder}
-         updateAppointment={this.updateNewAppointment}></Navbar>
+         updateAppointment={this.updateNewAppointment}
+         profileInformation={this.state.profileInformation}
+         ></Navbar>
 
         <Calendar events={this.state.events}/>
-
       </div>
     );
   }
@@ -204,4 +230,4 @@ export default class App extends React.Component {
 <Weekview></Weekview>
 */
 
-
+// userProfile={this.createUserProfile}
