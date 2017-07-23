@@ -6,6 +6,18 @@ const bodyParser = require('body-parser');
 const partials = require('express-partials');
 const requestHandler = require('../lib/request-handler.js');
 
+const weatherHelper = require('../lib/weather-helper.js');
+
+let cities = ['Paris', 'New York'];
+
+weatherHelper.updateWeatherData(cities);
+
+/* Get weather data after every three hours */
+// const threeHours = 3 * 60 * 60 * 1000;
+// setInterval(() => {
+//   weatherHelper.updateWeatherData(cities);
+// }, threeHours);
+
 const app = express();
 
 app.use(bodyParser.json());
