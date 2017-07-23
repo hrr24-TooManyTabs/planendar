@@ -29,6 +29,9 @@ build/
 # Sqlite DB file
 db/planendar.sql
 
+# Weather data file
+weather/*
+
 # APIXU key aka Weather Api key for testing on the front end
 apixu.js
 
