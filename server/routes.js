@@ -1,10 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const partials = require('express-partials');
 const requestHandler = require('../lib/request-handler.js');
+
+const weatherHelper = require('../lib/weather-helper.js');
+
+let cities = ['Paris', 'New York'];
+
+weatherHelper.updateWeatherData(cities);
+/* Get weather data after every three hours */
+const threeHours = 3 * 60 * 60 * 1000;
+setInterval(() => {
+  weatherHelper.updateWeatherData(cities);
+}, threeHours);
 
 const app = express();
 
@@ -53,6 +65,7 @@ app.delete('/schedule/:id', requestHandler.deleteSchedule);
 app.get('/users', requestHandler.getAllUsers);
 app.get('/reminders', requestHandler.getAllReminders);
 app.get('/allschedules', requestHandler.getAllSchedules);
+app.get('/allweather', requestHandler.getAllWeather);
 
 app.use(express.static(path.join(__dirname, '/../public')));
 
