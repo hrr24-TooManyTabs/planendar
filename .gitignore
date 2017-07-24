@@ -31,6 +31,7 @@ db/planendar.sql
 
 # Weather data file
 weather/*
+weather/weatherData.json
 
 # APIXU key aka Weather Api key for testing on the front end
 apixu.js
