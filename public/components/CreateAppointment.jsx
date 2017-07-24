@@ -34,6 +34,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   };
 
   const shareAppointment = (e) => {
+
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
       (appointmentInput.start_date !== '') &&
@@ -41,13 +42,17 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
       (appointmentInput.end_date_time !== '')) {
       let emailContent = {
         title: appointmentInput.title,
+        description: appointmentInput.description,
         start_date: appointmentInput.start_date,
         start_date_time: appointmentInput.start_date_time,
-        end_date_time: appointmentInput.end_date_time
+        end_date: appointmentInput.end_date_time,
+        end_date_time: appointmentInput.end_date_time,
+        location: appointmentInput.location,
+        user_id: prompt("Please enter the recipient's email address")
       }
 
       $.ajax({
-      url: '/shareAppointment',
+      url: '/sendAppointment',
       type: 'POST',
       data: emailContent,
       dataType: 'json',
@@ -57,7 +62,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
       error: function(err) {
         console.error(err);
       }.bind(this)
-    })
+    }).then()
 
 
     }
