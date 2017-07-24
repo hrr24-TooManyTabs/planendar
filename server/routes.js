@@ -65,6 +65,7 @@ app.delete('/schedule/:id', requestHandler.deleteSchedule);
 app.get('/users', requestHandler.getAllUsers);
 app.get('/reminders', requestHandler.getAllReminders);
 app.get('/allschedules', requestHandler.getAllSchedules);
+app.get('/allweather', requestHandler.getAllWeather);
 
 app.use(express.static(path.join(__dirname, '/../public')));
 
