@@ -31,11 +31,9 @@ export default class App extends React.Component {
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
     this.createNewAppointment = this.createNewAppointment.bind(this);
-    // this.createUserProfile = this.createUserProfile.bind(this);
     this.updateNewReminder = this.updateNewReminder.bind(this);
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
 
-    // var profileInfo = [];
 
   }
 
@@ -230,4 +228,3 @@ export default class App extends React.Component {
 <Weekview></Weekview>
 */
 
-// userProfile={this.createUserProfile}

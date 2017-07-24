@@ -33,7 +33,10 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
           updateReminder={updateReminder}
           updateAppointment={updateAppointment}></CreateAppointment>
 
-          <UserProfile profileInformation={profileInformation}></UserProfile>
+          <UserProfile
+          profileInformation={profileInformation}
+          createAppointment={createAppointment}>
+          </UserProfile>
 
         {/*
           <ul className="nav navbar-nav navbar-right">
