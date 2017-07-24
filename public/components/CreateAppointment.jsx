@@ -64,19 +64,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
       }.bind(this)
     }).then()
 
-    //   $.ajax({
-    //   url: '/shareAppointment',
-    //   type: 'POST',
-    //   data: emailContent,
-    //   dataType: 'json',
-    //   success: function(response) {
-    //     console.log('THIS IS WHAT YOU SENT: ', response);
-    //   }.bind(this),
-    //   error: function(err) {
-    //     console.error(err);
-    //   }.bind(this)
-    // })
-
 
     }
   }

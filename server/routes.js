@@ -34,7 +34,7 @@ app.get('/editProfile', requestHandler.displayProfile);
 app.post('/editProfile', requestHandler.editProfile);
 
 
-app.post('/shareAppointment', requestHandler.shareSchedule);
+// app.post('/shareAppointment', requestHandler.shareSchedule);
 app.post('/sendAppointment', requestHandler.sendAppointment);
 
 
