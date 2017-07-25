@@ -38,5 +38,5 @@ textarea {
     align-items: flex-start;
     width: 100%;
     border-top: 2px solid #DDD;
-    overflow-y: hidden !important;
+    /* overflow-y: hidden !important; */
 }
