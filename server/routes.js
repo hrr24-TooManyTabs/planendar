@@ -46,9 +46,9 @@ app.get('/editProfile', requestHandler.displayProfile);
 app.post('/editProfile', requestHandler.editProfile);
 
 
-// app.post('/shareAppointment', requestHandler.shareSchedule);
+
 app.post('/sendAppointment', requestHandler.sendAppointment);
-// app.post('/checkUserEmail', requestHandler.checkUserEmail);
+
 
 app.use(cors());
 

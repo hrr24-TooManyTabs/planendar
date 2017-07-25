@@ -36,26 +36,75 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     }
   };
 
+  // const timeConverter = (startDate, endDate) => {
+  // var monthObj = {
+  //   "Jan": "01",
+  //   "Feb": "02",
+  //   "Mar": "03",
+  //   "Apr": "04",
+  //   "May": "05",
+  //   "Jun": "06",
+  //   "Jul": "07",
+  //   "Aug": "08",
+  //   "Sep": "09",
+  //   "Oct": "10",
+  //   "Nov": "11",
+  //   "Dec": "12"
+  // }
+
+  // var apnt_start_date_time = startDate.toString().slice(16, 21);
+  //     var apnt_end_date_time = endDate.toString().slice(16, 21);
+
+  //     //convert start_date and end_date into readable format for db
+  //     var apnt_start_date = appointmentInput.start_date.toString();
+  //       var apnt_start_date_year = apnt_start_date.slice(11, 15);
+  //       var apnt_start_date_month = apnt_start_date.slice(4, 7);
+  //       apnt_start_date_month = monthObj[apnt_start_date_month];
+  //       var apnt_start_date_day = apnt_start_date.slice(8, 10);
+  //     var startDateFormat = apnt_start_date_year + '-' + apnt_start_date_month + '-' + apnt_start_date_day
+
+  //     var apnt_end_date = appointmentInput.end_date.toString();
+  //       var apnt_end_date_year = apnt_end_date.slice(11, 15);
+  //       var apnt_end_date_month = apnt_end_date.slice(4, 7);
+  //       apnt_end_date_month = monthObj[apnt_end_date_month];
+  //       var apnt_end_date_day = apnt_end_date.slice(8, 10);
+  //     var endDateFormat = apnt_end_date_year + '-' + apnt_end_date_month + '-' + apnt_end_date_day
+
+  //   return (startDateFormat, endDateFormat);
+  // }
+
   const shareAppointment = (e) => {
 
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
       (appointmentInput.start_date !== '') &&
-      (appointmentInput.start_date_time !== '') &&
-      (appointmentInput.end_date_time !== '')) {
+      (appointmentInput.end_date !== '')) {
 
       let recipientEmail = prompt("Please enter the recipient's email address");
+
+
+
+
 
       let emailContent = {
         title: appointmentInput.title,
         description: appointmentInput.description,
         start_date: appointmentInput.start_date,
         start_date_time: appointmentInput.start_date_time,
-        end_date: appointmentInput.end_date_time,
+        end_date: appointmentInput.end_date,
         end_date_time: appointmentInput.end_date_time,
         location: appointmentInput.location,
         user_id: recipientEmail
       }
+      console.log('emailContent: ', emailContent);
+
+
+     // console.log(apnt_start_date_year);
+     // console.log(apnt_start_date_month);
+     // console.log(apnt_start_date_day);
+     // console.log(apnt_end_date_year);
+     // console.log(apnt_end_date_month);
+     // console.log(apnt_end_date_day);
 
       // $.ajax({
       //   url: '/checkUserEmail',

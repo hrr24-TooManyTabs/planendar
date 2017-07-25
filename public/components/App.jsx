@@ -61,9 +61,12 @@ export default class App extends React.Component {
 
 
     let startTime = moment(this.state.startTime).toArray();
+    console.log('state.startTime: ', this.state.startTime)
+    console.log('startTime: ', startTime)
     let startDate = startTime[0] + '/' + startTime[1] + '/' + startTime[2]
-    //console.log(startDate)
+    console.log('startDate: ', startDate)
     let startDateTime = startTime[3] + ':' + startTime[4]
+    console.log('startDateTime: ', startDateTime)
     this.updateNewAppointment('start_date', startDate)
     this.updateNewAppointment('start_date_time', startDateTime)
 
@@ -91,7 +94,7 @@ export default class App extends React.Component {
     }
 
     newAppointmentData.reminders = this.state.newReminders;
-    //console.log('newAppointmentData', newAppointmentData);
+    console.log('newAppointmentData', newAppointmentData);
     $.ajax({
       url: route,
       type: type,
