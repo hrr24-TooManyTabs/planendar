@@ -34,9 +34,9 @@ db.knex.schema.hasTable('appointments').then(function(exists) {
       appointments.foreign('user_id').references('users.id');
       appointments.string('title', 140);
       appointments.string('description', 300);
-      appointments.date('start_date');
+      // appointments.date('start_date');
       appointments.string('start_date_time');
-      appointments.date('end_date');
+      // appointments.date('end_date');
       appointments.string('end_date_time');
       appointments.string('location');
     }).then((table) => {
