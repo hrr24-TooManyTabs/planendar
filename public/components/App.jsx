@@ -21,7 +21,7 @@ export default class App extends React.Component {
         start_date_time: '',
         title: '',
         city: '',
-        isTrackingWeather: false,
+        isTrackingWeather: false
       },
       events: [],
       profileInformation: [],
@@ -29,13 +29,12 @@ export default class App extends React.Component {
       notifications: {},
       selectedCity: 'SonoraCA',
       weather: {
-        SonoraCA: {
+        'sonoraCA': {
           forecast: {
             forecastday: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
           }
         }
       }
-
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -44,6 +43,7 @@ export default class App extends React.Component {
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
     this.selectEvent = this.selectEvent.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
+    this.getWeather = this.getWeather.bind(this);
 
   }
 
@@ -165,7 +165,9 @@ export default class App extends React.Component {
             location: '',
             //start_date: '',
             start_date_time: '',
-            title: ''
+            title: '',
+            city: '',
+            isTrackingWeather: false
           },
           events: events,
           currentEvent: false
@@ -175,7 +177,7 @@ export default class App extends React.Component {
       error: function(err) {
         console.error(err);
       }.bind(this)
-    })
+    });
   }
 
   //Updates the input field object for reminders in state
@@ -284,12 +286,39 @@ export default class App extends React.Component {
   }
 
 
+  getWeather(selectedCity) {
+    var data = {
+      city: selectedCity
+    };
+
+    $.ajax({
+      url: '/allWeather',
+      type: 'GET',
+      data: data,
+      dataType: 'json',
+      success: function(response) {
+        this.setState((prevState) => {
+          prevState[selectedCity] = response;
+          console.log(response);
+          return {
+            selectedCity: selectedCity,
+            weather: prevState
+          }
+        });
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+      }.bind(this)
+    });
+  }
+
   componentDidMount() {
     $.ajax({
       type: 'GET',
       url: '/profile',
       success: function(userInfo) {
-        this.setState({profileInformation :userInfo});
+        this.setState({profileInformation: userInfo})
+        console.log("STATE ", this.state.profileInformation[0].name)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
@@ -349,37 +378,9 @@ export default class App extends React.Component {
       }.bind(this)
     });
 
-
-
-/*
-notifications: {
-        'Tue Jul 25 2017 17:10:00 GMT-0700': {
-          'appoinmentId': 1,
-          title: 'First'
-        },
-        'Tue Jul 25 2017 17:30:00 GMT-0700': {
-          'appoinmentId': 2,
-          title: 'second'
-        }
-      }
-       appointmentId: appointment.id,
-                    minutes: reminder.minutes,
-                    appointmentTitle: appointment.title,
-                    appointmentDescription: appointment.description
-
-*/
-
     let startTickingForNotification = setInterval(() => {
       let currentTime = '' + new Date();
-      // console.log('currentTime', currentTime);
-      // let setTime = 'Tue Jul 25 2017 17:47:00 GMT-0700 (Pacific Daylight Time)';
-      // if(currentTime === setTime) {
-      //   console.log("Matched");
-      // }
-      // console.log('time', currentTime);
-      // console.log('type of time', typeof currentTime);
-      // console.log('actual currentTime', currentTime);
-      // console.log('notifications currentTime', this.state.notifications[currentTime]);
+
       if(this.state.notifications[currentTime]) {
         let currentNotification = this.state.notifications[currentTime];
         let title = currentNotification.appointmentTitle;
@@ -434,6 +435,7 @@ notifications: {
          currentEvent={this.state.currentEvent}
          deleteEvent={this.deleteEvent}
          forecast={this.state.weather[this.state.selectedCity].forecast}
+         getWeather={this.getWeather}
          ></Navbar>
 
         <div className='calendar-box'>
