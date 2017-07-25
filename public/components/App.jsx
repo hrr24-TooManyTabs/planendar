@@ -19,12 +19,23 @@ export default class App extends React.Component {
         location: '',
         //start_date: '',
         start_date_time: '',
-        title: ''
+        title: '',
+        city: '',
+        isTrackingWeather: false,
       },
       events: [],
       profileInformation: [],
       currentEvent: false,
-      notifications: {}
+      notifications: {},
+      selectedCity: 'SonoraCA',
+      weather: {
+        SonoraCA: {
+          forecast: {
+            forecastday: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+          }
+        }
+      }
+
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -421,7 +432,9 @@ notifications: {
          updateAppointment={this.updateNewAppointment}
          profileInformation={this.state.profileInformation}
          currentEvent={this.state.currentEvent}
-         deleteEvent={this.deleteEvent}></Navbar>
+         deleteEvent={this.deleteEvent}
+         forecast={this.state.weather[this.state.selectedCity].forecast}
+         ></Navbar>
 
         <div className='calendar-box'>
           <Calendar events={this.state.events} selectEvent={this.selectEvent} currentEvent={this.state.currentEvent}/>
