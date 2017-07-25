@@ -28,3 +28,15 @@
 textarea {
   resize: none;
 }
+
+.rbc-time-content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex: 1 0 0%;
+    flex: 1 0 0%;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    width: 100%;
+    border-top: 2px solid #DDD;
+    overflow-y: hidden !important;
+}
