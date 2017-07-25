@@ -14,10 +14,10 @@ export default class App extends React.Component {
       },
       appointmentInput: {
         description: '',
-        end_date: '',
+        //end_date: '',
         end_date_time: '',
         location: '',
-        start_date: '',
+        //start_date: '',
         start_date_time: '',
         title: ''
       },
@@ -61,20 +61,18 @@ export default class App extends React.Component {
 
 
     let startTime = moment(this.state.startTime).toArray();
-    console.log('state.startTime: ', this.state.startTime)
-    console.log('startTime: ', startTime)
-    let startDate = startTime[0] + '/' + startTime[1] + '/' + startTime[2]
-    console.log('startDate: ', startDate)
-    let startDateTime = startTime[3] + ':' + startTime[4]
-    console.log('startDateTime: ', startDateTime)
-    this.updateNewAppointment('start_date', startDate)
+
+    //let startDate = startTime[0] + '/' + startTime[1] + '/' + startTime[2]
+    //console.log(startDate)
+    let startDateTime = startTime[0] + '/' + startTime[1] + '/' + startTime[2] + ' ' + startTime[3] + ':' + startTime[4]
+    //this.updateNewAppointment('start_date', startDate)
     this.updateNewAppointment('start_date_time', startDateTime)
 
 
     let endTime = moment(this.state.endTime).toArray();
-    let endDate = endTime[0] + '/' + endTime[1] + '/' + endTime[2]
-    let endDateTime = endTime[3] + ':' + endTime[4]
-    this.updateNewAppointment('end_date', endDate)
+    //let endDate = endTime[0] + '/' + endTime[1] + '/' + endTime[2]
+    let endDateTime = endTime[0] + '/' + endTime[1] + '/' + endTime[2] + ' ' + endTime[3] + ':' + endTime[4]
+    //this.updateNewAppointment('end_date', endDate)
     this.updateNewAppointment('end_date_time', endDateTime)
 
 
@@ -111,13 +109,13 @@ export default class App extends React.Component {
         console.log('middle', events)
         let start;
         let end;
-        if (response.start_date_time.length !== 0) {
+        /*if (response.start_date_time.length !== 0) {
           start = this.mergeDateTime(response.start_date, response.start_date_time);
           end = this.mergeDateTime(response.end_date, response.end_date_time);
-        } else {
-          start = new Date(response.start_date);
-          end = new Date(response.end_date);
-        }
+        } else {*/
+          start = new Date(response.start_date_time);
+          end = new Date(response.end_date_time);
+        //}
         events.push({
           title: response.title,
           start: start,
@@ -133,10 +131,10 @@ export default class App extends React.Component {
           },
           appointmentInput: {
             description: '',
-            end_date: '',
+            //end_date: '',
             end_date_time: '',
             location: '',
-            start_date: '',
+            //start_date: '',
             start_date_time: '',
             title: ''
           },
@@ -180,10 +178,10 @@ export default class App extends React.Component {
           },
           appointmentInput: {
             description: '',
-            end_date: '',
+            //end_date: '',
             end_date_time: '',
             location: '',
-            start_date: '',
+            //start_date: '',
             start_date_time: '',
             title: ''
           },
@@ -231,11 +229,11 @@ export default class App extends React.Component {
       },
       appointmentInput: {
         description: event.description,
-        end_date: event.end,
-        end_date_time: '',
+        //end_date: event.end,
+        end_date_time: event.end,
         location: event.location,
-        start_date: event.start,
-        start_date_time: '',
+        //start_date: event.start,
+        start_date_time: event.start,
         title: event.title
       },
       currentEvent: event.id
@@ -266,13 +264,13 @@ export default class App extends React.Component {
         appointments.map((appointment, i) => {
           let start;
           let end;
-          if (appointment.start_date_time.length !== 0) {
+          /*if (appointment.start_date_time.length !== 0) {
             start = this.mergeDateTime(appointment.start_date, appointment.start_date_time);
             end = this.mergeDateTime(appointment.end_date, appointment.end_date_time);
-          } else {
-            start = new Date(appointment.start_date);
-            end = new Date(appointment.end_date);
-          }
+          } else {*/
+            start = new Date(appointment.start_date_time);
+            end = new Date(appointment.end_date_time);
+          //}
           events.push({
             title: appointment.title,
             start: start,

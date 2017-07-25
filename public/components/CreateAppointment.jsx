@@ -28,8 +28,8 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     //console.log(appointmentInput)
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
-      (appointmentInput.start_date !== '') &&
-      (appointmentInput.end_date !== '')) {
+      (appointmentInput.start_date_time !== '') &&
+      (appointmentInput.end_date_time !== '')) {
       createAppointment();
     } else {
       console.error('require fields have not been filled out');
@@ -77,21 +77,19 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
-      (appointmentInput.start_date !== '') &&
-      (appointmentInput.end_date !== '')) {
+      (appointmentInput.start_date_time !== '') &&
+      (appointmentInput.end_date_time !== '')) {
 
       let recipientEmail = prompt("Please enter the recipient's email address");
-
-
-
 
 
       let emailContent = {
         title: appointmentInput.title,
         description: appointmentInput.description,
-        start_date: appointmentInput.start_date,
+        //start_date: appointmentInput.start_date,
         start_date_time: appointmentInput.start_date_time,
-        end_date: appointmentInput.end_date,
+        // end_date: appointmentInput.end_date,
+        //end_date: appointmentInput.end_date_time,
         end_date_time: appointmentInput.end_date_time,
         location: appointmentInput.location,
         user_id: recipientEmail
@@ -180,7 +178,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     let startDateTime = time[3] + ':' + time[4]*/
     //console.log(startDateTime)
     //let time = moment(e._d).to
-    updateAppointment('start_date', e._d)
+    updateAppointment('start_date_time', e._d)
     //updateAppointment('start_date_time', startDateTime)
   }
 
@@ -188,7 +186,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     /*let time = moment(e._d).toArray();
     let endDate = time[0] + '/' + time[1] + '/' + time[2]
     let endDateTime = time[3] + ':' + time[4]*/
-    updateAppointment('end_date', e._d)
+    updateAppointment('end_date_time', e._d)
     //updateAppointment('end_date_time', endDateTime)
   }
 
@@ -214,12 +212,12 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
         <label>&ensp;Start</label>
         <div className="form-group">
-          <DateTime onChange={handleStartChange} value={appointmentInput.start_date}/>
+          <DateTime onChange={handleStartChange} value={appointmentInput.start_date_time}/>
         </div>
 
         <label>&ensp;Finish</label>
         <div className="form-group">
-          <DateTime onChange={handleEndChange} value={appointmentInput.end_date}/>
+          <DateTime onChange={handleEndChange} value={appointmentInput.end_date_time}/>
         </div>
 
 
