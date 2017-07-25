@@ -3,7 +3,7 @@ import DateTime from 'react-datetime'
 import moment from 'moment'
 import 'react-datetime/css/react-datetime.css'
 
-const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, currentEvent}) => {
+const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, currentEvent, deleteEvent}) => {
 
   //Calls createReminder to add the new reminder to the state in App
   const handleCreateReminder = (e) => {
@@ -25,11 +25,11 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     //a new appointment to the database
   const handleCreateAppointment = (e) => {
     //console.log('handleCreateAppointment');
+    //console.log(appointmentInput)
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
       (appointmentInput.start_date !== '') &&
-      (appointmentInput.start_date_time !== '') &&
-      (appointmentInput.end_date_time !== '')) {
+      (appointmentInput.end_date !== '')) {
       createAppointment();
     } else {
       console.error('require fields have not been filled out');
@@ -86,28 +86,29 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
   const handleStartChange = (e) => {
     //console.log(e._d)
-    let time = moment(e._d).toArray();
+    /*let time = moment(e._d).toArray();
     let startDate = time[0] + '/' + time[1] + '/' + time[2]
     //console.log(startDate)
-    let startDateTime = time[3] + ':' + time[4]
+    let startDateTime = time[3] + ':' + time[4]*/
     //console.log(startDateTime)
-    updateAppointment('appointmentInput.start_date', startDate)
-    updateAppointment('appointmentInput.start_date_time', startDateTime)
+    //let time = moment(e._d).to
+    updateAppointment('start_date', e._d)
+    //updateAppointment('start_date_time', startDateTime)
   }
 
   const handleEndChange = (e) => {
-    let time = moment(e._d).toArray();
+    /*let time = moment(e._d).toArray();
     let endDate = time[0] + '/' + time[1] + '/' + time[2]
-    let endDateTime = time[3] + ':' + time[4]
-    updateAppointment('appointmentInput.end_date', endDate)
-    updateAppointment('appointmentInput.end_date_time', endDateTime)
+    let endDateTime = time[3] + ':' + time[4]*/
+    updateAppointment('end_date', e._d)
+    //updateAppointment('end_date_time', endDateTime)
   }
 
   const appointmentButton = () => {
     if (currentEvent === false) {
       return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>)
     } else {
-      return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update Appointment</button>)
+      return (<div><button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button><button type="submit" className="btn btn-default" onClick={deleteEvent}>Delete</button></div>)
     }
   }
 
@@ -117,7 +118,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
 
 
-        {appointmentButton()}
+
 
         <div className="form-group">
           <input maxLength="11" type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
@@ -125,12 +126,12 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
         <label>&ensp;Start</label>
         <div className="form-group">
-          <DateTime onBlur={handleStartChange} value={appointmentInput.end_date}/>
+          <DateTime onChange={handleStartChange} value={appointmentInput.start_date}/>
         </div>
 
         <label>&ensp;Finish</label>
         <div className="form-group">
-          <DateTime onBlur={handleEndChange} value={appointmentInput.end_date}/>
+          <DateTime onChange={handleEndChange} value={appointmentInput.end_date}/>
         </div>
 
 
@@ -162,8 +163,10 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         <button type="submit" className="btn btn-default" onClick={handleCreateReminder}>Add Reminder</button>
 
         <div className="form-group">
-          <input type="number" min="0" max="60" step="5" className="form-control" placeholder="m" name="minutes" value={reminderInput.minutes} onChange={handleReminderChange} required={true}/>
+          <input type="number" min="0" max="60" step="5" className="form-control" placeholder="m" name="minutes" value={reminderInput.minutes} onChange={handleReminderChange} />
         </div>
+
+        {appointmentButton()}
       </form>
     </div>
   );

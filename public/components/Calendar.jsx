@@ -17,7 +17,8 @@ class Dnd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      events: props.events
+      events: props.events,
+      currentEvent: props.currentEvent
     }
 
     this.moveEvent = this.moveEvent.bind(this)
@@ -40,15 +41,15 @@ class Dnd extends React.Component {
    }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({events: nextProps.events})
+    this.setState({events: nextProps.events, currentEvent: nextProps.currentEvent})
     //console.log(this.state.events)
   }
 
   //prevent calendar from rerendering unnecessarily
-  shouldComponentUpdate(nextProps) {
-    return (this.state.events !== nextProps.events);
+ /* shouldComponentUpdate(nextProps) {
+    return ((this.state.currentEvent !== nextProps.currentEvent) || (this.state.events !== nextProps.events));
   }
-
+*/
   render() {
     //console.log(this.state.events)
     return (
