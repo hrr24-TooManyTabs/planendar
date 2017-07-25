@@ -5,8 +5,9 @@ import BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 //import events from '../events'
 import moment from 'moment';
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
@@ -16,46 +17,49 @@ class Dnd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      events: props.events
+      events: props.events,
+      currentEvent: props.currentEvent
     }
 
     this.moveEvent = this.moveEvent.bind(this)
   }
 
   moveEvent({ event, start, end }) {
-    const { events } = this.state;
+     const { events } = this.state;
 
-    const index = events.indexOf(event);
-    const updatedEvent = { event, start, end };
+     const idx = events.indexOf(event);
+     const updatedEvent = { event, start, end };
 
-    const nextEvents = [...events]
-    nextEvents.splice(index, 1, updatedEvent)
+     const nextEvents = [...events]
+     nextEvents.splice(idx, 1, updatedEvent)
 
-    this.setState({
-      events: nextEvents
-    })
+     this.setState({
+       events: nextEvents
+     })
 
-    alert('Test');
-  }
+     alert(`${event.title} was dropped onto ${event.start}`);
+   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({events: nextProps.events})
+    this.setState({events: nextProps.events, currentEvent: nextProps.currentEvent})
     //console.log(this.state.events)
   }
 
   //prevent calendar from rerendering unnecessarily
-  shouldComponentUpdate(nextProps) {
-    return (this.state.events !== nextProps.events);
+ /* shouldComponentUpdate(nextProps) {
+    return ((this.state.currentEvent !== nextProps.currentEvent) || (this.state.events !== nextProps.events));
   }
-
+*/
   render() {
-    console.log(this.state.events)
+    //console.log(this.state.events)
     return (
       <DragAndDropCalendar
         selectable
         events={this.state.events}
         onEventDrop={this.moveEvent}
         defaultView='week'
+        onSelectEvent={event => this.props.selectEvent(event)}
+        onSelectSlot={slotInfo => { alert(slotInfo.start) }}
       />
     )
   }
