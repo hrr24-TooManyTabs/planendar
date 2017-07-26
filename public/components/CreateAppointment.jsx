@@ -132,13 +132,13 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     if (currentEvent === false) {
       return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>)
     } else {
-      return (<div><button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button><button type="submit" className="btn btn-default" onClick={deleteEvent}>Delete</button></div>)
+      return (<div><button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button><button  className="btn btn-default" onClick={deleteEvent}>Delete</button></div>)
     }
   }
 
   return (
     <div>
-      <form className="navbar-form">
+      <form className="navbar-form" method="post">
         <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
 
 
