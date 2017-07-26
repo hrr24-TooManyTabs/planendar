@@ -4,6 +4,16 @@ import UserProfile from './UserProfile.jsx';
 
 const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent}) => {
 
+
+  // const changeThemeColor = () => {
+  //   // $('.navbar-default').css('background-color', 'red');
+  //   var counter = 0;
+  //   var colorArray = ["rgb(200,0,0)", "rgb(0,200,0)", "rgb(0,0,200)","rgb(200,0,100)", "rgb(200,100,0)", "rgb(100,10,200)"]
+
+
+  //   $('.navbar-default').css('backgroundColor', "rgb(200,0,0)");
+  // }
+
   return (
     <nav className="navbar navbar-default">
       <div className="container">
@@ -38,6 +48,7 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
           profileInformation={profileInformation}
           createAppointment={createAppointment}>
           </UserProfile>
+
 
         {/*
           <ul className="nav navbar-nav navbar-right">

@@ -13,9 +13,9 @@
   background-color: black;
 }*/
 
-.navbar-default {
+/*.navbar-default {
   background-color: yellow;
-}
+}*/
 
 .username {
   display: inline-block;
@@ -47,4 +47,33 @@ textarea {
     width: 100%;
     border-top: 2px solid #DDD;
     /* overflow-y: hidden !important; */
+}
+
+.color-blue {
+  position: relative;
+  position:
+  width: 5px;
+  height: 5px;
+  color: blue;
+}
+
+.color-lightgreen {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  color: lightgreen;
+}
+
+.color-red {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  color: red;
+}
+
+.color-yellow {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  color: yellow;
 }

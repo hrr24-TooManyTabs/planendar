@@ -56,7 +56,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         location: appointmentInput.location,
         user_id: recipientEmail
       }
-      console.log('emailContent: ', emailContent);
+
 
       $.ajax({
       type: 'GET',
@@ -72,7 +72,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
           alert('The email address you entered does not belong to an existing user');
           return;
         }
-        console.log('HERE ARE THE USERS ', userArray);
+
       }.bind(this),
       error: function(err) {
         console.error(err);

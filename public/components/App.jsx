@@ -247,8 +247,7 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/profile',
       success: function(userInfo) {
-        this.setState({profileInformation :userInfo})
-        console.log("STATE ", this.state.profileInformation[0].name)
+        this.setState({profileInformation :userInfo});
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
@@ -259,7 +258,6 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
-        console.log('APPOINtments: ', appointments);
         let events = [];
         //console.log(events)
         appointments.map((appointment, i) => {
