@@ -259,6 +259,7 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
+        console.log('APPOINtments: ', appointments);
         let events = [];
         //console.log(events)
         appointments.map((appointment, i) => {

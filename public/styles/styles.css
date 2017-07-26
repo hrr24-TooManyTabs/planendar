@@ -9,6 +9,14 @@
   /*cursor: pointer;*/
 }
 
+/*.rbc-event {
+  background-color: black;
+}*/
+
+.navbar-default {
+  background-color: yellow;
+}
+
 .username {
   display: inline-block;
   padding: 10px;
