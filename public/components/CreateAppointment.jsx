@@ -36,36 +36,61 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     }
   };
 
+
+
   const shareAppointment = (e) => {
 
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
       (appointmentInput.start_date_time !== '') &&
       (appointmentInput.end_date_time !== '')) {
+
+      let recipientEmail = prompt("Please enter the recipient's email address");
+
+
       let emailContent = {
         title: appointmentInput.title,
         description: appointmentInput.description,
-        //start_date: appointmentInput.start_date,
-        start_date_time: appointmentInput.start_date_time,
-        //end_date: appointmentInput.end_date_time,
-        end_date_time: appointmentInput.end_date_time,
+        start_date_time: appointmentInput.start_date_time.toString(),
+        end_date_time: appointmentInput.end_date_time.toString(),
         location: appointmentInput.location,
-        user_id: prompt("Please enter the recipient's email address")
+        user_id: recipientEmail
       }
 
+
       $.ajax({
-      url: '/sendAppointment',
-      type: 'POST',
-      data: emailContent,
-      dataType: 'json',
-      success: function(response) {
-        console.log('THIS IS WHAT YOU SENT: ', response);
+      type: 'GET',
+      url: '/users',
+      success: function(users) {
+        let userArray = []
+        for (var i = 0; i < users.length; i++) {
+          var currentObj = users[i];
+          userArray.push(currentObj.email);
+        }
+
+        if(userArray.indexOf(recipientEmail) === -1) {
+          alert('The email address you entered does not belong to an existing user');
+          return;
+        }
+
       }.bind(this),
       error: function(err) {
         console.error(err);
       }.bind(this)
-    }).then()
+    })
 
+
+      $.ajax({
+            url: '/sendAppointment',
+            type: 'POST',
+            data: emailContent,
+            dataType: 'json',
+            success: function(response) {
+            }.bind(this),
+            error: function(err) {
+              console.error(err);
+            }.bind(this)
+            }).then()
 
     }
   }

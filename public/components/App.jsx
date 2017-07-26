@@ -61,6 +61,7 @@ export default class App extends React.Component {
 
 
     let startTime = moment(this.state.startTime).toArray();
+
     //let startDate = startTime[0] + '/' + startTime[1] + '/' + startTime[2]
     //console.log(startDate)
     let startDateTime = startTime[0] + '/' + startTime[1] + '/' + startTime[2] + ' ' + startTime[3] + ':' + startTime[4]
@@ -91,7 +92,7 @@ export default class App extends React.Component {
     }
 
     newAppointmentData.reminders = this.state.newReminders;
-    //console.log('newAppointmentData', newAppointmentData);
+    console.log('newAppointmentData', newAppointmentData);
     $.ajax({
       url: route,
       type: type,
@@ -246,8 +247,7 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/profile',
       success: function(userInfo) {
-        this.setState({profileInformation :userInfo})
-        console.log("STATE ", this.state.profileInformation[0].name)
+        this.setState({profileInformation :userInfo});
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
