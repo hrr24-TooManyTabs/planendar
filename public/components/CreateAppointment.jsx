@@ -112,6 +112,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     } else {
       value = e.target.value;
     }
+    //console.log(value);
     updateAppointment(e.target.name, value);
   };
 

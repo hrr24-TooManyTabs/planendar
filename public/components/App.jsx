@@ -98,7 +98,7 @@ export default class App extends React.Component {
     }
 
     newAppointmentData.reminders = this.state.newReminders;
-    console.log('newAppointmentData', newAppointmentData);
+    //console.log('newAppointmentData', newAppointmentData);
     $.ajax({
       url: route,
       type: type,
@@ -263,36 +263,45 @@ export default class App extends React.Component {
   }
 
   selectEvent(event) {
-    //console.log(event)
+    //console.log('selecte event', event);
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
-    this.setState({
-      newReminders: [],
-      reminderInput: {
-        minutes: ''
-      },
-      appointmentInput: {
-        description: event.description,
-        //end_date: event.end,
-        end_date_time: event.end,
-        location: event.location,
-        //start_date: event.start,
-        start_date_time: event.start,
-        title: event.title,
-        cityName: event.cityName,
-        isTrackingWeather: event.isTrackingWeather
-      },
-      currentEvent: event.id
+    this.setState(() => {
+      let isTracking = event.isTrackingWeather;
+
+      //The database is storing the isTrackingWeather as string
+        //but the checkbox expects a boolean
+      if (typeof isTracking === 'string') {
+        isTracking = (isTracking === 'true');
+      }
+      return {
+        newReminders: [],
+        reminderInput: {
+          minutes: ''
+        },
+        appointmentInput: {
+          description: event.description,
+          //end_date: event.end,
+          end_date_time: event.end,
+          location: event.location,
+          //start_date: event.start,
+          start_date_time: event.start,
+          title: event.title,
+          cityName: event.cityName,
+          isTrackingWeather: isTracking
+        },
+        currentEvent: event.id
+      }
     });
 
     //Creates a pop up with addtional information when an appointment is clicked
     Popup.create({
-        title: 'test',
-        content: 'Hello, look at me',
-        className: 'alert',
-        buttons: {
-            right: ['ok']
-        }
+      title: 'City Name',
+      content: 'The weather',
+      className: 'popover',
+      buttons: {
+          right: ['ok']
+      }
     });
   }
 
@@ -338,7 +347,7 @@ export default class App extends React.Component {
       url: '/profile',
       success: function(userInfo) {
         this.setState({profileInformation: userInfo})
-        console.log("STATE ", this.state.profileInformation[0].name)
+        //console.log("STATE ", this.state.profileInformation[0].name)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
