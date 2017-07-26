@@ -40,6 +40,7 @@
 }
 
 .weather-info {
+  padding-left: 0.3em;
   border-left-style: solid;
   border-bottom-style: solid
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import WeatherInfo from './WeatherInfo.jsx';
 
-const WeatherBar = ({forecast, getWeather}) => {
+const WeatherBar = ({forecastday, getWeather}) => {
 
   var handleSubmit = function(e) {
     e.preventDefault();
@@ -20,9 +20,13 @@ const WeatherBar = ({forecast, getWeather}) => {
           </form>
         </div>
         {
-          forecast.forecastday.map(function(hourlyWeather, i) {
+          forecastday.map(function(hourlyWeather, i) {
+            let icon = hourlyWeather.day.condition.icon;
+            let date = hourlyWeather.date.slice(5).replace('-', '/');
+            let avgtemp_f = hourlyWeather.day.avgtemp_f;
+
             return (
-              <WeatherInfo key={i} hourlyWeather={hourlyWeather}></WeatherInfo>
+              <WeatherInfo key={i} icon={icon} date={date} avgtemp_f={avgtemp_f}></WeatherInfo>
             );
           })
         }

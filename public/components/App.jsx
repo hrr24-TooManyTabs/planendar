@@ -20,21 +20,16 @@ export default class App extends React.Component {
         //start_date: '',
         start_date_time: '',
         title: '',
-        city: '',
+        cityName: '',
         isTrackingWeather: false
       },
       events: [],
       profileInformation: [],
       currentEvent: false,
       notifications: {},
-      selectedCity: 'SonoraCA',
-      weather: {
-        'sonoraCA': {
-          forecast: {
-            forecastday: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-          }
-        }
-      }
+      selectedCity: '',
+      forecastday: [],
+      weather: []
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -166,7 +161,7 @@ export default class App extends React.Component {
             //start_date: '',
             start_date_time: '',
             title: '',
-            city: '',
+            cityName: '',
             isTrackingWeather: false
           },
           events: events,
@@ -285,7 +280,6 @@ export default class App extends React.Component {
     //console.log(this.state.appointmentInput)
   }
 
-
   getWeather(selectedCity) {
     var data = {
       city: selectedCity
@@ -297,13 +291,23 @@ export default class App extends React.Component {
       data: data,
       dataType: 'json',
       success: function(response) {
-        this.setState((prevState) => {
-          prevState[selectedCity] = response;
-          console.log(response);
+        this.setState(() => {
+          //find the selected city in the map data
+          var forecastday = [];
+
+          for (var i = 0; i < response.length; i++) {
+            if (response[i].location.name === selectedCity) {
+              forecastday = response[i].forecast.forecastday;
+              break;
+            }
+          }
+          //console.log('forecastday', forecastday);
+          //console.log('response', response);
           return {
             selectedCity: selectedCity,
-            weather: prevState
-          }
+            forecastday: forecastday,
+            weather: response
+          };
         });
       }.bind(this),
       error: function(err) {
@@ -434,7 +438,7 @@ export default class App extends React.Component {
          profileInformation={this.state.profileInformation}
          currentEvent={this.state.currentEvent}
          deleteEvent={this.deleteEvent}
-         forecast={this.state.weather[this.state.selectedCity].forecast}
+         forecastday={this.state.forecastday}
          getWeather={this.getWeather}
          ></Navbar>
 

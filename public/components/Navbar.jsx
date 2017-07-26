@@ -3,7 +3,7 @@ import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
 import WeatherBar from './WeatherBar.jsx';
 
-const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecast, getWeatehr}) => {
+const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecastday, getWeather}) => {
 
 
   // const changeThemeColor = () => {
@@ -72,7 +72,7 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
     </nav>
     <div className="container-fluid">
       <WeatherBar
-      forecast={forecast}
+      forecastday={forecastday}
       getWeather={getWeather}></WeatherBar>
     </div>
     </div>

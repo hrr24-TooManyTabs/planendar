@@ -1,20 +1,20 @@
 import React from 'react';
 
-const WeatherInfo = ({hourlyWeather}) => {
+const WeatherInfo = ({icon, date, avgtemp_f}) => {
   return (
     <div className="col-sm-1 weather-info">
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-12">
-          <img src="http://cdn.apixu.com/weather/64x64/day/113.png"></img>
+          <img src={icon}></img>
           </div>
         </div>
         <div className="row">
             <div className="col-sm-6">
-              <p>12/22</p>
+              <p>{date}</p>
             </div>
             <div className="col-sm-6">
-              <p>{hourlyWeather}00˚F</p>
+              <p>{avgtemp_f}˚F</p>
             </div>
         </div>
       </div>
