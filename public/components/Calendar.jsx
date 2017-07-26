@@ -26,19 +26,34 @@ class Dnd extends React.Component {
   }
 
   moveEvent({ event, start, end }) {
-     const { events } = this.state;
+    //console.log(event)
+    /*const { events } = this.state;*/
 
-     const idx = events.indexOf(event);
-     const updatedEvent = { event, start, end };
+    /*const idx = events.indexOf(event);*/
+    /*const updatedEvent = {};
+    for (var data in event) {
+      updatedEvent[data] = event[data];
+    }*/
+    start = moment(start)
+    end = moment(end)
+    start = start._i;
+    end = end._i;
 
-     const nextEvents = [...events]
-     nextEvents.splice(idx, 1, updatedEvent)
+    console.log(start)
 
-     this.setState({
-       events: nextEvents
-     })
+    this.props.selectEvent(event)
+    this.props.updateAppointment('start_date_time', start)
+    this.props.updateAppointment('end_date_time', end)
+    this.props.createAppointment()
 
-     alert(`${event.title} was dropped onto ${event.start}`);
+    /*const nextEvents = [...events]
+    nextEvents.splice(idx, 1, updatedEvent)
+
+    this.setState({
+      events: nextEvents
+    })
+
+    alert(`${event.title} was dropped onto ${event.start}`);*/
    }
 
   componentWillReceiveProps(nextProps) {

@@ -67,20 +67,21 @@ export default class App extends React.Component {
   createNewAppointment() {
 
 
+<<<<<<< a6b632cadf59dab31a508e7b2d0466bb0377b2f4
     let startTime = moment(this.state.startTime).toArray();
 
     //let startDate = startTime[0] + '/' + startTime[1] + '/' + startTime[2]
     //console.log(startDate)
+=======
+    /*let startTime = moment(this.state.startTime).toArray();
+>>>>>>> drag and drop fix
     let startDateTime = startTime[0] + '/' + startTime[1] + '/' + startTime[2] + ' ' + startTime[3] + ':' + startTime[4]
-    //this.updateNewAppointment('start_date', startDate)
     this.updateNewAppointment('start_date_time', startDateTime)
 
 
     let endTime = moment(this.state.endTime).toArray();
-    //let endDate = endTime[0] + '/' + endTime[1] + '/' + endTime[2]
     let endDateTime = endTime[0] + '/' + endTime[1] + '/' + endTime[2] + ' ' + endTime[3] + ':' + endTime[4]
-    //this.updateNewAppointment('end_date', endDate)
-    this.updateNewAppointment('end_date_time', endDateTime)
+    this.updateNewAppointment('end_date_time', endDateTime)*/
 
 
     var newAppointmentData = {};
@@ -114,7 +115,11 @@ export default class App extends React.Component {
             events.splice(i, 1);
           }
         }
+<<<<<<< a6b632cadf59dab31a508e7b2d0466bb0377b2f4
         // console.log('middle', events)
+=======
+        //console.log('middle', events)
+>>>>>>> drag and drop fix
         let start;
         let end;
         let newNotification;
@@ -249,6 +254,7 @@ export default class App extends React.Component {
         appointmentInput: prevState.appointmentInput
       }
     });
+    console.log('test', this.state)
   }
 
 
@@ -408,8 +414,12 @@ export default class App extends React.Component {
       success: function(appointments) {
         // console.log(appointments);
         let events = [];
+<<<<<<< a6b632cadf59dab31a508e7b2d0466bb0377b2f4
         let notifications = {};
         //console.log(events)
+=======
+        console.log(appointments)
+>>>>>>> drag and drop fix
         appointments.map((appointment, i) => {
           let start;
           let end;
@@ -530,7 +540,12 @@ export default class App extends React.Component {
          ></Navbar>
 
         <div className='calendar-box'>
-          <Calendar events={this.state.events} selectEvent={this.selectEvent} currentEvent={this.state.currentEvent}/>
+          <Calendar
+            events={this.state.events}
+            selectEvent={this.selectEvent}
+            currentEvent={this.state.currentEvent}
+            createAppointment={this.createNewAppointment}
+            updateAppointment={this.updateNewAppointment}></Calendar>
         </div>
         <audio id="notification-sound" preload="auto">
           <source src='./sounds/Metal-ding-sound-effect.mp3' type='audio/mpeg' />
