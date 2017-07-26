@@ -177,13 +177,26 @@ export default class App extends React.Component {
     });
   }
 
-  deleteEvent() {
-    // console.log('test')
+  deleteEvent(e) {
+    e.preventDefault();
+    // console.log('notifications before delete schedule', this.state.notifications);
+    // console.log('currentEvent at delete', this.state.currentEvent);
+    // return;
     $.ajax({
       url: '/schedule/' + this.state.currentEvent,
       type: 'DELETE',
       success: function(response) {
-        let events = this.state.events
+        let existingNotifications = this.state.notifications;
+        for(let notification in existingNotifications) {
+          if(existingNotifications[notification]['appointmentId'] === this.state.currentEvent) {
+            this.setState(prevState => {
+              delete prevState.notifications[notification];
+            });
+          }
+        }
+        console.log('notifications after delete schedule', this.state.notifications);
+
+        let events = this.state.events;
         for (var i = 0; i < events.length; i++) {
           if (events[i].id === this.state.currentEvent) {
             events.splice(i, 1);
@@ -318,12 +331,14 @@ export default class App extends React.Component {
         // console.log(events)
         this.setState({events: events});
         this.setState({notifications: notifications});
-        // console.log('notifications state', notifications);
+        console.log('notifications state at mount', notifications);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
       }.bind(this)
     });
+
+
 
 /*
 notifications: {
