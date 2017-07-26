@@ -98,6 +98,7 @@ export default class App extends React.Component {
       data: newAppointmentData,
       dataType: 'json',
       success: function(response) {
+        // console.log('createAppointment response', response);
         let events = this.state.events;
         // console.log('start', events)
         for (var i = 0; i < events.length; i++) {
@@ -108,12 +109,30 @@ export default class App extends React.Component {
         // console.log('middle', events)
         let start;
         let end;
+        let newNotification;
         /*if (response.start_date_time.length !== 0) {
           start = this.mergeDateTime(response.start_date, response.start_date_time);
           end = this.mergeDateTime(response.end_date, response.end_date_time);
         } else {*/
           start = new Date(response.start_date_time);
           end = new Date(response.end_date_time);
+
+          if(response.reminders.length > 0) {
+            response.reminders.forEach((reminder) => {
+                let notificationTime = new Date(start);
+                notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
+                this.setState((prevState) => {
+                  prevState.notifications[notificationTime] = {
+                    appointmentId: response.id,
+                    minutes: reminder.minutes,
+                    appointmentTitle: response.title,
+                    appointmentDescription: response.description
+                  }
+                });
+            });
+          }
+          console.log('notifications state after add new appointment', this.state.notifications);
+
         //}
         events.push({
           title: response.title,
@@ -283,7 +302,6 @@ export default class App extends React.Component {
                     appointmentTitle: appointment.title,
                     appointmentDescription: appointment.description
                   };
-                // }
               });
             }
 
@@ -300,7 +318,7 @@ export default class App extends React.Component {
         // console.log(events)
         this.setState({events: events});
         this.setState({notifications: notifications});
-        console.log('notifications state', notifications);
+        // console.log('notifications state', notifications);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
@@ -345,7 +363,7 @@ notifications: {
     }, 1000);
 
     // setTimeout(() => {
-    this.browserNotify('Test notification', 10);
+    // this.browserNotify('Test notification', 10);
     // }, 3000);
   }
 
