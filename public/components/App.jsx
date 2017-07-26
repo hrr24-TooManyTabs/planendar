@@ -147,7 +147,9 @@ export default class App extends React.Component {
           end: end,
           description: response.description,
           location: response.location,
-          id: response.id
+          id: response.id,
+          cityName: response.cityName,
+          isTrackingWeather: response.isTrackingWeather
         })
         this.setState({
           newReminders: [],
@@ -223,7 +225,9 @@ export default class App extends React.Component {
             location: '',
             //start_date: '',
             start_date_time: '',
-            title: ''
+            title: '',
+            cityName: '',
+            isTrackingWeather: false
           },
           events: events,
           currentEvent: false
@@ -274,13 +278,14 @@ export default class App extends React.Component {
         location: event.location,
         //start_date: event.start,
         start_date_time: event.start,
-        title: event.title
+        title: event.title,
+        cityName: event.cityName,
+        isTrackingWeather: event.isTrackingWeather
       },
       currentEvent: event.id
     });
 
-    Popup.alert('Hello, look at me');
-
+    //Creates a pop up with addtional information when an appointment is clicked
     Popup.create({
         title: 'test',
         content: 'Hello, look at me',
@@ -380,7 +385,9 @@ export default class App extends React.Component {
             end: end,
             description: appointment.description,
             location: appointment.location,
-            id: appointment.id
+            id: appointment.id,
+            cityName: appointment.cityName,
+            isTrackingWeather: appointment.isTrackingWeather
           })
         })
         // console.log(events)

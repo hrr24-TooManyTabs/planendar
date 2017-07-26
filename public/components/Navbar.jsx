@@ -69,8 +69,9 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
         */}
         </div>{/*<!-- /.navbar-collapse -->*/}
       </div>{/*<!-- /.container -->*/}
+      <button data-toggle="collapse" data-target=".weather">Weather</button>
     </nav>
-    <div className="container-fluid">
+    <div className="container-fluid weather collapse">
       <WeatherBar
       forecastday={forecastday}
       getWeather={getWeather}></WeatherBar>

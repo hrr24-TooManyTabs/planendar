@@ -63,7 +63,7 @@ class Dnd extends React.Component {
           defaultOk="Ok"
           defaultCancel="Cancel"
           wildClasses={false}
-          closeOnOutsideClick={false}
+          closeOnOutsideClick={true}
         />
         <DragAndDropCalendar
           selectable
