@@ -5,6 +5,7 @@ import BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 //import events from '../events'
 import moment from 'moment';
+import Popup from 'react-popup';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
@@ -53,14 +54,26 @@ class Dnd extends React.Component {
   render() {
     //console.log(this.state.events)
     return (
-      <DragAndDropCalendar
-        selectable
-        events={this.state.events}
-        onEventDrop={this.moveEvent}
-        defaultView='week'
-        onSelectEvent={event => this.props.selectEvent(event)}
-        onSelectSlot={slotInfo => { alert(slotInfo.start) }}
-      />
+      <div>
+        <Popup
+          className="mm-popup"
+          btnClass="mm-popup__btn"
+          closeBtn={true}
+          closeHtml={null}
+          defaultOk="Ok"
+          defaultCancel="Cancel"
+          wildClasses={false}
+          closeOnOutsideClick={false}
+        />
+        <DragAndDropCalendar
+          selectable
+          events={this.state.events}
+          onEventDrop={this.moveEvent}
+          defaultView='week'
+          onSelectEvent={event => this.props.selectEvent(event)}
+          onSelectSlot={slotInfo => { alert(slotInfo.start) }}
+        />
+      </div>
     )
   }
 

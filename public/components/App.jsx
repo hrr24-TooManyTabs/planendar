@@ -3,6 +3,7 @@ import Navbar from './Navbar.jsx';
 import Weekview from './Weekview.jsx';
 import Calendar from './Calendar.jsx';
 import moment from 'moment';
+import Popup from 'react-popup';
 
 export default class App extends React.Component {
   constructor() {
@@ -277,7 +278,17 @@ export default class App extends React.Component {
       },
       currentEvent: event.id
     });
-    //console.log(this.state.appointmentInput)
+
+    Popup.alert('Hello, look at me');
+
+    Popup.create({
+        title: 'test',
+        content: 'Hello, look at me',
+        className: 'alert',
+        buttons: {
+            right: ['ok']
+        }
+    });
   }
 
   getWeather(selectedCity) {
