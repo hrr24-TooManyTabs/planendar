@@ -23,9 +23,8 @@ export default class App extends React.Component {
       },
       events: [],
       profileInformation: [],
-      currentEvent: false
-
-
+      currentEvent: false,
+      notifications: {}
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -99,22 +98,41 @@ export default class App extends React.Component {
       data: newAppointmentData,
       dataType: 'json',
       success: function(response) {
+        // console.log('createAppointment response', response);
         let events = this.state.events;
-        console.log('start', events)
+        // console.log('start', events)
         for (var i = 0; i < events.length; i++) {
           if (events[i].id === this.state.currentEvent) {
             events.splice(i, 1);
           }
         }
-        console.log('middle', events)
+        // console.log('middle', events)
         let start;
         let end;
+        let newNotification;
         /*if (response.start_date_time.length !== 0) {
           start = this.mergeDateTime(response.start_date, response.start_date_time);
           end = this.mergeDateTime(response.end_date, response.end_date_time);
         } else {*/
           start = new Date(response.start_date_time);
           end = new Date(response.end_date_time);
+
+          if(response.reminders.length > 0) {
+            response.reminders.forEach((reminder) => {
+                let notificationTime = new Date(start);
+                notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
+                this.setState((prevState) => {
+                  prevState.notifications[notificationTime] = {
+                    appointmentId: response.id,
+                    minutes: reminder.minutes,
+                    appointmentTitle: response.title,
+                    appointmentDescription: response.description
+                  }
+                });
+            });
+          }
+          console.log('notifications state after add new appointment', this.state.notifications);
+
         //}
         events.push({
           title: response.title,
@@ -141,7 +159,7 @@ export default class App extends React.Component {
           events: events,
           currentEvent: false
         });
-        console.log('end', this.state.events, this.state.currentEvent)
+        // console.log('end', this.state.events, this.state.currentEvent)
       }.bind(this),
       error: function(err) {
         console.error(err);
@@ -159,13 +177,26 @@ export default class App extends React.Component {
     });
   }
 
-  deleteEvent() {
-    console.log('test')
+  deleteEvent(e) {
+    e.preventDefault();
+    // console.log('notifications before delete schedule', this.state.notifications);
+    // console.log('currentEvent at delete', this.state.currentEvent);
+    // return;
     $.ajax({
       url: '/schedule/' + this.state.currentEvent,
       type: 'DELETE',
       success: function(response) {
-        let events = this.state.events
+        let existingNotifications = this.state.notifications;
+        for(let notification in existingNotifications) {
+          if(existingNotifications[notification]['appointmentId'] === this.state.currentEvent) {
+            this.setState(prevState => {
+              delete prevState.notifications[notification];
+            });
+          }
+        }
+        console.log('notifications after delete schedule', this.state.notifications);
+
+        let events = this.state.events;
         for (var i = 0; i < events.length; i++) {
           if (events[i].id === this.state.currentEvent) {
             events.splice(i, 1);
@@ -188,7 +219,7 @@ export default class App extends React.Component {
           events: events,
           currentEvent: false
         });
-        console.log(response);
+        // console.log(response);
       }.bind(this),
       error: function(err) {
         console.error(err);
@@ -258,17 +289,35 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
+        // console.log(appointments);
         let events = [];
+        let notifications = {};
         //console.log(events)
         appointments.map((appointment, i) => {
           let start;
           let end;
+
           /*if (appointment.start_date_time.length !== 0) {
             start = this.mergeDateTime(appointment.start_date, appointment.start_date_time);
             end = this.mergeDateTime(appointment.end_date, appointment.end_date_time);
           } else {*/
             start = new Date(appointment.start_date_time);
             end = new Date(appointment.end_date_time);
+            // console.log('start', start);
+            // console.log('notification', notification);
+            if(appointment.reminders.length > 0) {
+              appointment.reminders.forEach((reminder) => {
+                  let notificationTime = new Date(start);
+                  notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
+                  notifications[notificationTime] = {
+                    appointmentId: appointment.id,
+                    minutes: reminder.minutes,
+                    appointmentTitle: appointment.title,
+                    appointmentDescription: appointment.description
+                  };
+              });
+            }
+
           //}
           events.push({
             title: appointment.title,
@@ -279,14 +328,76 @@ export default class App extends React.Component {
             id: appointment.id
           })
         })
-        //console.log(events)
-        this.setState({events: events})
+        // console.log(events)
+        this.setState({events: events});
+        this.setState({notifications: notifications});
+        console.log('notifications state at mount', notifications);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
       }.bind(this)
-    })
+    });
 
+
+
+/*
+notifications: {
+        'Tue Jul 25 2017 17:10:00 GMT-0700': {
+          'appoinmentId': 1,
+          title: 'First'
+        },
+        'Tue Jul 25 2017 17:30:00 GMT-0700': {
+          'appoinmentId': 2,
+          title: 'second'
+        }
+      }
+       appointmentId: appointment.id,
+                    minutes: reminder.minutes,
+                    appointmentTitle: appointment.title,
+                    appointmentDescription: appointment.description
+
+*/
+
+    let startTickingForNotification = setInterval(() => {
+      let currentTime = '' + new Date();
+      // console.log('currentTime', currentTime);
+      // let setTime = 'Tue Jul 25 2017 17:47:00 GMT-0700 (Pacific Daylight Time)';
+      // if(currentTime === setTime) {
+      //   console.log("Matched");
+      // }
+      // console.log('time', currentTime);
+      // console.log('type of time', typeof currentTime);
+      // console.log('actual currentTime', currentTime);
+      // console.log('notifications currentTime', this.state.notifications[currentTime]);
+      if(this.state.notifications[currentTime]) {
+        let currentNotification = this.state.notifications[currentTime];
+        let title = currentNotification.appointmentTitle;
+        let minutes = currentNotification.minutes;
+        this.browserNotify(title, minutes);
+      }
+    }, 1000);
+
+    // setTimeout(() => {
+    // this.browserNotify('Test notification', 10);
+    // }, 3000);
+  }
+
+  browserNotify(body, minutes) {
+    console.log('browserNotify invoked');
+    document.getElementById('notification-sound').play();
+    // react notification package: https://www.npmjs.com/package/react-web-notification
+    // sound example: https://github.com/georgeOsdDev/react-web-notification/tree/develop/example
+    Push.create('Reminder!', {
+      body: minutes + ' minutes remaining for ' + body,
+      icon: './images/alarm-3.png',
+      timeout: 50000,               // Timeout before notification closes automatically.
+      vibrate: [100, 100, 100],    // An array of vibration pulses for mobile devices.
+      onClick: function() {
+          // Callback for when the notification is clicked.
+          window.focus(); this.close();
+          // console.log(this);
+      }
+    });
   }
 
   // createUserProfile() {
@@ -315,6 +426,10 @@ export default class App extends React.Component {
         <div className='calendar-box'>
           <Calendar events={this.state.events} selectEvent={this.selectEvent} currentEvent={this.state.currentEvent}/>
         </div>
+        <audio id="notification-sound" preload="auto">
+          <source src='./sounds/Metal-ding-sound-effect.mp3' type='audio/mpeg' />
+          <embed hidden='true' autoPlay='false' loop='false' src='./sounds/Metal-ding-sound-effect.mp3' />
+        </audio>
       </div>
     );
   }
