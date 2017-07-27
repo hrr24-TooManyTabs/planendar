@@ -65,7 +65,7 @@ class Dnd extends React.Component {
           onEventDrop={this.moveEvent}
           defaultView='month'
           onSelectEvent={event => this.props.selectEvent(event)}
-          onSelectSlot={slotInfo => { alert(slotInfo.start) }}
+          onSelectSlot={slotInfo => { console.log(slotInfo.start) }}
           popup={true}
           components={{
             event: Event

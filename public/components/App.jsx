@@ -240,7 +240,7 @@ export default class App extends React.Component {
     }
 
     this.setState({
-      newReminders: event.reminders,
+      newReminders: [],
       reminderInput: {
         minutes: ''
       },
