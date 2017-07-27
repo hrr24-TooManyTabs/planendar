@@ -50,6 +50,10 @@ describe('navbar', function () {
       updateReminder={function(){}}
       updateAppointment={function(){}}
       profileInformation={[]}
+      currentEvent={false}
+      deleteEvent={function(){}}
+      forecastday={[]}
+      getWeather={function(){}}
       />);
     //console.log('navbar', navbar);
     expect(navbar).toExist;
