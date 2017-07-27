@@ -112,7 +112,7 @@ export default class App extends React.Component {
                 });
             });
           }
-          console.log('notifications state after add new appointment', this.state.notifications);
+          // console.log('notifications state after add new appointment', this.state.notifications);
 
         events.push({
           title: response.title,
@@ -176,7 +176,7 @@ export default class App extends React.Component {
             });
           }
         }
-        console.log('notifications after delete schedule', this.state.notifications);
+        // console.log('notifications after delete schedule', this.state.notifications);
 
         let events = this.state.events;
         for (var i = 0; i < events.length; i++) {
@@ -229,7 +229,6 @@ export default class App extends React.Component {
   }
 
   selectEvent(event) {
-    //console.log('selecte event', event);
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
     let isTracking = event.isTrackingWeather;
@@ -241,7 +240,7 @@ export default class App extends React.Component {
     }
 
     this.setState({
-      newReminders: [],
+      newReminders: event.reminders,
       reminderInput: {
         minutes: ''
       },
@@ -371,7 +370,7 @@ export default class App extends React.Component {
       type: 'GET',
       url: '/schedule',
       success: function(appointments) {
-        // console.log(appointments);
+        console.log('appointments at componentDidMount', appointments);
         let events = [];
         let notifications = {};
         appointments.map((appointment, i) => {
@@ -407,7 +406,7 @@ export default class App extends React.Component {
         // console.log(events)
         this.setState({events: events});
         this.setState({notifications: notifications});
-        console.log('notifications state at mount', notifications);
+        // console.log('notifications state at mount', notifications);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
@@ -416,7 +415,6 @@ export default class App extends React.Component {
 
     let startTickingForNotification = setInterval(() => {
       let currentTime = '' + new Date();
-
       if(this.state.notifications[currentTime]) {
         let currentNotification = this.state.notifications[currentTime];
         let title = currentNotification.appointmentTitle;
@@ -444,7 +442,7 @@ export default class App extends React.Component {
   }
 
   browserNotify(body, minutes) {
-    console.log('browserNotify invoked');
+    // console.log('browserNotify invoked');
     document.getElementById('notification-sound').play();
     // react notification package: https://www.npmjs.com/package/react-web-notification
     // sound example: https://github.com/georgeOsdDev/react-web-notification/tree/develop/example
