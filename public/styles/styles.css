@@ -33,6 +33,18 @@
   background-color: #d9d9d9;
 }
 
+.weather-bar {
+  border-style: solid;
+  overflow: scroll;
+  height: 8.4em;
+}
+
+.weather-info {
+  padding-left: 0.3em;
+  border-left-style: solid;
+  border-bottom-style: solid
+}
+
 textarea {
   resize: none;
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
+import WeatherBar from './weatherBar.jsx';
 
-const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent}) => {
+const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecastday, getWeather}) => {
 
 
   // const changeThemeColor = () => {
@@ -15,6 +16,7 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
   // }
 
   return (
+    <div>
     <nav className="navbar navbar-default">
       <div className="container">
         {/*<!-- Brand and toggle get grouped for better mobile display -->*/}
@@ -65,10 +67,16 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
             </li>
           </ul>
         */}
-
         </div>{/*<!-- /.navbar-collapse -->*/}
       </div>{/*<!-- /.container -->*/}
+      <button data-toggle="collapse" data-target=".weather">Weather</button>
     </nav>
+    <div className="container-fluid weather collapse">
+      <WeatherBar
+      forecastday={forecastday}
+      getWeather={getWeather}></WeatherBar>
+    </div>
+    </div>
   );
 };
 

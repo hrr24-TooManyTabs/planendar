@@ -39,6 +39,8 @@ db.knex.schema.hasTable('appointments').then(function(exists) {
       // appointments.date('end_date');
       appointments.string('end_date_time');
       appointments.string('location');
+      appointments.string('cityName');
+      appointments.boolean('isTrackingWeather');
     }).then((table) => {
       console.log("Created table ", table);
     });
