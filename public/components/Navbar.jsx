@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
-import WeatherBar from './WeatherBar.jsx';
+import WeatherBar from './weatherBar.jsx';
 
 const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecastday, getWeather}) => {
 
