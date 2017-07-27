@@ -1,5 +1,5 @@
 import React from 'react';
-import WeatherInfo from './WeatherInfo.jsx';
+import WeatherInfo from './weatherInfo.jsx';
 
 const WeatherBar = ({forecastday, getWeather}) => {
 
