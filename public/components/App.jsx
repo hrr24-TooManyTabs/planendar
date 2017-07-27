@@ -3,6 +3,7 @@ import Navbar from './Navbar.jsx';
 import Weekview from './Weekview.jsx';
 import Calendar from './Calendar.jsx';
 import moment from 'moment';
+import Popup from 'react-popup';
 
 export default class App extends React.Component {
   constructor() {
@@ -19,12 +20,17 @@ export default class App extends React.Component {
         location: '',
         //start_date: '',
         start_date_time: '',
-        title: ''
+        title: '',
+        cityName: '',
+        isTrackingWeather: false
       },
       events: [],
       profileInformation: [],
       currentEvent: false,
-      notifications: {}
+      notifications: {},
+      selectedCity: '',
+      forecastday: [],
+      weather: []
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -33,6 +39,8 @@ export default class App extends React.Component {
     this.updateNewAppointment = this.updateNewAppointment.bind(this);
     this.selectEvent = this.selectEvent.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
+    this.getWeather = this.getWeather.bind(this);
+
 
   }
 
@@ -91,7 +99,7 @@ export default class App extends React.Component {
     }
 
     newAppointmentData.reminders = this.state.newReminders;
-    console.log('newAppointmentData', newAppointmentData);
+    //console.log('newAppointmentData', newAppointmentData);
     $.ajax({
       url: route,
       type: type,
@@ -140,7 +148,9 @@ export default class App extends React.Component {
           end: end,
           description: response.description,
           location: response.location,
-          id: response.id
+          id: response.id,
+          cityName: response.cityName,
+          isTrackingWeather: response.isTrackingWeather
         })
         this.setState({
           newReminders: [],
@@ -154,7 +164,9 @@ export default class App extends React.Component {
             location: '',
             //start_date: '',
             start_date_time: '',
-            title: ''
+            title: '',
+            cityName: '',
+            isTrackingWeather: false
           },
           events: events,
           currentEvent: false
@@ -164,7 +176,7 @@ export default class App extends React.Component {
       error: function(err) {
         console.error(err);
       }.bind(this)
-    })
+    });
   }
 
   //Updates the input field object for reminders in state
@@ -214,7 +226,9 @@ export default class App extends React.Component {
             location: '',
             //start_date: '',
             start_date_time: '',
-            title: ''
+            title: '',
+            cityName: '',
+            isTrackingWeather: false
           },
           events: events,
           currentEvent: false
@@ -250,9 +264,17 @@ export default class App extends React.Component {
   }
 
   selectEvent(event) {
-    //console.log(event)
+    //console.log('selecte event', event);
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
+    let isTracking = event.isTrackingWeather;
+
+    //The database is storing the isTrackingWeather as string
+      //but the checkbox expects a boolean
+    if (typeof isTracking === 'string') {
+      isTracking = (isTracking === 'true');
+    }
+
     this.setState({
       newReminders: [],
       reminderInput: {
@@ -265,25 +287,120 @@ export default class App extends React.Component {
         location: event.location,
         //start_date: event.start,
         start_date_time: event.start,
-        title: event.title
+        title: event.title,
+        cityName: event.cityName,
+        isTrackingWeather: isTracking
       },
       currentEvent: event.id
     });
-    //console.log(this.state.appointmentInput)
+
+    //Only shows the weather for appointments tracking the weather
+    if (isTracking) {
+      let forecastcity
+      let forecastday;
+      let forecasthour;
+      let startDate = event.start;
+      let currentYear = startDate.getFullYear();
+      let currentMonth = startDate.getMonth() + 1;
+      if (currentMonth < 10) {
+        currentMonth = '0' + currentMonth;
+      }
+      let currentDay = startDate.getDate();
+      if (currentDay < 10) {
+        currentDay = '0' + currentDay;
+      }
+      let currentDate = currentYear + '-' + currentMonth + '-' + currentDay;
+      let currentHour = startDate.getHours();
+      let forecastDetails = '';
+
+      //Gets the hourly data and formats it
+      if (this.state.weather) {
+        for (let i = 0; i < this.state.weather.length; i++) {
+          console.log('this.state.weather[i]', this.state.weather[i]);
+          if (this.state.weather[i].location.name === event.cityName) {
+            forecastcity = this.state.weather[i].forecast.forecastday;
+            break;
+          }
+        }
+      }
+      if (forecastcity) {
+        for (let i = 0; i < forecastcity.length; i++) {
+          if (forecastcity[i].date === currentDate) {
+            forecastday = forecastcity[i];
+            break;
+          }
+        }
+
+        if (forecastday) {
+          forecasthour = forecastday.hour[currentHour];
+          forecastDetails += forecasthour.condition.text + '\n';
+          forecastDetails += forecasthour.temp_c + ' ˚C\n';
+          forecastDetails += forecasthour.temp_f + ' ˚F\n';
+          forecastDetails += 'wind speed: ' + forecasthour.wind_mph + ' mph\n';
+          forecastDetails += 'wind direction: ' + forecasthour.wind_dir;
+        } else {
+          forecastDetails = 'No weather data available'
+        }
+      } else {
+        forecastDetails = 'No weather data available!';
+      }
+      //Creates a pop up with addtional information when an appointment is clicked
+      Popup.create({
+        title: event.cityName,
+        content: forecastDetails,
+        noOverlay: true,
+      });
+    }
   }
 
+  getWeather(selectedCity) {
+    var data = {
+      city: selectedCity
+    };
+
+    $.ajax({
+      url: '/allWeather',
+      type: 'GET',
+      data: data,
+      dataType: 'json',
+      success: function(response) {
+        this.setState(() => {
+          //find the selected city in the map data
+          var forecastday = [];
+
+          for (var i = 0; i < response.length; i++) {
+            if (response[i].location.name === selectedCity) {
+              forecastday = response[i].forecast.forecastday;
+              break;
+            }
+          }
+          //console.log('forecastday', forecastday);
+          //console.log('response', response);
+          return {
+            selectedCity: selectedCity,
+            forecastday: forecastday,
+            weather: response
+          };
+        });
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+      }.bind(this)
+    });
+  }
 
   componentDidMount() {
     $.ajax({
       type: 'GET',
       url: '/profile',
       success: function(userInfo) {
-        this.setState({profileInformation :userInfo});
+        this.setState({profileInformation: userInfo})
+        //console.log("STATE ", this.state.profileInformation[0].name)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
       }.bind(this)
-    })
+    });
 
     $.ajax({
       type: 'GET',
@@ -325,7 +442,9 @@ export default class App extends React.Component {
             end: end,
             description: appointment.description,
             location: appointment.location,
-            id: appointment.id
+            id: appointment.id,
+            cityName: appointment.cityName,
+            isTrackingWeather: appointment.isTrackingWeather
           })
         })
         // console.log(events)
@@ -338,37 +457,9 @@ export default class App extends React.Component {
       }.bind(this)
     });
 
-
-
-/*
-notifications: {
-        'Tue Jul 25 2017 17:10:00 GMT-0700': {
-          'appoinmentId': 1,
-          title: 'First'
-        },
-        'Tue Jul 25 2017 17:30:00 GMT-0700': {
-          'appoinmentId': 2,
-          title: 'second'
-        }
-      }
-       appointmentId: appointment.id,
-                    minutes: reminder.minutes,
-                    appointmentTitle: appointment.title,
-                    appointmentDescription: appointment.description
-
-*/
-
     let startTickingForNotification = setInterval(() => {
       let currentTime = '' + new Date();
-      // console.log('currentTime', currentTime);
-      // let setTime = 'Tue Jul 25 2017 17:47:00 GMT-0700 (Pacific Daylight Time)';
-      // if(currentTime === setTime) {
-      //   console.log("Matched");
-      // }
-      // console.log('time', currentTime);
-      // console.log('type of time', typeof currentTime);
-      // console.log('actual currentTime', currentTime);
-      // console.log('notifications currentTime', this.state.notifications[currentTime]);
+
       if(this.state.notifications[currentTime]) {
         let currentNotification = this.state.notifications[currentTime];
         let title = currentNotification.appointmentTitle;
@@ -380,6 +471,19 @@ notifications: {
     // setTimeout(() => {
     // this.browserNotify('Test notification', 10);
     // }, 3000);
+    $.ajax({
+      url: '/allWeather',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        this.setState({
+          weather: response
+        });
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+      }.bind(this)
+    });
   }
 
   browserNotify(body, minutes) {
@@ -404,7 +508,6 @@ notifications: {
   //   console.log('createUserProfile');
   // }
 
-
   render() {
     //console.log(this.state)
     $('.calendar-box').height($(window).height() - 50)
@@ -421,7 +524,10 @@ notifications: {
          updateAppointment={this.updateNewAppointment}
          profileInformation={this.state.profileInformation}
          currentEvent={this.state.currentEvent}
-         deleteEvent={this.deleteEvent}></Navbar>
+         deleteEvent={this.deleteEvent}
+         forecastday={this.state.forecastday}
+         getWeather={this.getWeather}
+         ></Navbar>
 
         <div className='calendar-box'>
           <Calendar events={this.state.events} selectEvent={this.selectEvent} currentEvent={this.state.currentEvent}/>
@@ -434,9 +540,3 @@ notifications: {
     );
   }
 }
-
-
-/*
-<Weekview></Weekview>
-*/
-

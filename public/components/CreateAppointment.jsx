@@ -105,7 +105,15 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   //Calls updateAppointment to update the input state for appointments in App
   //This runs even ever a input field for appointments is changed
   const handleAppointmentChange = (e) => {
-    updateAppointment(e.target.name, e.target.value);
+    var value;
+
+    if (e.target.name === 'isTrackingWeather') {
+      value = e.target.checked;
+    } else {
+      value = e.target.value;
+    }
+    //console.log(value);
+    updateAppointment(e.target.name, value);
   };
 
   const handleStartChange = (e) => {
@@ -189,6 +197,19 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         <div className="form-group">
           <input type="number" min="0" max="60" step="5" className="form-control" placeholder="m" name="minutes" value={reminderInput.minutes} onChange={handleReminderChange} />
         </div>
+
+        <label>&emsp;</label>
+
+        <div className="form-group">
+          <input type="text" className="form-control" placeholder="city name" name="cityName" value={appointmentInput.cityName} onChange={handleAppointmentChange} />
+        </div>
+
+        <div className="form-group">
+          <label>Track Weather</label>
+          <input type="checkbox" className="form-control" name="isTrackingWeather" checked={appointmentInput.isTrackingWeather} onChange={handleAppointmentChange} />
+        </div>
+
+        <label>&emsp;</label>
 
         {appointmentButton()}
       </form>
