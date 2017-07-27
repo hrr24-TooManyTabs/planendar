@@ -3,14 +3,13 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-//import events from '../events'
 import moment from 'moment';
 import Popup from 'react-popup';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 
-BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+BigCalendar.momentLocalizer(moment);
 
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
@@ -21,29 +20,25 @@ class Dnd extends React.Component {
       events: props.events,
       currentEvent: props.currentEvent
     }
-
     this.moveEvent = this.moveEvent.bind(this)
   }
 
   moveEvent({ event, start, end }) {
-     const { events } = this.state;
+    start = moment(start)
+    end = moment(end)
+    start = start._i;
+    end = end._i;
 
-     const idx = events.indexOf(event);
-     const updatedEvent = { event, start, end };
+    this.props.selectEvent(event)
+    this.props.updateAppointment('start_date_time', start)
+    this.props.updateAppointment('end_date_time', end)
+    this.props.createAppointment()
+  }
 
-     const nextEvents = [...events]
-     nextEvents.splice(idx, 1, updatedEvent)
 
-     this.setState({
-       events: nextEvents
-     })
-
-     alert(`${event.title} was dropped onto ${event.start}`);
-   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({events: nextProps.events, currentEvent: nextProps.currentEvent})
-    //console.log(this.state.events)
   }
 
   //prevent calendar from rerendering unnecessarily
@@ -52,7 +47,6 @@ class Dnd extends React.Component {
   }
 */
   render() {
-    //console.log(this.state.events)
     return (
       <div>
         <Popup
@@ -64,19 +58,37 @@ class Dnd extends React.Component {
           wildClasses={false}
           closeOnOutsideClick={true}
         />
+        <div className='calendar-box'>
         <DragAndDropCalendar
           selectable
           events={this.state.events}
           onEventDrop={this.moveEvent}
-          defaultView='week'
+          defaultView='month'
           onSelectEvent={event => this.props.selectEvent(event)}
           onSelectSlot={slotInfo => { alert(slotInfo.start) }}
+          popup={true}
+          components={{
+            event: Event
+          }}
         />
+        </div>
       </div>
     )
   }
 
 
+}
+
+function Event({ event }) {
+  return (
+    <span>
+      <strong>
+      {event.title}
+      </strong>
+      { event.description && (':  ' + event.description + ' | ')}
+      { event.location }
+    </span>
+  )
 }
 
 export default DragDropContext(HTML5Backend)(Dnd)

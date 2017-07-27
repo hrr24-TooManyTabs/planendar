@@ -15,10 +15,8 @@ export default class App extends React.Component {
       },
       appointmentInput: {
         description: '',
-        //end_date: '',
         end_date_time: '',
         location: '',
-        //start_date: '',
         start_date_time: '',
         title: '',
         cityName: '',
@@ -65,24 +63,6 @@ export default class App extends React.Component {
 
   //Posts an appointment with its reminders to the server
   createNewAppointment() {
-
-
-    let startTime = moment(this.state.startTime).toArray();
-
-    //let startDate = startTime[0] + '/' + startTime[1] + '/' + startTime[2]
-    //console.log(startDate)
-    let startDateTime = startTime[0] + '/' + startTime[1] + '/' + startTime[2] + ' ' + startTime[3] + ':' + startTime[4]
-    //this.updateNewAppointment('start_date', startDate)
-    this.updateNewAppointment('start_date_time', startDateTime)
-
-
-    let endTime = moment(this.state.endTime).toArray();
-    //let endDate = endTime[0] + '/' + endTime[1] + '/' + endTime[2]
-    let endDateTime = endTime[0] + '/' + endTime[1] + '/' + endTime[2] + ' ' + endTime[3] + ':' + endTime[4]
-    //this.updateNewAppointment('end_date', endDate)
-    this.updateNewAppointment('end_date_time', endDateTime)
-
-
     var newAppointmentData = {};
     let type;
     let route;
@@ -99,7 +79,7 @@ export default class App extends React.Component {
     }
 
     newAppointmentData.reminders = this.state.newReminders;
-    //console.log('newAppointmentData', newAppointmentData);
+
     $.ajax({
       url: route,
       type: type,
@@ -114,18 +94,11 @@ export default class App extends React.Component {
             events.splice(i, 1);
           }
         }
-        // console.log('middle', events)
-        let start;
-        let end;
+        let start = new Date(response.start_date_time);
+        let end = new Date(response.end_date_time);
         let newNotification;
-        /*if (response.start_date_time.length !== 0) {
-          start = this.mergeDateTime(response.start_date, response.start_date_time);
-          end = this.mergeDateTime(response.end_date, response.end_date_time);
-        } else {*/
-          start = new Date(response.start_date_time);
-          end = new Date(response.end_date_time);
 
-          if(response.reminders.length > 0) {
+          if(response.reminders && response.reminders.length > 0) {
             response.reminders.forEach((reminder) => {
                 let notificationTime = new Date(start);
                 notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
@@ -141,7 +114,6 @@ export default class App extends React.Component {
           }
           console.log('notifications state after add new appointment', this.state.notifications);
 
-        //}
         events.push({
           title: response.title,
           start: start,
@@ -159,10 +131,8 @@ export default class App extends React.Component {
           },
           appointmentInput: {
             description: '',
-            //end_date: '',
             end_date_time: '',
             location: '',
-            //start_date: '',
             start_date_time: '',
             title: '',
             cityName: '',
@@ -221,10 +191,8 @@ export default class App extends React.Component {
           },
           appointmentInput: {
             description: '',
-            //end_date: '',
             end_date_time: '',
             location: '',
-            //start_date: '',
             start_date_time: '',
             title: '',
             cityName: '',
@@ -249,17 +217,14 @@ export default class App extends React.Component {
         appointmentInput: prevState.appointmentInput
       }
     });
+    console.log('test', this.state)
   }
 
 
   mergeDateTime(date, dateTime) {
-    //console.log('date', date)
-    //console.log('dateTime', dateTime)
     let dateSplit = date.split('/');
     let dateTimeSplit = dateTime.split(':');
-
     let res = new Date(dateSplit[0], dateSplit[1], dateSplit[2], dateTimeSplit[0], dateTimeSplit[1]);
-    //console.log(res)
     return res
   }
 
@@ -409,33 +374,25 @@ export default class App extends React.Component {
         // console.log(appointments);
         let events = [];
         let notifications = {};
-        //console.log(events)
         appointments.map((appointment, i) => {
           let start;
           let end;
-
-          /*if (appointment.start_date_time.length !== 0) {
-            start = this.mergeDateTime(appointment.start_date, appointment.start_date_time);
-            end = this.mergeDateTime(appointment.end_date, appointment.end_date_time);
-          } else {*/
-            start = new Date(appointment.start_date_time);
-            end = new Date(appointment.end_date_time);
-            // console.log('start', start);
-            // console.log('notification', notification);
-            if(appointment.reminders.length > 0) {
-              appointment.reminders.forEach((reminder) => {
-                  let notificationTime = new Date(start);
-                  notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
-                  notifications[notificationTime] = {
-                    appointmentId: appointment.id,
-                    minutes: reminder.minutes,
-                    appointmentTitle: appointment.title,
-                    appointmentDescription: appointment.description
-                  };
-              });
-            }
-
-          //}
+          start = new Date(appointment.start_date_time);
+          end = new Date(appointment.end_date_time);
+          // console.log('start', start);
+          // console.log('notification', notification);
+          if(appointment.reminders.length > 0) {
+            appointment.reminders.forEach((reminder) => {
+                let notificationTime = new Date(start);
+                notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
+                notifications[notificationTime] = {
+                  appointmentId: appointment.id,
+                  minutes: reminder.minutes,
+                  appointmentTitle: appointment.title,
+                  appointmentDescription: appointment.description
+                };
+            });
+          }
           events.push({
             title: appointment.title,
             start: start,
@@ -504,12 +461,7 @@ export default class App extends React.Component {
     });
   }
 
-  // createUserProfile() {
-  //   console.log('createUserProfile');
-  // }
-
   render() {
-    //console.log(this.state)
     $('.calendar-box').height($(window).height() - 50)
     return(
       <div>
@@ -529,9 +481,14 @@ export default class App extends React.Component {
          getWeather={this.getWeather}
          ></Navbar>
 
-        <div className='calendar-box'>
-          <Calendar events={this.state.events} selectEvent={this.selectEvent} currentEvent={this.state.currentEvent}/>
-        </div>
+
+          <Calendar
+            events={this.state.events}
+            selectEvent={this.selectEvent}
+            currentEvent={this.state.currentEvent}
+            createAppointment={this.createNewAppointment}
+            updateAppointment={this.updateNewAppointment}></Calendar>
+
         <audio id="notification-sound" preload="auto">
           <source src='./sounds/Metal-ding-sound-effect.mp3' type='audio/mpeg' />
           <embed hidden='true' autoPlay='false' loop='false' src='./sounds/Metal-ding-sound-effect.mp3' />

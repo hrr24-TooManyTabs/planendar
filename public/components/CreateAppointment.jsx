@@ -24,8 +24,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   //Calls createAppointment which will send the post request for creating
     //a new appointment to the database
   const handleCreateAppointment = (e) => {
-    //console.log('handleCreateAppointment');
-    //console.log(appointmentInput)
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
       (appointmentInput.start_date_time !== '') &&
@@ -51,8 +49,8 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
       let emailContent = {
         title: appointmentInput.title,
         description: appointmentInput.description,
-        start_date_time: appointmentInput.start_date_time.toString(),
-        end_date_time: appointmentInput.end_date_time.toString(),
+        start_date_time: appointmentInput.start_date_time,
+        end_date_time: appointmentInput.end_date_time,
         location: appointmentInput.location,
         user_id: recipientEmail
       }
@@ -117,23 +115,11 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   };
 
   const handleStartChange = (e) => {
-    //console.log(e._d)
-    /*let time = moment(e._d).toArray();
-    let startDate = time[0] + '/' + time[1] + '/' + time[2]
-    //console.log(startDate)
-    let startDateTime = time[3] + ':' + time[4]*/
-    //console.log(startDateTime)
-    //let time = moment(e._d).to
     updateAppointment('start_date_time', e._d)
-    //updateAppointment('start_date_time', startDateTime)
   }
 
   const handleEndChange = (e) => {
-    /*let time = moment(e._d).toArray();
-    let endDate = time[0] + '/' + time[1] + '/' + time[2]
-    let endDateTime = time[3] + ':' + time[4]*/
     updateAppointment('end_date_time', e._d)
-    //updateAppointment('end_date_time', endDateTime)
   }
 
   const appointmentButton = () => {
@@ -221,37 +207,5 @@ export default CreateAppointment;
 
 
 /*
-<div className="form-group">
-  <input type="date" className="form-control" placeholder="Start Date" name="start_date" value={appointmentInput.start_date} onChange={handleAppointmentChange} required/>
-</div>
 
-<div className="form-group">
-  <input type="time" className="form-control" placeholder="Start Time" name="start_date_time" value={appointmentInput.start_date_time} onChange={handleAppointmentChange} required/>
-</div>
-
-<div className="form-group">
-  <input type="date" className="form-control" placeholder="End Date" name="end_date" value={appointmentInput.end_date} onChange={handleAppointmentChange}/>
-</div>
-
-<div className="form-group">
-  <input type="time" className="form-control" placeholder="End Time" name="end_date_time" value={appointmentInput.end_date_time} onChange={handleAppointmentChange} required/>
-</div>
-
-
-<div className="form-group">
-  <input style={{fontSize: .7 + "em"}} type="date" className="form-control" placeholder="Start Date" name="start_date" value={appointmentInput.start_date} onChange={handleAppointmentChange} required/>
-</div>
-
-<div className="form-group">
-  <input style={{fontSize: .7 + "em"}} type="time" className="form-control" placeholder="Start Time" name="start_date_time" value={appointmentInput.start_date_time} onChange={handleAppointmentChange} required/>
-</div>
-
-<label>&ensp;Finish</label>
-<div className="form-group">
-  <input style={{fontSize: .7 + "em"}} type="date" className="form-control" placeholder="End Date" name="end_date" value={appointmentInput.end_date} onChange={handleAppointmentChange}/>
-</div>
-
-<div className="form-group">
-  <input style={{fontSize: .7 + "em"}} type="time" className="form-control" placeholder="End Time" name="end_date_time" value={appointmentInput.end_date_time} onChange={handleAppointmentChange} required/>
-</div>
 */
