@@ -314,10 +314,13 @@ export default class App extends React.Component {
       let forecastDetails = '';
 
       //Gets the hourly data and formats it
-      for (let i = 0; i < this.state.weather.length; i++) {
-        if (this.state.weather[i].location.name === event.cityName) {
-          forecastcity = this.state.weather[i].forecast.forecastday;
-          break;
+      if (this.state.weather) {
+        for (let i = 0; i < this.state.weather.length; i++) {
+          console.log('this.state.weather[i]', this.state.weather[i]);
+          if (this.state.weather[i].location.name === event.cityName) {
+            forecastcity = this.state.weather[i].forecast.forecastday;
+            break;
+          }
         }
       }
       if (forecastcity) {
