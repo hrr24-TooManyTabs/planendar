@@ -98,7 +98,7 @@ export default class App extends React.Component {
         let end = new Date(response.end_date_time);
         let newNotification;
 
-          if(response.reminders.length > 0) {
+          if(response.reminders && response.reminders.length > 0) {
             response.reminders.forEach((reminder) => {
                 let notificationTime = new Date(start);
                 notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
@@ -461,13 +461,6 @@ export default class App extends React.Component {
     });
   }
 
-<<<<<<< 95275566cf718580ce44d7960d7ff29e8d919468
-  // createUserProfile() {
-  //   console.log('createUserProfile');
-  // }
-
-=======
->>>>>>> prep for merge
   render() {
     $('.calendar-box').height($(window).height() - 50)
     return(
@@ -488,14 +481,14 @@ export default class App extends React.Component {
          getWeather={this.getWeather}
          ></Navbar>
 
-        <div className='calendar-box'>
+
           <Calendar
             events={this.state.events}
             selectEvent={this.selectEvent}
             currentEvent={this.state.currentEvent}
             createAppointment={this.createNewAppointment}
             updateAppointment={this.updateNewAppointment}></Calendar>
-        </div>
+
         <audio id="notification-sound" preload="auto">
           <source src='./sounds/Metal-ding-sound-effect.mp3' type='audio/mpeg' />
           <embed hidden='true' autoPlay='false' loop='false' src='./sounds/Metal-ding-sound-effect.mp3' />

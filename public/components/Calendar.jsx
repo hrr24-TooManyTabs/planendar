@@ -58,6 +58,7 @@ class Dnd extends React.Component {
           wildClasses={false}
           closeOnOutsideClick={true}
         />
+        <div className='calendar-box'>
         <DragAndDropCalendar
           selectable
           events={this.state.events}
@@ -70,6 +71,7 @@ class Dnd extends React.Component {
             event: Event
           }}
         />
+        </div>
       </div>
     )
   }
