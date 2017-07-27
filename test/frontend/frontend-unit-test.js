@@ -7,6 +7,8 @@ import App from '../../public/components/App.jsx';
 import Navbar from '../../public/components/Navbar.jsx';
 
 import CreateAppointment from '../../public/components/CreateAppointment.jsx';
+
+import Calendar from '../../public/components/Calendar.jsx'
 //var App = require('../../public/components/App.jsx');
 //var Navbar = require('../../public/components/Navbar.jsx');
 //var CreateAppointment = require('../../public/components/CreateAppointment.jsx');
@@ -82,6 +84,20 @@ describe('createAppointment', function () {
       updateAppointment={function(){}}/>);
     //console.log('createAppointment', createAppointment);
     expect(createAppointment).toExist;
+    done();
+  });
+});
+
+describe('Calendar', function () {
+  it('renders Calendar without problems', function (done) {
+    var calendar = TestUtils.renderIntoDocument(<Calendar
+      events={[]}
+      selectEvent={function(){}}
+      currentEvent={false}
+      createAppointment={function(){}}
+      updateAppointment={function(){}}
+      />)
+    expect(calendar).toExist;
     done();
   });
 });
