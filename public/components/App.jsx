@@ -41,25 +41,7 @@ export default class App extends React.Component {
     this.deleteEvent = this.deleteEvent.bind(this);
     this.getWeather = this.getWeather.bind(this);
 
-    Popup.registerPlugin('popover', function (content, target) {
-        this.create({
-            content: content,
-            className: 'popover',
-            noOverlay: true,
-            position: function (box) {
-                let bodyRect      = document.body.getBoundingClientRect();
-                let btnRect       = target.getBoundingClientRect();
-                let btnOffsetTop  = btnRect.top - bodyRect.top;
-                let btnOffsetLeft = btnRect.left - bodyRect.left;
-                let scroll        = document.documentElement.scrollTop || document.body.scrollTop;
 
-                box.style.top  = (btnOffsetTop - box.offsetHeight - 10) - scroll + 'px';
-                box.style.left = (btnOffsetLeft + (target.offsetWidth / 2) - (box.offsetWidth / 2)) + 'px';
-                box.style.margin = 0;
-                box.style.opacity = 1;
-            }
-        });
-    });
   }
 
   //Adds a reminder to the newReminders array in state
@@ -285,45 +267,87 @@ export default class App extends React.Component {
     //console.log('selecte event', event);
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
-    this.setState(() => {
-      let isTracking = event.isTrackingWeather;
+    let isTracking = event.isTrackingWeather;
 
-      //The database is storing the isTrackingWeather as string
-        //but the checkbox expects a boolean
-      if (typeof isTracking === 'string') {
-        isTracking = (isTracking === 'true');
-      }
-      return {
-        newReminders: [],
-        reminderInput: {
-          minutes: ''
-        },
-        appointmentInput: {
-          description: event.description,
-          //end_date: event.end,
-          end_date_time: event.end,
-          location: event.location,
-          //start_date: event.start,
-          start_date_time: event.start,
-          title: event.title,
-          cityName: event.cityName,
-          isTrackingWeather: isTracking
-        },
-        currentEvent: event.id
-      }
+    //The database is storing the isTrackingWeather as string
+      //but the checkbox expects a boolean
+    if (typeof isTracking === 'string') {
+      isTracking = (isTracking === 'true');
+    }
+
+    this.setState({
+      newReminders: [],
+      reminderInput: {
+        minutes: ''
+      },
+      appointmentInput: {
+        description: event.description,
+        //end_date: event.end,
+        end_date_time: event.end,
+        location: event.location,
+        //start_date: event.start,
+        start_date_time: event.start,
+        title: event.title,
+        cityName: event.cityName,
+        isTrackingWeather: isTracking
+      },
+      currentEvent: event.id
     });
 
-    //Creates a pop up with addtional information when an appointment is clicked
-    Popup.create({
-      title: 'City Name',
-      content: 'The weather',
-      className: 'popover',
-      buttons: {
-          right: ['ok']
+    //Only shows the weather for appointments tracking the weather
+    if (isTracking) {
+      let forecastcity
+      let forecastday;
+      let forecasthour;
+      let startDate = event.start;
+      let currentYear = startDate.getFullYear();
+      let currentMonth = startDate.getMonth() + 1;
+      if (currentMonth < 10) {
+        currentMonth = '0' + currentMonth;
       }
-    });
+      let currentDay = startDate.getDate();
+      if (currentDay < 10) {
+        currentDay = '0' + currentDay;
+      }
+      let currentDate = currentYear + '-' + currentMonth + '-' + currentDay;
+      let currentHour = startDate.getHours();
+      let forecastDetails = '';
 
-    Popup.plugins().popover('This popup will be displayed right above this button.', document.body);
+      //Gets the hourly data and formats it
+      for (let i = 0; i < this.state.weather.length; i++) {
+        if (this.state.weather[i].location.name === event.cityName) {
+          forecastcity = this.state.weather[i].forecast.forecastday;
+          break;
+        }
+      }
+      if (forecastcity) {
+        for (let i = 0; i < forecastcity.length; i++) {
+          if (forecastcity[i].date === currentDate) {
+            forecastday = forecastcity[i];
+            break;
+          }
+        }
+
+        if (forecastday) {
+          forecasthour = forecastday.hour[currentHour];
+          forecastDetails += forecasthour.condition.text + '\n';
+          forecastDetails += forecasthour.temp_c + ' ˚C\n';
+          forecastDetails += forecasthour.temp_f + ' ˚F\n';
+          forecastDetails += 'wind speed: ' + forecasthour.wind_mph + ' mph\n';
+          forecastDetails += 'wind direction: ' + forecasthour.wind_dir;
+        } else {
+          forecastDetails = 'No weather data available'
+        }
+      } else {
+        forecastDetails = 'No weather data available!';
+      }
+      //Creates a pop up with addtional information when an appointment is clicked
+      Popup.create({
+        title: event.cityName,
+        content: forecastDetails,
+        noOverlay: true,
+      });
+    }
   }
 
   getWeather(selectedCity) {
@@ -373,7 +397,7 @@ export default class App extends React.Component {
       error: function(err) {
         console.error('Error in getting user information', err);
       }.bind(this)
-    })
+    });
 
     $.ajax({
       type: 'GET',
@@ -444,6 +468,19 @@ export default class App extends React.Component {
     // setTimeout(() => {
     // this.browserNotify('Test notification', 10);
     // }, 3000);
+    $.ajax({
+      url: '/allWeather',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        this.setState({
+          weather: response
+        });
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+      }.bind(this)
+    });
   }
 
   browserNotify(body, minutes) {
@@ -467,7 +504,6 @@ export default class App extends React.Component {
   // createUserProfile() {
   //   console.log('createUserProfile');
   // }
-
 
   render() {
     //console.log(this.state)
@@ -501,9 +537,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-
-/*
-<Weekview></Weekview>
-*/
-

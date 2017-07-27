@@ -60,7 +60,6 @@ class Dnd extends React.Component {
           btnClass="mm-popup__btn"
           closeBtn={true}
           closeHtml={null}
-          defaultOk="Ok"
           defaultCancel="Cancel"
           wildClasses={false}
           closeOnOutsideClick={true}
