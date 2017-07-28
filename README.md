@@ -1,5 +1,7 @@
 # Planendar
 
+[![Build Status](https://travis-ci.org/hrr24-TooManyTabs/planendar.svg?branch=master)](https://travis-ci.org/hrr24-TooManyTabs/planendar)
+
 > Planendar is a calendar application for scheduling personal appointments and events. With Planendar, users can create appointments, set notifications, share appointments with other users and check the weather.
 
 Planendar comes as an improvement upon some of the more popular calendar applications developed for the web and mobile devices and allows users all of the features that currently do not exist in one single application.
