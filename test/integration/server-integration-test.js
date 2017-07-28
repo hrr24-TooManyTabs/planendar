@@ -3,18 +3,13 @@ const express = require('express');
 const expect = require('chai').expect;
 const bcrypt = require('bcrypt-nodejs');
 const app = require('../../server/routes.js');
-const db = require('../../db/config.js');
 const handler = require('../../lib/request-handler.js');
 
-const User = db.Model.extend({
-  tableName: 'users'
-});
-const Appointment = db.Model.extend({
-  tableName: 'appointments'
-});
-const Reminder = db.Model.extend({
-  tableName: 'reminders'
-});
+const db = require('../../db/config.js');
+const User = require('../../db/models/user.js');
+const Appointment = require('../../db/models/appointment.js');
+const Reminder = require('../../db/models/reminder.js');
+const Reminders= require('../db/collections/reminders.js');
 
 describe('', function() {
   let server;
