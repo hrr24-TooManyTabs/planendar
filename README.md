@@ -19,8 +19,8 @@ Planendar comes as an improvement upon some of the more popular calendar applica
 
   >>> To run the application on your local machine run the following three commands
     1. npm install
-    2. npm run start-dev
-    3. npm run bundle
+    2. npm run bundle
+    3. npm run start-dev
 
   >>> After you have the application running, create a user profile with a valid email address.
 
