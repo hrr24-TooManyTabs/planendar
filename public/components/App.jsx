@@ -51,6 +51,7 @@ export default class App extends React.Component {
       return {newReminders: prevState.newReminders,
         reminderInput: prevState.reminderInput};
     });
+    console.log(this.state.newReminders)
   }
 
   //Removes a reminder from the newReminders array in state
@@ -122,7 +123,8 @@ export default class App extends React.Component {
           location: response.location,
           id: response.id,
           cityName: response.cityName,
-          isTrackingWeather: response.isTrackingWeather
+          isTrackingWeather: response.isTrackingWeather,
+          reminders: response.reminders
         })
         this.setState({
           newReminders: [],
@@ -232,15 +234,20 @@ export default class App extends React.Component {
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
     let isTracking = event.isTrackingWeather;
-
+    console.log(event)
     //The database is storing the isTrackingWeather as string
       //but the checkbox expects a boolean
     if (typeof isTracking === 'string') {
       isTracking = (isTracking === 'true');
     }
+    let reminders = [];
+    for (var i = 0; i < event.reminders.length; i++) {
+      console.log(event.reminders[i].minutes)
+      reminders.push(event.reminders[i].minutes);
+    }
 
     this.setState({
-      newReminders: [],
+      newReminders: reminders,
       reminderInput: {
         minutes: ''
       },
@@ -338,8 +345,6 @@ export default class App extends React.Component {
               break;
             }
           }
-          //console.log('forecastday', forecastday);
-          //console.log('response', response);
           return {
             selectedCity: selectedCity,
             forecastday: forecastday,
@@ -400,13 +405,12 @@ export default class App extends React.Component {
             location: appointment.location,
             id: appointment.id,
             cityName: appointment.cityName,
-            isTrackingWeather: appointment.isTrackingWeather
+            isTrackingWeather: appointment.isTrackingWeather,
+            reminders: appointment.reminders
           })
         })
-        // console.log(events)
         this.setState({events: events});
         this.setState({notifications: notifications});
-        // console.log('notifications state at mount', notifications);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
