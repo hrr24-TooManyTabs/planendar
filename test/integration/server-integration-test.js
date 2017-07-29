@@ -9,13 +9,16 @@ const db = require('../../db/config.js');
 const User = require('../../db/models/user.js');
 const Appointment = require('../../db/models/appointment.js');
 const Reminder = require('../../db/models/reminder.js');
-const Reminders= require('../db/collections/reminders.js');
+const Reminders= require('../../db/collections/reminders.js');
+
+const testPort = 4568;
+const testHost = 'http://localhost:' + testPort;
 
 describe('', function() {
   let server;
 
   before(() => {
-    server = app.listen(4568, () => {
+    server = app.listen(testPort, () => {
       console.log('Planendar is listening to 4568');
     });
   });
@@ -41,7 +44,7 @@ describe('', function() {
   describe('Priviledged Access', () => {
 
     it('Redirects a non signed in user from home page to login page', (done) => {
-      request('http://localhost:4568', (err, res, body) => {
+      request(testHost, (err, res, body) => {
         expect(res.req.path).to.equal('/login');
         done();
       });
@@ -54,7 +57,7 @@ describe('', function() {
     it('Signup creates a user record', function(done) {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/signup',
+        'uri': testHost + '/signup',
         'form': {
           'name': 'Test User',
           'email': 'testuser@test.com',
@@ -88,7 +91,7 @@ describe('', function() {
     it('Signup logs in a new user', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/signup',
+        'uri': testHost + '/signup',
         'form': {
           'name': 'Test User',
           'email': 'testuser@test.com',
@@ -123,7 +126,7 @@ describe('', function() {
     it('Logs in an existing user', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/login',
+        'uri': testHost + '/login',
         'form': {
           'email': 'testuser@test.com',
           'password': 'testpass'
@@ -139,7 +142,7 @@ describe('', function() {
     it('Keeps Non-existing user to login page', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/login',
+        'uri': testHost + '/login',
         'form': {
           'email': 'nonexisting@user.com',
           'password': 'password'
@@ -169,7 +172,7 @@ describe('', function() {
       .then(() => {
         let options = {
           'method': 'POST',
-          'uri': 'http://localhost:4568/login',
+          'uri': testHost + '/login',
           'form': {
             'email': 'testuser@test.com',
             'password': 'testpass'
@@ -227,7 +230,7 @@ describe('', function() {
     it('Posting a schedule creates a db record', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/schedule',
+        'uri': testHost + '/schedule',
         'form': {
           'title': 'Test title',
           'description': 'Test description',
@@ -290,7 +293,7 @@ describe('', function() {
     // it('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
     //   let options = {
     //     'method': 'POST',
-    //     'uri': 'http://localhost:4568/schedule',
+    //     'uri': testHost + '/schedule',
     //     'form': {
     //       'title': 'Test title',
     //       'description': 'Test description',
@@ -347,7 +350,7 @@ describe('', function() {
     it('Can create a schedule without reminders', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/schedule',
+        'uri': testHost + '/schedule',
         'form': {
           'title': 'Test title',
           'description': 'Test description',
@@ -404,7 +407,7 @@ describe('', function() {
     it('Deleting a schedule removes schedule record from db', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/schedule',
+        'uri': testHost + '/schedule',
         'form': {
           'title': 'Test Appointment to remove',
           'description': 'Test description',
@@ -433,7 +436,7 @@ describe('', function() {
         // done();
         let options = {
           'method': 'DELETE',
-          'uri': `http://localhost:4568/schedule/${id}`,
+          'uri': testHost + `/schedule/${id}`,
         };
 
         requestWithSession(options, (err, res, body) => {
@@ -483,7 +486,7 @@ describe('', function() {
     it('Updating a schedule updates record in db', (done) => {
       let options = {
         'method': 'POST',
-        'uri': 'http://localhost:4568/schedule',
+        'uri': testHost + '/schedule',
         'form': {
           'title': 'Test Appointment to update',
           'description': 'Test description',
@@ -512,7 +515,7 @@ describe('', function() {
         // done();
         let options = {
           'method': 'PUT',
-          'uri': `http://localhost:4568/schedule/${id}`,
+          'uri': `${testHost}/schedule/${id}`,
           'form': {
             'title': 'Test Appointment Updated',
             'description': 'Test description updated',
