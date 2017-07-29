@@ -9,9 +9,9 @@ const requestHandler = require('../lib/request-handler.js');
 
 const weatherHelper = require('../lib/weather-helper.js');
 
-let cities = ['Paris', 'New York'];
+// let cities = ['Paris', 'New York'];
 
-weatherHelper.updateWeatherData(cities);
+weatherHelper.updateWeatherData();
 /* Get weather data after every three hours */
 const threeHours = 3 * 60 * 60 * 1000;
 setInterval(() => {
