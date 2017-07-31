@@ -10,11 +10,6 @@ export default class UserProfile extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log("WHATS UP")
-  }
-
-
   renderUserProfile() {
 
 

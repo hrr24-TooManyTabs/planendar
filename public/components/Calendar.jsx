@@ -46,9 +46,6 @@ class Dnd extends React.Component {
       success: function (colorInfo){
         this.setState({color: colorInfo});
         $('.navbar-default').css('background-color', colorInfo[0]);
-        console.log('COLOR: ',$('.rbc-today').css('background-color'));
-        // $('.rbc-today').css('background-color', colorInfo[2]);
-        // $('.rbc-day-slot').css('background-color', colorInfo[2])
       }.bind(this),
       error: function (err) {
         console.error(err);
@@ -64,7 +61,6 @@ class Dnd extends React.Component {
   }
 
   eventStyleGetter(event, start, end, isSelected) {
-    console.log('EVENT: ', event)
     var style = {
         backgroundColor: this.state.color[1],
         borderRadius: '0px',
