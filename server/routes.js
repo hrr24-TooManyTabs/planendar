@@ -5,6 +5,7 @@ const fs = require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const partials = require('express-partials');
+const db = require('../db/config.js');
 const requestHandler = require('../lib/request-handler.js');
 
 const weatherHelper = require('../lib/weather-helper.js');
@@ -15,7 +16,7 @@ weatherHelper.updateWeatherData();
 /* Get weather data after every three hours */
 const threeHours = 3 * 60 * 60 * 1000;
 setInterval(() => {
-  weatherHelper.updateWeatherData(cities);
+  weatherHelper.updateWeatherData();
 }, threeHours);
 
 const app = express();
