@@ -9,6 +9,7 @@ import Popup from 'react-popup';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 
+
 BigCalendar.momentLocalizer(moment);
 
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
@@ -18,9 +19,12 @@ class Dnd extends React.Component {
     super(props)
     this.state = {
       events: props.events,
-      currentEvent: props.currentEvent
+      currentEvent: props.currentEvent,
+      color: []
     }
-    this.moveEvent = this.moveEvent.bind(this)
+    this.colorExample = 'lightgreen';
+    this.moveEvent = this.moveEvent.bind(this);
+    this.eventStyleGetter = this.eventStyleGetter.bind(this);
   }
 
   moveEvent({ event, start, end }) {
@@ -35,11 +39,45 @@ class Dnd extends React.Component {
     this.props.createAppointment()
   }
 
+  componentDidMount() {
+    $.ajax({
+      type: 'GET',
+      url: '/colorScheme',
+      success: function (colorInfo){
+        this.setState({color: colorInfo});
+        $('.navbar-default').css('background-color', colorInfo[0]);
+        console.log('COLOR: ',$('.rbc-today').css('background-color'));
+        // $('.rbc-today').css('background-color', colorInfo[2]);
+        // $('.rbc-day-slot').css('background-color', colorInfo[2])
+      }.bind(this),
+      error: function (err) {
+        console.error(err);
+      }
+    })
+
+  }
+
 
 
   componentWillReceiveProps(nextProps) {
     this.setState({events: nextProps.events, currentEvent: nextProps.currentEvent})
   }
+
+  eventStyleGetter(event, start, end, isSelected) {
+    console.log('EVENT: ', event)
+    var style = {
+        backgroundColor: this.state.color[1],
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        border: '0px',
+        display: 'block'
+    };
+    return {
+        style: style
+    };
+  }
+
 
   //prevent calendar from rerendering unnecessarily
  /* shouldComponentUpdate(nextProps) {
@@ -66,6 +104,7 @@ class Dnd extends React.Component {
           defaultView='month'
           onSelectEvent={event => this.props.selectEvent(event)}
           onSelectSlot={slotInfo => { console.log(slotInfo.start) }}
+          eventPropGetter={(this.eventStyleGetter)}
           popup={true}
           components={{
             event: Event

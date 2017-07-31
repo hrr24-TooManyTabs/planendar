@@ -28,7 +28,8 @@ export default class App extends React.Component {
       notifications: {},
       selectedCity: '',
       forecastday: [],
-      weather: []
+      weather: [],
+      color: []
     };
     this.createNewReminder = this.createNewReminder.bind(this);
     this.deleteNewReminder = this.deleteNewReminder.bind(this);
@@ -41,7 +42,6 @@ export default class App extends React.Component {
 
 
   }
-
   //Adds a reminder to the newReminders array in state
   createNewReminder() {
     this.setState((prevState) => {
@@ -158,6 +158,7 @@ export default class App extends React.Component {
       }
     });
   }
+
 
   deleteEvent(e) {
     e.preventDefault();
@@ -359,12 +360,29 @@ export default class App extends React.Component {
       url: '/profile',
       success: function(userInfo) {
         this.setState({profileInformation: userInfo})
-        //console.log("STATE ", this.state.profileInformation[0].name)
+        console.log('PROFILE INFO: ', userInfo)
       }.bind(this),
       error: function(err) {
         console.error('Error in getting user information', err);
       }.bind(this)
     });
+
+    // $.ajax({
+    //   type: 'GET',
+    //   url: '/colorScheme',
+    //   success: function (colorInfo){
+    //     console.log('COLOR INFO: ', colorInfo);
+    //     this.setState({color: colorInfo})
+    //     $('.navbar-default').css('background-color', colorInfo);
+    //   }.bind(this),
+    //   error: function (err) {
+    //     console.log('ERRORRRRRR')
+    //     console.error(err);
+    //   }
+    // })
+
+
+
 
     $.ajax({
       type: 'GET',
@@ -485,7 +503,8 @@ export default class App extends React.Component {
             selectEvent={this.selectEvent}
             currentEvent={this.state.currentEvent}
             createAppointment={this.createNewAppointment}
-            updateAppointment={this.updateNewAppointment}></Calendar>
+            updateAppointment={this.updateNewAppointment}
+            colorInfo={this.state.color}></Calendar>
 
         <audio id="notification-sound" preload="auto">
           <source src='./sounds/Metal-ding-sound-effect.mp3' type='audio/mpeg' />

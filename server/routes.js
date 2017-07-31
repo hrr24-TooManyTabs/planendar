@@ -45,6 +45,8 @@ app.get('/logout', requestHandler.logout);
 app.get('/editProfile', requestHandler.displayProfile);
 app.post('/editProfile', requestHandler.editProfile);
 
+app.post('/colorScheme', requestHandler.changeColor);
+app.get('/colorScheme', requestHandler.getColor);
 
 
 app.post('/sendAppointment', requestHandler.sendAppointment);

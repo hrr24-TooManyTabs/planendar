@@ -2,6 +2,7 @@
   padding-top: 30px;
 }
 
+
 .user-profile {
   position: absolute;
   top: 5px;
@@ -9,19 +10,20 @@
   /*cursor: pointer;*/
 }
 
-/*.rbc-event {
-  background-color: black;
-}*/
 
-/*.navbar-default {
-  background-color: yellow;
-}*/
 
 .username {
   display: inline-block;
   padding: 10px;
   top: 0px;
   right: 0px;
+}
+.rbc-event {
+  cursor: pointer;
+  padding: 2px 5px;
+  background-color: #3174ad;
+  border-radius: 5px;
+  color: #fff;
 }
 
 .list-option {
@@ -74,18 +76,4 @@ textarea {
   width: 5px;
   height: 5px;
   color: lightgreen;
-}
-
-.color-red {
-  position: relative;
-  width: 5px;
-  height: 5px;
-  color: red;
-}
-
-.color-yellow {
-  position: relative;
-  width: 5px;
-  height: 5px;
-  color: yellow;
 }

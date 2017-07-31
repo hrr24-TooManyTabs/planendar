@@ -1,6 +1,8 @@
 # Planendar
 
-> Planendar is a calendar application for scheduling appointments. With Planendar, users can create appointments, set notifications, share appointments with other users and check the weather.
+> Planendar is a calendar application for scheduling personal appointments and events. With Planendar, users can create appointments, set notifications, share appointments with other users and check the weather.
+
+Planendar comes as an improvement upon some of the more popular calendar applications developed for the web and mobile devices and allows users all of the features that currently do not exist in one single application.
 
 ## Team
 
@@ -8,27 +10,24 @@
   - __Product Owner__: Andrew Foresi
   - __Development Team Members__: Placid Rodrigues, Kevin MacFarlane
 
-## Table of Contents
-
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
 
 ## Usage
 
-  >>> To run the application on your local machine run the following two commands
-    1. npm run start-dev
-    2. npm run bundle
+  >>> To run the application on the web visit http://ec2-54-146-104-39.compute-1.amazonaws.com
 
-  >>> Create a user profile with a valid email address.
+  >>> To run the application on your local machine run the following three commands
+    1. npm install
+    2. npm run start-dev
+    3. npm run bundle
+
+  >>> After you have the application running, create a user profile with a valid email address.
 
   >>> Once you have created a user profile you now have access to all of the features included in Planendar. By using the input fields at the top of the screen you can create and share appointments by entering the fields that are necessary to your appointment.
 
   >>> You can also share, edit and delete appointments even after they have been added to your calendar. Simply click on the appointment that you would like to delete, edit or share and use the input fields at the top of the screen accordingly.
+    > To delete an appointment click the 'Delete' button
+    > To update an appointment, modify any of the necessary fields at the top of the screen the click 'Update'
+    > To share an appointment click the 'Share' button and enter the email address of a valid Planendar user
 
 ## Requirements
 
@@ -62,7 +61,7 @@
     "request": "^2.81.0",
     "sqlite3": "^3.1.8"
 
-## Development
+## Development Dependencies
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-preset-es2015": "^6.24.1",
