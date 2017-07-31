@@ -3,7 +3,7 @@ import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
 import WeatherBar from './weatherBar.jsx';
 
-const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecastday, getWeather}) => {
+const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecastday, getWeather, backToCreateAppointmentForm}) => {
 
 
   // const changeThemeColor = () => {
@@ -35,16 +35,19 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
 
           {/*<!-- The create appointment input form -->*/}
           <CreateAppointment
-          reminders={reminders}
-          reminderInput={reminderInput}
-          appointmentInput={appointmentInput}
-          createReminder={createReminder}
-          deleteReminder={deleteReminder}
-          createAppointment={createAppointment}
-          updateReminder={updateReminder}
-          updateAppointment={updateAppointment}
-          currentEvent={currentEvent}
-          deleteEvent={deleteEvent}></CreateAppointment>
+            reminders={reminders}
+            reminderInput={reminderInput}
+            appointmentInput={appointmentInput}
+            createReminder={createReminder}
+            deleteReminder={deleteReminder}
+            createAppointment={createAppointment}
+            updateReminder={updateReminder}
+            updateAppointment={updateAppointment}
+            currentEvent={currentEvent}
+            deleteEvent={deleteEvent}
+            backToCreateAppointmentForm={backToCreateAppointmentForm}
+          >
+          </CreateAppointment>
 
           <UserProfile
           profileInformation={profileInformation}
