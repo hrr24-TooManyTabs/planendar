@@ -51,6 +51,7 @@ export default class App extends React.Component {
       return {newReminders: prevState.newReminders,
         reminderInput: prevState.reminderInput};
     });
+    console.log(this.state.newReminders)
   }
 
   //Removes a reminder from the newReminders array in state
@@ -94,24 +95,39 @@ export default class App extends React.Component {
             events.splice(i, 1);
           }
         }
+
+        if (this.state.currentEvent) {
+          let existingNotifications = this.state.notifications;
+          for(let notification in existingNotifications) {
+            if(existingNotifications[notification]['appointmentId'] === this.state.currentEvent) {
+              this.setState(prevState => {
+                delete prevState.notifications[notification];
+              });
+            }
+          }
+        }
+
+        console.log('State of notifications after update delete', this.state.notifications);
+
         let start = new Date(response.start_date_time);
         let end = new Date(response.end_date_time);
         let newNotification;
 
-          if(response.reminders && response.reminders.length > 0) {
-            response.reminders.forEach((reminder) => {
-                let notificationTime = new Date(start);
-                notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
-                this.setState((prevState) => {
-                  prevState.notifications[notificationTime] = {
-                    appointmentId: response.id,
-                    minutes: reminder.minutes,
-                    appointmentTitle: response.title,
-                    appointmentDescription: response.description
-                  }
-                });
-            });
-          }
+        if(response.reminders && response.reminders.length > 0) {
+          response.reminders.forEach((reminder) => {
+              let notificationTime = new Date(start);
+              notificationTime.setMinutes(notificationTime.getMinutes() - reminder.minutes);
+              this.setState((prevState) => {
+                prevState.notifications[notificationTime] = {
+                  appointmentId: response.id,
+                  minutes: reminder.minutes,
+                  appointmentTitle: response.title,
+                  appointmentDescription: response.description
+                }
+              });
+          });
+        }
+        console.log('State of notifications after update update', this.state.notifications);
           // console.log('notifications state after add new appointment', this.state.notifications);
 
         events.push({
@@ -122,7 +138,8 @@ export default class App extends React.Component {
           location: response.location,
           id: response.id,
           cityName: response.cityName,
-          isTrackingWeather: response.isTrackingWeather
+          isTrackingWeather: response.isTrackingWeather,
+          reminders: response.reminders
         })
         this.setState({
           newReminders: [],
@@ -233,15 +250,22 @@ export default class App extends React.Component {
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
     let isTracking = event.isTrackingWeather;
-
+    console.log(event)
     //The database is storing the isTrackingWeather as string
       //but the checkbox expects a boolean
     if (typeof isTracking === 'string') {
       isTracking = (isTracking === 'true');
     }
+    let reminders = [];
+    if(event.reminders) {
+      for (var i = 0; i < event.reminders.length; i++) {
+        console.log(event.reminders[i].minutes)
+        reminders.push(event.reminders[i].minutes);
+      }
+    }
 
     this.setState({
-      newReminders: [],
+      newReminders: reminders,
       reminderInput: {
         minutes: ''
       },
@@ -339,8 +363,6 @@ export default class App extends React.Component {
               break;
             }
           }
-          //console.log('forecastday', forecastday);
-          //console.log('response', response);
           return {
             selectedCity: selectedCity,
             forecastday: forecastday,
@@ -418,13 +440,12 @@ export default class App extends React.Component {
             location: appointment.location,
             id: appointment.id,
             cityName: appointment.cityName,
-            isTrackingWeather: appointment.isTrackingWeather
+            isTrackingWeather: appointment.isTrackingWeather,
+            reminders: appointment.reminders
           })
         })
-        // console.log(events)
         this.setState({events: events});
         this.setState({notifications: notifications});
-        // console.log('notifications state at mount', notifications);
       }.bind(this),
       error: function(err) {
         console.error('Error in getting appointments', error);
@@ -454,7 +475,7 @@ export default class App extends React.Component {
         });
       }.bind(this),
       error: function(err) {
-        console.error(err);
+        console.log(err);
       }.bind(this)
     });
   }
