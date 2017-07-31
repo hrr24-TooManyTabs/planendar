@@ -4,7 +4,7 @@ import moment from 'moment'
 import 'react-datetime/css/react-datetime.css'
 import Popup from 'react-popup';
 
-const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, currentEvent, deleteEvent}) => {
+const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, currentEvent, deleteEvent, backToCreateAppointmentForm}) => {
 
   //Calls createReminder to add the new reminder to the state in App
   const handleCreateReminder = (e) => {
@@ -122,11 +122,21 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     updateAppointment('end_date_time', e._d)
   }
 
+  const handleBackToCreateAppointmentForm = (e) => {
+    e.preventDefault();
+    backToCreateAppointmentForm();
+  };
+
   const appointmentButton = () => {
     if (currentEvent === false) {
       return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>)
     } else {
-      return (<div><button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button><button  className="btn btn-default" onClick={deleteEvent}>Delete</button></div>)
+      return (
+        <div>
+          <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button>
+          <button  className="btn btn-default" onClick={deleteEvent}>Delete</button>
+          <button  className="btn btn-default" onClick={handleBackToCreateAppointmentForm}>Cancel</button>
+        </div>)
     }
   }
 

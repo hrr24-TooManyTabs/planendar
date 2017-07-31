@@ -39,9 +39,31 @@ export default class App extends React.Component {
     this.selectEvent = this.selectEvent.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
     this.getWeather = this.getWeather.bind(this);
+    this.backToCreateAppointmentForm = this.backToCreateAppointmentForm.bind(this);
 
 
   }
+
+  backToCreateAppointmentForm() {
+    this.setState({
+      newReminders: [],
+      reminderInput: {
+        minutes: ''
+      },
+      appointmentInput: {
+        description: '',
+        end_date_time: '',
+        location: '',
+        start_date_time: '',
+        title: '',
+        cityName: '',
+        isTrackingWeather: false
+      },
+      currentEvent: false
+    });
+    console.log('State events after backToCreateAppointmentForm', this.state.events);
+  }
+
   //Adds a reminder to the newReminders array in state
   createNewReminder() {
     this.setState((prevState) => {
@@ -516,6 +538,7 @@ export default class App extends React.Component {
          deleteEvent={this.deleteEvent}
          forecastday={this.state.forecastday}
          getWeather={this.getWeather}
+         backToCreateAppointmentForm={this.backToCreateAppointmentForm}
          ></Navbar>
 
 
