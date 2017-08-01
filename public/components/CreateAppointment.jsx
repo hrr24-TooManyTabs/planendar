@@ -2,6 +2,7 @@ import React from 'react';
 import DateTime from 'react-datetime'
 import moment from 'moment'
 import 'react-datetime/css/react-datetime.css'
+import Popup from 'react-popup';
 
 const CreateAppointment = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, currentEvent, deleteEvent, backToCreateAppointmentForm}) => {
 
@@ -33,7 +34,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
       console.error('require fields have not been filled out');
     }
   };
-
 
 
   const shareAppointment = (e) => {

@@ -1,5 +1,6 @@
 # Planendar
 
+
 [![Build Status](https://travis-ci.org/hrr24-TooManyTabs/planendar.svg?branch=master)](https://travis-ci.org/hrr24-TooManyTabs/planendar)
 
 > Planendar is a calendar application for scheduling personal appointments and events. With Planendar, users can create appointments, set notifications, share appointments with other users and check the weather.
@@ -19,8 +20,9 @@ Planendar comes as an improvement upon some of the more popular calendar applica
 
   >>> To run the application on your local machine run the following three commands
     1. npm install
-    2. npm run bundle
-    3. npm run start-dev
+    2. npm run start-dev
+    3. npm run bundle
+
 
   >>> After you have the application running, create a user profile with a valid email address.
 
