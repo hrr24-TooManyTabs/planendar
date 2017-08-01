@@ -42,6 +42,8 @@ db.knex.schema.hasTable('appointments').then(function(exists) {
       appointments.string('location');
       appointments.string('cityName');
       appointments.boolean('isTrackingWeather');
+      appointments.boolean('approved');
+      appointments.string('shared_by', 254);
     }).then((table) => {
       console.log("Created table ", table);
     });

@@ -86,7 +86,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
             success: function(response) {
             }.bind(this),
             error: function(err) {
-              console.error(err);
             }.bind(this)
             }).then()
 

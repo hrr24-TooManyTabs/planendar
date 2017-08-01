@@ -22,7 +22,6 @@ export default class UserProfile extends React.Component {
         <ul className="dropdown-menu">
           <li className="list-option"><a href="/editProfile">Profile</a></li>
           <li className="list-option"><a href="/logout">Log Out</a></li>
-
         </ul>
       </div>
     )
@@ -35,8 +34,6 @@ export default class UserProfile extends React.Component {
         <ul className="dropdown-menu">
           <li className="list-option"><a href="/editProfile">Profile</a></li>
           <li className="list-option"><a href="/logout">Log Out</a></li>
-          <li className="list-option"><a onClick={this.toggle}>Click Me</a></li>
-
         </ul>
       </div>
       )
