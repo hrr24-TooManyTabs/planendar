@@ -102,6 +102,7 @@ export default class App extends React.Component {
     }
 
     newAppointmentData.reminders = this.state.newReminders;
+    newAppointmentData.approved = true;
 
     $.ajax({
       url: route,
@@ -411,22 +412,6 @@ export default class App extends React.Component {
       }.bind(this)
     });
 
-    // $.ajax({
-    //   type: 'GET',
-    //   url: '/colorScheme',
-    //   success: function (colorInfo){
-    //     console.log('COLOR INFO: ', colorInfo);
-    //     this.setState({color: colorInfo})
-    //     $('.navbar-default').css('background-color', colorInfo);
-    //   }.bind(this),
-    //   error: function (err) {
-    //     console.log('ERRORRRRRR')
-    //     console.error(err);
-    //   }
-    // })
-
-
-
 
     $.ajax({
       type: 'GET',
@@ -436,12 +421,16 @@ export default class App extends React.Component {
         let events = [];
         let notifications = {};
         appointments.map((appointment, i) => {
+          //if the appointment has not yet been approved from the email, cancel the operation
+          if (appointment.approved === 0) {
+            return;
+          }
+
           let start;
           let end;
           start = new Date(appointment.start_date_time);
           end = new Date(appointment.end_date_time);
-          // console.log('start', start);
-          // console.log('notification', notification);
+
           if(appointment.reminders.length > 0) {
             appointment.reminders.forEach((reminder) => {
                 let notificationTime = new Date(start);

@@ -72,6 +72,9 @@ app.get('/reminders', requestHandler.getAllReminders);
 app.get('/allschedules', requestHandler.getAllSchedules);
 app.get('/allweather', requestHandler.getAllWeather);
 
+app.get('/confirmAppointmentPage/:userid/:apntid', requestHandler.confirmAppointmentPage);
+
+
 app.use(express.static(path.join(__dirname, '/../public')));
 
 module.exports = app;

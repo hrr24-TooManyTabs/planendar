@@ -25,6 +25,7 @@ class Dnd extends React.Component {
     this.colorExample = 'lightgreen';
     this.moveEvent = this.moveEvent.bind(this);
     this.eventStyleGetter = this.eventStyleGetter.bind(this);
+    console.log('EVENTS: ', this.state.events);
   }
 
   moveEvent({ event, start, end }) {
@@ -51,6 +52,8 @@ class Dnd extends React.Component {
         console.error(err);
       }
     })
+
+    console.log('EVENTS: ', this.state.events)
 
   }
 
