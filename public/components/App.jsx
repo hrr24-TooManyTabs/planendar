@@ -20,7 +20,8 @@ export default class App extends React.Component {
         start_date_time: '',
         title: '',
         cityName: '',
-        isTrackingWeather: false
+        isTrackingWeather: false,
+        tag: ''
       },
       events: [],
       profileInformation: [],
@@ -57,7 +58,8 @@ export default class App extends React.Component {
         start_date_time: '',
         title: '',
         cityName: '',
-        isTrackingWeather: false
+        isTrackingWeather: false,
+        tag: ''
       },
       currentEvent: false
     });
@@ -162,6 +164,7 @@ export default class App extends React.Component {
           id: response.id,
           cityName: response.cityName,
           isTrackingWeather: response.isTrackingWeather,
+          tag: response.tag,
           reminders: response.reminders
         })
         this.setState({
@@ -176,7 +179,8 @@ export default class App extends React.Component {
             start_date_time: '',
             title: '',
             cityName: '',
-            isTrackingWeather: false
+            isTrackingWeather: false,
+            tag: ''
           },
           events: events,
           currentEvent: false
@@ -237,7 +241,8 @@ export default class App extends React.Component {
             start_date_time: '',
             title: '',
             cityName: '',
-            isTrackingWeather: false
+            isTrackingWeather: false,
+            tag: ''
           },
           events: events,
           currentEvent: false
@@ -273,7 +278,7 @@ export default class App extends React.Component {
     //this.setState({currentEvent:event});
     //console.log(this.state.currentEvent);
     let isTracking = event.isTrackingWeather;
-    console.log(event)
+    // console.log('event', event);
     //The database is storing the isTrackingWeather as string
       //but the checkbox expects a boolean
     if (typeof isTracking === 'string') {
@@ -301,10 +306,12 @@ export default class App extends React.Component {
         start_date_time: event.start,
         title: event.title,
         cityName: event.cityName,
-        isTrackingWeather: isTracking
+        isTrackingWeather: isTracking,
+        tag: event.tag
       },
       currentEvent: event.id
     });
+    // console.log('selected appointment', this.state.appointmentInput);
 
     //Only shows the weather for appointments tracking the weather
     if (isTracking) {
@@ -452,6 +459,7 @@ export default class App extends React.Component {
             id: appointment.id,
             cityName: appointment.cityName,
             isTrackingWeather: appointment.isTrackingWeather,
+            tag: appointment.tag,
             reminders: appointment.reminders
           })
         })

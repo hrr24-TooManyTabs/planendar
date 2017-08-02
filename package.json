@@ -45,7 +45,8 @@
     "react-dom": "^15.6.1",
     "react-popup": "^0.8.0",
     "request": "^2.81.0",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
