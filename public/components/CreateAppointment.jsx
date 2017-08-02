@@ -128,24 +128,24 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
   const appointmentButton = () => {
     if (currentEvent === false) {
-      return (<button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>)
+      return (
+        <span>
+          <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>
+        </span>
+      )
     } else {
       return (
-        <div>
+        <span>
           <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button>
-          <button  className="btn btn-default" onClick={deleteEvent}>Delete</button>
-          <button  className="btn btn-default" onClick={handleBackToCreateAppointmentForm}>Cancel</button>
-        </div>)
+          <button className="btn btn-default" onClick={deleteEvent}>Delete</button>
+          <button className="btn btn-default" onClick={handleBackToCreateAppointmentForm}>Cancel</button>
+        </span>
+      )
     }
   }
 
   return (
-    <div>
       <form className="navbar-form" method="post">
-        <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
-
-
-
 
         <div className="form-group">
           <input maxLength="11" type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
@@ -153,12 +153,18 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
         <label>&ensp;Start</label>
         <div className="form-group">
-          <DateTime onChange={handleStartChange} value={appointmentInput.start_date_time}/>
+          <DateTime
+            onChange={handleStartChange}
+            value={appointmentInput.start_date_time}
+          />
         </div>
 
         <label>&ensp;Finish</label>
         <div className="form-group">
-          <DateTime onChange={handleEndChange} value={appointmentInput.end_date_time}/>
+          <DateTime
+            onChange={handleEndChange}
+            value={appointmentInput.end_date_time}
+          />
         </div>
 
 
@@ -200,15 +206,29 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         </div>
 
         <div className="form-group">
+          <select
+            className="form-control"
+            name="tag"
+            onChange={handleAppointmentChange}
+            value={appointmentInput.tag}
+          >
+            <option value="">select Tag</option>
+            <option value="Work">Work</option>
+            <option value="Play">Play</option>
+          </select>
+        </div>
+
+        <div className="form-group">
           <label>Track Weather</label>
           <input type="checkbox" className="form-control" name="isTrackingWeather" checked={appointmentInput.isTrackingWeather} onChange={handleAppointmentChange} />
         </div>
+
+        <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
 
         <label>&emsp;</label>
 
         {appointmentButton()}
       </form>
-    </div>
   );
 };
 
