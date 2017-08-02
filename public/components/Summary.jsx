@@ -31,8 +31,6 @@ class Summary extends React.Component {
       url: `/summary/${startDayTime}/${endDayTime}`,
       type: 'GET',
       success: response => {
-        console.log('typeof response', typeof response);
-        console.log('resonse from dailySummary', response);
         if(_.isEmpty(response)) {
           this.showNoActivity();
         } else {
@@ -46,7 +44,6 @@ class Summary extends React.Component {
   }
 
   showNoActivity() {
-    console.log('showNoActivity fired');
     let title = 'this.state.currentDate;';
     let content = 'No Activity';
 
@@ -58,7 +55,6 @@ class Summary extends React.Component {
   }
 
   showDailySummary(summaryDataObj) {
-    console.log('showDailySummary fired');
     let title = 'this.state.currentDate';
     let content = '';
 
@@ -82,7 +78,6 @@ class Summary extends React.Component {
       <button className="btn btn-primary" onClick={this.getDailySummary}>Daily Summary</button>
     );
   }
-
-};
+}
 
 export default Summary;

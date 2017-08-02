@@ -2,6 +2,7 @@ import React from 'react';
 import CreateAppointment from './CreateAppointment.jsx';
 import UserProfile from './UserProfile.jsx';
 import WeatherBar from './weatherBar.jsx';
+import Summary from './Summary.jsx';
 
 const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, deleteReminder, createAppointment, updateReminder, updateAppointment, profileInformation, currentEvent, deleteEvent, forecastday, getWeather, backToCreateAppointmentForm}) => {
 
@@ -50,9 +51,12 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
           </CreateAppointment>
 
           <UserProfile
-          profileInformation={profileInformation}
-          createAppointment={createAppointment}>
+            profileInformation={profileInformation}
+            createAppointment={createAppointment}
+          >
           </UserProfile>
+
+          <Summary></Summary>
 
 
         {/*

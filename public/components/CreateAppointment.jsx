@@ -145,7 +145,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   }
 
   return (
-
       <form className="navbar-form" method="post">
 
         <div className="form-group">
@@ -230,7 +229,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 
         {appointmentButton()}
       </form>
-
   );
 };
 
