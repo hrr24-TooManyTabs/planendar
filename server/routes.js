@@ -12,7 +12,7 @@ const weatherHelper = require('../lib/weather-helper.js');
 
 // let cities = ['Paris', 'New York'];
 
-weatherHelper.updateWeatherData();
+// weatherHelper.updateWeatherData();
 /* Get weather data after every three hours */
 const threeHours = 3 * 60 * 60 * 1000;
 setInterval(() => {
@@ -65,12 +65,15 @@ app.get('/schedule', requestHandler.getSchedule);
 app.post('/schedule', requestHandler.postSchedule);
 app.put('/schedule/:id', requestHandler.updateSchedule);
 app.delete('/schedule/:id', requestHandler.deleteSchedule);
+app.get('/allweather', requestHandler.getAllWeather);
+
+app.get('/summary/:startDateTime/:endDateTime', requestHandler.getSummary);
+// app.get('/weeklySummary/:startDate/:endDate', requestHandler.getWeeklySummary);
 
 // The followings are created for testing purposes
 app.get('/users', requestHandler.getAllUsers);
 app.get('/reminders', requestHandler.getAllReminders);
 app.get('/allschedules', requestHandler.getAllSchedules);
-app.get('/allweather', requestHandler.getAllWeather);
 
 app.get('/confirmAppointmentPage/:userid/:apntid', requestHandler.confirmAppointmentPage);
 
