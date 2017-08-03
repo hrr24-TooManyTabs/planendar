@@ -1,17 +1,11 @@
 .login-signup-panel-body {
   padding-top: 30px;
 }
-
-
 .user-profile {
   position: absolute;
   top: 5px;
   right: 5px;
-  /*cursor: pointer;*/
 }
-
-
-
 .username {
   display: inline-block;
   padding: 10px;
@@ -25,44 +19,37 @@
   border-radius: 5px;
   color: #fff;
 }
-
 .list-option {
   cursor: pointer;
   padding-left: 10px;
 }
-
 .list-option:hover {
   background-color: #d9d9d9;
 }
-
 .weather-bar {
   border-style: solid;
   overflow: scroll;
   height: 8.4em;
 }
-
 .weather-info {
   padding-left: 0.3em;
   border-left-style: solid;
   border-bottom-style: solid
 }
-
 textarea {
   resize: none;
 }
-
 .rbc-time-content {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex: 1 0 0%;
-    flex: 1 0 0%;
-    -ms-flex-align: start;
-    align-items: flex-start;
-    width: 80%;
-    border-top: 2px solid #DDD;
-    /* overflow-y: hidden !important; */
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1 0 0%;
+  flex: 1 0 0%;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  width: 80%;
+  border-top: 2px solid #DDD;
+  /* overflow-y: hidden !important; */
 }
-
 .color-blue {
   position: relative;
   position:
@@ -70,10 +57,44 @@ textarea {
   height: 5px;
   color: blue;
 }
-
 .color-lightgreen {
   position: relative;
   width: 5px;
   height: 5px;
   color: lightgreen;
+}
+.mm-popup__box__footer__left-space {
+  float: left;
+}
+.mm-popup__box__footer__right-space {
+  float: right;
+}
+.mm-popup__btn {
+  color: #333;
+  background-color: #EDF5F7;
+  border-color: #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.mm-popup__btn:hover {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }
