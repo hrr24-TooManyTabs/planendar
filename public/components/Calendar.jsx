@@ -25,10 +25,10 @@ class Dnd extends React.Component {
     this.colorExample = 'lightgreen';
     this.moveEvent = this.moveEvent.bind(this);
     this.eventStyleGetter = this.eventStyleGetter.bind(this);
-    console.log('EVENTS: ', this.state.events);
   }
 
-  moveEvent({ event, start, end }) {
+  //function for drag and drop functionality
+  moveEvent ({ event, start, end }) {
     start = moment(start)
     end = moment(end)
     start = start._i;
@@ -40,7 +40,7 @@ class Dnd extends React.Component {
     this.props.createAppointment()
   }
 
-  componentDidMount() {
+  componentDidMount () {
     $.ajax({
       type: 'GET',
       url: '/colorScheme',
@@ -52,18 +52,13 @@ class Dnd extends React.Component {
         console.error(err);
       }
     })
-
-    console.log('EVENTS: ', this.state.events)
-
   }
 
-
-
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.setState({events: nextProps.events, currentEvent: nextProps.currentEvent})
   }
 
-  eventStyleGetter(event, start, end, isSelected) {
+  eventStyleGetter (event, start, end, isSelected) {
     var style = {
         backgroundColor: this.state.color[1],
         borderRadius: '0px',
@@ -77,12 +72,6 @@ class Dnd extends React.Component {
     };
   }
 
-
-  //prevent calendar from rerendering unnecessarily
- /* shouldComponentUpdate(nextProps) {
-    return ((this.state.currentEvent !== nextProps.currentEvent) || (this.state.events !== nextProps.events));
-  }
-*/
   render() {
     return (
       <div>
@@ -113,8 +102,6 @@ class Dnd extends React.Component {
       </div>
     )
   }
-
-
 }
 
 function Event({ event }) {
