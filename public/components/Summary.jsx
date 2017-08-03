@@ -23,8 +23,10 @@ class Summary extends React.Component {
       this.setState({ currentDate: moment() })
     }
 
-    let startDayTime = moment(date).startOf('day');
-    let endDayTime = moment(date).endOf('day');
+    let startDayTime = moment(date).startOf('day').toString();
+    let endDayTime = moment(date).endOf('day').toString();
+    console.log('startDayTime: ', startDayTime);
+    console.log('endDayTime: ', endDayTime);
 
     $.ajax({
       url: `/summary/${startDayTime}/${endDayTime}`,
