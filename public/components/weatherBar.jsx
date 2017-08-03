@@ -3,7 +3,7 @@ import WeatherInfo from './weatherInfo.jsx';
 
 const WeatherBar = ({forecastday, getWeather}) => {
 
-  var handleSubmit = function(e) {
+  var handleSubmit = function (e) {
     e.preventDefault();
     getWeather(e.target.elements.cityName.value);
   }
