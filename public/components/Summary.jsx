@@ -94,7 +94,7 @@ class Summary extends React.Component {
 
   render() {
     return (
-      <button className="btn btn-primary" onClick={this.getDailySummary}>Daily Summary</button>
+      <button onClick={this.getDailySummary}>Daily Summary</button>
     );
   }
 }
