@@ -189,9 +189,7 @@ describe('', function() {
       .where({
         'title': 'Test title',
         'description': 'Test description',
-        // 'start_date': '2017-07-19',
         'start_date_time': '2017-07-19 01:00',
-        // 'end_date': '2017-07-19',
         'end_date_time': '2017-07-19 02:00',
         'location': 'Dhaka'
       })
@@ -212,7 +210,6 @@ describe('', function() {
         return testAppointment;
       })
       .then((testAppointment) => {
-        // console.log('testAppointment line 257:', testAppointment[0].id);
         if(testAppointment === undefined) return;
         db.knex('appointments')
           .where('id', testAppointment[0].id)
@@ -234,9 +231,7 @@ describe('', function() {
         'form': {
           'title': 'Test title',
           'description': 'Test description',
-          // 'start_date': '2017-07-19',
           'start_date_time': '2017-07-19 01:00',
-          // 'end_date': '2017-07-19',
           'end_date_time': '2017-07-19 02:00',
           'location': 'Dhaka',
           'reminders': [ '5', '10', '30' ]
@@ -244,7 +239,6 @@ describe('', function() {
       };
 
       requestWithSession(options, (err, res, body) => {
-        // expect(true).to.equal(true);
         if(err) {
           console.log('DatabaseError in Account Creation');
           throw {
@@ -257,9 +251,7 @@ describe('', function() {
           .where({
             'title': 'Test title',
             'description': 'Test description',
-            // 'start_date': '2017-07-19',
             'start_date_time': '2017-07-19 01:00',
-            // 'end_date': '2017-07-19',
             'end_date_time': '2017-07-19 02:00',
             'location': 'Dhaka'
           })
@@ -267,85 +259,19 @@ describe('', function() {
             if(appointment[0] && appointment[0]['title']) {
               var title = appointment[0]['title'];
               var description = appointment[0]['description'];
-              // var start_date = appointment[0]['start_date'];
               var start_date_time = appointment[0]['start_date_time'];
-              // var end_date = appointment[0]['end_date'];
               var end_date_time = appointment[0]['end_date_time'];
               var location = appointment[0]['location'];
             }
             expect(title).to.equal('Test title');
             expect(description).to.equal('Test description');
-            // expect(start_date).to.equal('2017-07-19');
             expect(start_date_time).to.equal('2017-07-19 01:00');
-            // expect(end_date).to.equal('2017-07-19');
             expect(end_date_time).to.equal('2017-07-19 02:00');
             expect(location).to.equal('Dhaka');
             done();
           });
       });
     });
-
-    /*
-      The folloing test was created when end_date was optional
-      Now that end_date is not used anymore, this test is unnecessary.
-      Kept for future reference if needed
-     */
-    // it('Posting a schedule without end_date saves the end_date as the start_date', (done) => {
-    //   let options = {
-    //     'method': 'POST',
-    //     'uri': testHost + '/schedule',
-    //     'form': {
-    //       'title': 'Test title',
-    //       'description': 'Test description',
-    //       // 'start_date': '2017-07-19',
-    //       'start_date_time': '2017-07-19 01:00',
-    //       // 'end_date': '2017-07-19',
-    //       'end_date_time': '2017-07-19 02:00',
-    //       'location': 'Dhaka',
-    //       'reminders': [ '5', '10', '30' ]
-    //     }
-    //   };
-
-    //   requestWithSession(options, (err, res, body) => {
-    //     // expect(true).to.equal(true);
-    //     if(err) {
-    //       console.log('DatabaseError in Account Creation');
-    //       throw {
-    //         type: 'DatabaseError',
-    //         message: 'Failed to create test setup data'
-    //       };
-    //     }
-
-    //     db.knex('appointments')
-    //       .where({
-    //         'title': 'Test title',
-    //         'description': 'Test description',
-    //         // 'start_date': '2017-07-19',
-    //         'start_date_time': '2017-07-19 01:00',
-    //         'end_date_time': '2017-07-19 02:00',
-    //         'location': 'Dhaka'
-    //       })
-    //       .then(appointment => {
-    //         if(appointment[0] && appointment[0]['title']) {
-    //           var title = appointment[0]['title'];
-    //           var description = appointment[0]['description'];
-    //           // var start_date = appointment[0]['start_date'];
-    //           var start_date_time = appointment[0]['start_date_time'];
-    //           // var end_date = appointment[0]['end_date'];
-    //           var end_date_time = appointment[0]['end_date_time'];
-    //           var location = appointment[0]['location'];
-    //         }
-    //         expect(title).to.equal('Test title');
-    //         expect(description).to.equal('Test description');
-    //         // expect(start_date).to.equal('2017-07-19');
-    //         expect(start_date_time).to.equal('2017-07-19 01:00');
-    //         // expect(end_date).to.equal('2017-07-19');
-    //         expect(end_date_time).to.equal('2017-07-19 02:00');
-    //         expect(location).to.equal('Dhaka');
-    //         done();
-    //       });
-    //   });
-    // });
 
     it('Can create a schedule without reminders', (done) => {
       let options = {
@@ -354,16 +280,13 @@ describe('', function() {
         'form': {
           'title': 'Test title',
           'description': 'Test description',
-          // 'start_date': '2017-07-19',
           'start_date_time': '2017-07-19 01:00',
-          // 'end_date': '2017-07-19',
           'end_date_time': '2017-07-19 02:00',
           'location': 'Dhaka'
         }
       };
 
       requestWithSession(options, (err, res, body) => {
-        // expect(true).to.equal(true);
         if(err) {
           console.log('DatabaseError in Account Creation');
           throw {
@@ -376,9 +299,7 @@ describe('', function() {
           .where({
             'title': 'Test title',
             'description': 'Test description',
-            // 'start_date': '2017-07-19',
             'start_date_time': '2017-07-19 01:00',
-            // 'end_date': '2017-07-19',
             'end_date_time': '2017-07-19 02:00',
             'location': 'Dhaka'
           })
@@ -386,17 +307,13 @@ describe('', function() {
             if(appointment[0] && appointment[0]['title']) {
               var title = appointment[0]['title'];
               var description = appointment[0]['description'];
-              // var start_date = appointment[0]['start_date'];
               var start_date_time = appointment[0]['start_date_time'];
-              // var end_date = appointment[0]['end_date'];
               var end_date_time = appointment[0]['end_date_time'];
               var location = appointment[0]['location'];
             }
             expect(title).to.equal('Test title');
             expect(description).to.equal('Test description');
-            // expect(start_date).to.equal('2017-07-19');
             expect(start_date_time).to.equal('2017-07-19 01:00');
-            // expect(end_date).to.equal('2017-07-19');
             expect(end_date_time).to.equal('2017-07-19 02:00');
             expect(location).to.equal('Dhaka');
             done();
@@ -411,9 +328,7 @@ describe('', function() {
         'form': {
           'title': 'Test Appointment to remove',
           'description': 'Test description',
-          // 'start_date': '2017-07-19',
           'start_date_time': '2017-07-19 01:00',
-          // 'end_date': '2017-07-19',
           'end_date_time': '2017-07-19 02:00',
           'location': 'Dhaka',
           'reminders': [ '5', '10' ]
@@ -430,10 +345,8 @@ describe('', function() {
         }
 
         let responseBody = JSON.parse(body);
-        // console.log('responseBody', responseBody);
         let id = responseBody.id;
         let reminders = responseBody.reminders;
-        // done();
         let options = {
           'method': 'DELETE',
           'uri': testHost + `/schedule/${id}`,
@@ -452,7 +365,6 @@ describe('', function() {
             .where('id', id)
             .then(found => {
               expect(found).to.be.empty;
-              // done();
             })
             .then(() => {
               db.knex('reminders')
@@ -461,7 +373,6 @@ describe('', function() {
                   'id': reminders[0]['id']
                 })
                 .then(found => {
-                  // console.log('found reminder after delete', found);
                   expect(found).to.be.empty;
                 });
             })
@@ -472,7 +383,6 @@ describe('', function() {
                   'id': reminders[1]['id']
                 })
                 .then(found => {
-                  // console.log('found reminder after delete', found);
                   expect(found).to.be.empty;
                   done();
                 });
@@ -490,9 +400,7 @@ describe('', function() {
         'form': {
           'title': 'Test Appointment to update',
           'description': 'Test description',
-          // 'start_date': '2017-07-19',
           'start_date_time': '2017-07-19 01:00',
-          // 'end_date': '2017-07-19',
           'end_date_time': '2017-07-19 02:00',
           'location': 'Dhaka',
           'reminders': [ '5', '10', '30' ]
@@ -509,19 +417,15 @@ describe('', function() {
         }
 
         let responseBody = JSON.parse(body);
-        // console.log('responseBody', responseBody);
         let id = responseBody.id;
         let reminders = responseBody.reminders;
-        // done();
         let options = {
           'method': 'PUT',
           'uri': `${testHost}/schedule/${id}`,
           'form': {
             'title': 'Test Appointment Updated',
             'description': 'Test description updated',
-            // 'start_date': '2017-07-20',
             'start_date_time': '2017-07-20 02:00',
-            // 'end_date': '2017-07-20',
             'end_date_time': '2017-07-20 03:00',
             'location': 'New York',
             'reminders': [ '15', '30' ]
@@ -543,20 +447,15 @@ describe('', function() {
               if(updatedAppointment[0] && updatedAppointment[0]['title']) {
                 var title = updatedAppointment[0]['title'];
                 var description = updatedAppointment[0]['description'];
-                // var start_date = updatedAppointment[0]['start_date'];
                 var start_date_time = updatedAppointment[0]['start_date_time'];
-                // var end_date = updatedAppointment[0]['end_date'];
                 var end_date_time = updatedAppointment[0]['end_date_time'];
                 var location = updatedAppointment[0]['location'];
               }
               expect(title).to.equal('Test Appointment Updated');
               expect(description).to.equal('Test description updated');
-              // expect(start_date).to.equal('2017-07-20');
               expect(start_date_time).to.equal('2017-07-20 02:00');
-              // expect(end_date).to.equal('2017-07-20');
               expect(end_date_time).to.equal('2017-07-20 03:00');
               expect(location).to.equal('New York');
-              // done();
 
               let updatedAppointmentId = updatedAppointment[0].id;
 
@@ -582,31 +481,26 @@ describe('', function() {
                 .then(found => {
                   expect(found).to.be.empty;
                 });
-
               return updatedAppointmentId;
             })
             .then(updatedAppointmentId => {
-              // console.log('updatedAppointmentId', updatedAppointmentId);
               db.knex('reminders')
                 .where({
                   'appointment_id': updatedAppointmentId,
                   'minutes': 15
                 })
                 .then(updatedReminder => {
-                  // console.log('updated reminder', updatedReminder);
                   expect(updatedReminder[0]['minutes']).to.equal(15);
                 });
               return updatedAppointmentId;
             })
             .then(updatedAppointmentId => {
-              // console.log('updatedAppointmentId', updatedAppointmentId);
               db.knex('reminders')
                 .where({
                   'appointment_id': updatedAppointmentId,
                   'minutes': 30
                 })
                 .then(updatedReminder => {
-                  // console.log('updated reminder', updatedReminder);
                   expect(updatedReminder[0]['minutes']).to.equal(30);
                 });
 
@@ -622,7 +516,5 @@ describe('', function() {
         });
       });
     }); // Updating a schedule updates record in db
-
   }); // Scheduling
-
 });
