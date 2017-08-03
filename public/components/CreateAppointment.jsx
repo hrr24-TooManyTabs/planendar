@@ -23,7 +23,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   };
 
   //Calls createAppointment which will send the post request for creating
-    //a new appointment to the database
+  //a new appointment to the database
   const handleCreateAppointment = (e) => {
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
@@ -35,16 +35,13 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     }
   };
 
-
   const shareAppointment = (e) => {
-
     e.preventDefault();
     if ((appointmentInput.title !== '') &&
-      (appointmentInput.start_date_time !== '') &&
-      (appointmentInput.end_date_time !== '')) {
+       (appointmentInput.start_date_time !== '') &&
+       (appointmentInput.end_date_time !== '')) {
 
       let recipientEmail = prompt("Please enter the recipient's email address");
-
 
       let emailContent = {
         title: appointmentInput.title,
@@ -55,46 +52,42 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         user_id: recipientEmail
       }
 
+      $.ajax({
+        type: 'GET',
+        url: '/users',
+        success: function(users) {
+          let userArray = []
+          for (var i = 0; i < users.length; i++) {
+            var currentObj = users[i];
+            userArray.push(currentObj.email);
+          }
+
+          if(userArray.indexOf(recipientEmail) === -1) {
+            alert('The email address you entered does not belong to an existing user');
+            return;
+          }
+
+        }.bind(this),
+        error: function(err) {
+          console.error(err);
+        }.bind(this)
+      })
 
       $.ajax({
-      type: 'GET',
-      url: '/users',
-      success: function(users) {
-        let userArray = []
-        for (var i = 0; i < users.length; i++) {
-          var currentObj = users[i];
-          userArray.push(currentObj.email);
-        }
-
-        if(userArray.indexOf(recipientEmail) === -1) {
-          alert('The email address you entered does not belong to an existing user');
-          return;
-        }
-
-      }.bind(this),
-      error: function(err) {
-        console.error(err);
-      }.bind(this)
-    })
-
-
-      $.ajax({
-            url: '/sendAppointment',
-            type: 'POST',
-            data: emailContent,
-            dataType: 'json',
-            success: function(response) {
-            }.bind(this),
-            error: function(err) {
-            }.bind(this)
-            }).then()
-
+        url: '/sendAppointment',
+        type: 'POST',
+        data: emailContent,
+        dataType: 'json',
+        success: function(response) {
+        }.bind(this),
+        error: function(err) {
+        }.bind(this)
+      }).then()
     }
   }
 
   //Calls updateReminder to update the input state for reminders in App
   //This runs even ever a input field for reminders is changed
-
   const handleReminderChange = (e) => {
     updateReminder(e.target.name, e.target.value);
   };
@@ -109,7 +102,6 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
     } else {
       value = e.target.value;
     }
-    //console.log(value);
     updateAppointment(e.target.name, value);
   };
 
@@ -166,7 +158,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
             value={appointmentInput.end_date_time}
           />
         </div>
-
+        <br></br>
 
         <div className="form-group">
           <textarea rows="1" cols="30" maxLength="17" className="form-control" placeholder="Description" name="description" value={appointmentInput.description} onChange={handleAppointmentChange}></textarea>
@@ -206,6 +198,11 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
         </div>
 
         <div className="form-group">
+          <label>Track Weather</label>
+          <input type="checkbox" className="form-control" name="isTrackingWeather" checked={appointmentInput.isTrackingWeather} onChange={handleAppointmentChange} />
+        </div>
+
+        <div className="form-group">
           <select
             className="form-control"
             name="tag"
@@ -217,12 +214,7 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
             <option value="Play">Play</option>
           </select>
         </div>
-
-        <div className="form-group">
-          <label>Track Weather</label>
-          <input type="checkbox" className="form-control" name="isTrackingWeather" checked={appointmentInput.isTrackingWeather} onChange={handleAppointmentChange} />
-        </div>
-
+        <br />
         <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
 
         <label>&emsp;</label>
@@ -233,8 +225,3 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
 };
 
 export default CreateAppointment;
-
-
-/*
-
-*/
