@@ -33,63 +33,55 @@ Planendar comes as an improvement upon some of the more popular calendar applica
     > To update an appointment, modify any of the necessary fields at the top of the screen the click 'Update'
     > To share an appointment click the 'Share' button and enter the email address of a valid Planendar user
 
-## Requirements
+## Tech Stack
 
-    "babel-preset-react": "^6.24.1",
-    "bcrypt": "^1.0.2",
-    "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^3.5.0",
-    "body-parser": "^1.17.2",
-    "bookshelf": "^0.10.3",
-    "bootstrap": "^3.3.7",
-    "concurrently": "^3.5.0",
-    "cors": "^2.8.4",
-    "dotenv": "^4.0.0",
-    "ejs": "^2.5.6",
-    "express": "^4.15.3",
-    "express-partials": "^0.3.0",
-    "express-session": "^1.15.3",
-    "jquery": "^3.2.1",
-    "knex": "^0.13.0",
-    "moment": "^2.18.1",
-    "mysql": "^2.13.0",
-    "nodemailer": "^4.0.1",
-    "react": "^15.6.1",
-    "react-big-calendar": "^0.14.4",
-    "react-bootstrap": "^0.31.1",
-    "react-datetime": "^2.8.10",
-    "react-dnd": "^2.4.0",
-    "react-dnd-html5-backend": "^2.4.1",
-    "react-dom": "^15.6.1",
-    "react-popup": "^0.8.0",
-    "request": "^2.81.0",
-    "sqlite3": "^3.1.8"
+    >Frontend: React,
+    >Backend: Express, Node.js,
+    >Database: Sqlite3,
+    >Continuous Integration: Travis CI,
+    >Deployment: Amazon Web Services EC2
 
-## Development Dependencies
-    "babel-core": "^6.25.0",
-    "babel-loader": "^7.1.1",
-    "babel-preset-es2015": "^6.24.1",
-    "chai": "^4.1.0",
-    "css-loader": "^0.28.4",
-    "expect.js": "^0.3.1",
-    "file-loader": "^0.11.2",
-    "istanbul-instrumenter-loader": "^2.0.0",
-    "karma": "^1.7.0",
-    "karma-babel-preprocessor": "^6.0.1",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.1",
-    "karma-firefox-launcher": "^1.0.1",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.3",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^2.0.4",
-    "mocha": "^3.4.2",
-    "style-loader": "^0.18.2",
-    "supertest": "^3.0.0",
-    "url-loader": "^0.5.9",
-    "webpack": "^3.2.0"
+## Important Files
 
+  >>>/lib/request-handler.js
+  >> This file handles most back end interactions between the client and database. Look here for creating, reading, updating, and deleting appointments and reminders. Users can be created and their profile information can read and updated. Also check this file for:
+    > login
+    > sign-up
+    > sessions
+    > reading weather data
+    > confirming appointments
+
+  >>>/public/components/App.jsx
+  >> App is the top level component for the application. It's children are Navbar and Calendar. Most ajax calls to the server are made in App. Currently the state for Calendar and CreateAppointment is managed in App. Part of a refactor we want to do is to move the state for CreateAppointment down into CreateAppointment.
+
+  >>>/public/components/Calendar.jsx
+  >> Calendar renders the calendar from react-big-calendar to the dom. Appointments are rendered here as events. The month, week, day, and agenda views are all from react-big-calendar. We would eventually like to include the work view as soon as it is ported from bower to npm.
+
+  >>>/public/components/CreateAppointment.jsx
+  >> Create Appointment is the collection of form input fields inside of Navbar. All of the form inputs are controlled stateful form input fields, which means they are updated to reflect state as the user types. These input fields are used for both creating an appointment and updating an appointment.
+
+  >>>/views/layout.ejs
+  >> This file is where the .ejs files files are loaded. It also contains the bootstrap and css styling for the application.
+
+## Testing
+
+  >>> Testing is broken down into three files
+    > /test/frontend/frontend-unit-test.js
+    > /test/integration/server-integration-test.js
+    > /test/unit/server-test.js
+
+  >>> server-integration-test.js and server-test.js handle all the tests for the backend
+
+  >>> frontend-unit-test.js handles all the tests for the front end
+    > When changing the structure of components, adding or deleting components, or updating the props that are passed from component to component MAKE SURE TO REFLECT THAT CHANGE IN THE TESTS!
+
+  >>> All tests are run by Travis CI. Successfully updating and adding tests is key to a successful pull request and project.
+
+## APIs
+
+  >>> APIXU
+    > We are using this API to get weather data. To get an API key, go to their website and make an account. It's that easy.
+    > It would be a good addition to credit them in the app by putting their logo or name in the weather search bar and in the weather pop ups.
 
 ### Installing Dependencies
 
