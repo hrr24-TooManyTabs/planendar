@@ -23,7 +23,7 @@ Once the project moves into development, the press release can be used as a touc
   > Anyone who needs a simple and elegant way to manage a busy schedule.
 
 ## Summary ##
-  > To often our digital calendars become over booked with appointments and quickly become unreadable. Planendar originates from the belief that a calendar should be the most useful organizational tool at your disposal.
+  > Too often our digital calendars become over booked with appointments and quickly become unreadable. Planendar originates from the belief that a calendar should be the most useful organizational tool at your disposal.
 
 ## Problem ##
   > Planendar provides a clean and easy to use digital calendar alternative.
