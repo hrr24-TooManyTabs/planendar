@@ -123,13 +123,19 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
       return (
         <span>
           <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Create Appointment</button>
+          &nbsp;
+          <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
         </span>
       )
     } else {
       return (
         <span>
+          <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
+          &nbsp;
           <button type="submit" className="btn btn-default" onClick={handleCreateAppointment}>Update</button>
+          &nbsp;
           <button className="btn btn-default" onClick={deleteEvent}>Delete</button>
+          &nbsp;
           <button className="btn btn-default" onClick={handleBackToCreateAppointmentForm}>Cancel</button>
         </span>
       )
@@ -139,87 +145,116 @@ const CreateAppointment = ({reminders, reminderInput, appointmentInput, createRe
   return (
       <form className="navbar-form" method="post">
 
-        <div className="form-group">
-          <input maxLength="11" type="text" className="form-control" placeholder="Appointment Name" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
-        </div>
+        <div className="row" id="top-form-top-row-remove-annoying-bottom-margin">
+          <div className="col-md-12">
 
-        <label>&ensp;Start</label>
-        <div className="form-group">
-          <DateTime
-            onChange={handleStartChange}
-            value={appointmentInput.start_date_time}
-          />
-        </div>
+            <div className="form-group">
+              <input maxLength="20" type="text" className="form-control" placeholder="Appointment Title" name="title" value={appointmentInput.title} onChange={handleAppointmentChange} required/>
+            </div>
 
-        <label>&ensp;Finish</label>
-        <div className="form-group">
-          <DateTime
-            onChange={handleEndChange}
-            value={appointmentInput.end_date_time}
-          />
-        </div>
-        <br></br>
+            <label>&nbsp;Start&nbsp;</label>
+            <div className="form-group">
+              <DateTime
+                onChange={handleStartChange}
+                value={appointmentInput.start_date_time}
+              />
+            </div>
 
-        <div className="form-group">
-          <textarea rows="1" cols="30" maxLength="17" className="form-control" placeholder="Description" name="description" value={appointmentInput.description} onChange={handleAppointmentChange}></textarea>
-        </div>
+            <label>&nbsp;Finish&nbsp;</label>
+            <div className="form-group">
+              <DateTime
+                onChange={handleEndChange}
+                value={appointmentInput.end_date_time}
+              />
+            </div>
 
-        <div className="form-group">
-          <textarea rows="1" cols="30" maxLength="17" className="form-control" placeholder="Location" name="location" value={appointmentInput.location} onChange={handleAppointmentChange}></textarea>
-        </div>
+            &nbsp;
 
-        <label>&emsp;</label>
-
-        <div className="form-group">
-          <ul className="nav navbar-nav">
-            <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reminders <span className="caret"></span></a>
-              <ul className="dropdown-menu">
-                {reminders.map((reminder, i) => {
-                  return (
-                    <li key={i}>{reminder} min<button value={i} onClick={handleDeleteReminder}>Delete</button></li>
-                  );
-                })}
+            <div className="form-group">
+              <ul className="nav navbar-nav">
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reminders <span className="caret"></span></a>
+                  <ul className="dropdown-menu">
+                    {reminders.map((reminder, i) => {
+                      return (
+                        <li key={i}>{reminder} min<button value={i} onClick={handleDeleteReminder}>Delete</button></li>
+                      );
+                    })}
+                  </ul>
+                </li>
               </ul>
-            </li>
-          </ul>
+            </div>
+
+            <button type="submit" className="btn btn-default" onClick={handleCreateReminder}>Add Reminder</button>
+
+            &nbsp;
+
+            <div className="form-group">
+              <input type="number" min="0" max="60" step="5" className="form-control" placeholder="m" name="minutes" value={reminderInput.minutes} onChange={handleReminderChange} />
+            </div>
+
+          </div>
         </div>
 
-        <button type="submit" className="btn btn-default" onClick={handleCreateReminder}>Add Reminder</button>
+        <div className="row">
+          <div className="col-md-12">
 
-        <div className="form-group">
-          <input type="number" min="0" max="60" step="5" className="form-control" placeholder="m" name="minutes" value={reminderInput.minutes} onChange={handleReminderChange} />
+            <div className="form-group">
+              <textarea rows="1" cols="30" maxLength="20" className="form-control" placeholder="Description" name="description" id="description-field" value={appointmentInput.description} onChange={handleAppointmentChange}></textarea>
+            </div>
+
+            &nbsp;
+
+            <div className="form-group">
+              <textarea rows="1" cols="30" maxLength="20" className="form-control" placeholder="Location" name="location" value={appointmentInput.location} onChange={handleAppointmentChange}></textarea>
+            </div>
+
+            &nbsp;
+
+            <div className="form-group">
+              <input type="text" className="form-control" placeholder="city name" name="cityName" value={appointmentInput.cityName} onChange={handleAppointmentChange} />
+            </div>
+
+            &nbsp;
+
+            <div className="checkbox">
+              <label>
+                <input
+                 type="checkbox"
+                 name="isTrackingWeather"
+                 checked={appointmentInput.isTrackingWeather}
+                 onChange={handleAppointmentChange}
+                />
+              &nbsp;Track Weather</label>
+            </div>
+
+            &nbsp;&nbsp;
+
+            <div className="form-group">
+              <select
+                className="form-control"
+                name="tag"
+                onChange={handleAppointmentChange}
+                value={appointmentInput.tag}
+              >
+                <option value="">select Tag</option>
+                <option value="Work">Work</option>
+                <option value="Play">Play</option>
+              </select>
+            </div>
+
+
+          </div>
         </div>
 
-        <label>&emsp;</label>
+        <div className="row" id="top-form-button-row">
+          <div className="col-md-12">
 
-        <div className="form-group">
-          <input type="text" className="form-control" placeholder="city name" name="cityName" value={appointmentInput.cityName} onChange={handleAppointmentChange} />
+            {appointmentButton()}
+
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Track Weather</label>
-          <input type="checkbox" className="form-control" name="isTrackingWeather" checked={appointmentInput.isTrackingWeather} onChange={handleAppointmentChange} />
-        </div>
-
-        <div className="form-group">
-          <select
-            className="form-control"
-            name="tag"
-            onChange={handleAppointmentChange}
-            value={appointmentInput.tag}
-          >
-            <option value="">select Tag</option>
-            <option value="Work">Work</option>
-            <option value="Play">Play</option>
-          </select>
-        </div>
-        <br />
-        <button className="btn btn-default" onClick={shareAppointment}>Share Appointment</button>
-
-        <label>&emsp;</label>
-
-        {appointmentButton()}
       </form>
   );
 };
