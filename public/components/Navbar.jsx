@@ -9,7 +9,7 @@ const Navbar = ({reminders, reminderInput, appointmentInput, createReminder, del
   return (
     <div>
     <nav className="navbar navbar-default">
-      <div className="container">
+      <div className="container-fluid">
         {/*<!-- Brand and toggle get grouped for better mobile display -->*/}
         <div className="navbar-header">
           <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">

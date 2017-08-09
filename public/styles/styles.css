@@ -98,3 +98,28 @@ textarea {
   background-color: #e6e6e6;
   border-color: #adadad;
 }
+
+/* Top form */
+.navbar-form {
+  max-width: 1006px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.navbar-form .dropdown .dropdown-toggle {
+/*  padding-left: 4px !important;
+  padding-right: 5px !important;*/
+  padding: 8px 5px 9px 4px !important;
+  margin-right: 3px;
+}
+label {
+  font-weight: normal;
+}
+#description-field {
+  width: 285px;
+}
+#top-form-top-row-remove-annoying-bottom-margin {
+  margin-bottom: -3px;
+}
+#top-form-button-row {
+  margin-top: 4px;
+}
