@@ -262,7 +262,7 @@ export default class App extends React.Component {
     let dateTimeSplit = dateTime.split(':');
     let res = new Date(dateSplit[0], dateSplit[1], dateSplit[2], dateTimeSplit[0], dateTimeSplit[1]);
     return res;
-  }
+  };
 
   selectEvent (event) {
     let isTracking = event.isTrackingWeather;
@@ -300,61 +300,78 @@ export default class App extends React.Component {
 
     //Only shows the weather for appointments tracking the weather
     if (isTracking) {
-      let forecastcity
-      let forecastday;
-      let forecasthour;
-      let startDate = event.start;
-      let currentYear = startDate.getFullYear();
-      let currentMonth = startDate.getMonth() + 1;
-      if (currentMonth < 10) {
-        currentMonth = '0' + currentMonth;
-      }
-      let currentDay = startDate.getDate();
-      if (currentDay < 10) {
-        currentDay = '0' + currentDay;
-      }
-      let currentDate = currentYear + '-' + currentMonth + '-' + currentDay;
-      let currentHour = startDate.getHours();
-      let forecastDetails = '';
-
-      //Gets the hourly data and formats it
-      if (this.state.weather) {
-        for (let i = 0; i < this.state.weather.length; i++) {
-          if (this.state.weather[i].location.name === event.cityName) {
-            forecastcity = this.state.weather[i].forecast.forecastday;
-            break;
-          }
-        }
-      }
-
-      if (forecastcity) {
-        for (let i = 0; i < forecastcity.length; i++) {
-          if (forecastcity[i].date === currentDate) {
-            forecastday = forecastcity[i];
-            break;
-          }
-        }
-
-        if (forecastday) {
-          forecasthour = forecastday.hour[currentHour];
-          forecastDetails += forecasthour.condition.text + '\n';
-          forecastDetails += forecasthour.temp_c + ' ˚C\n';
-          forecastDetails += forecasthour.temp_f + ' ˚F\n';
-          forecastDetails += 'wind speed: ' + forecasthour.wind_mph + ' mph\n';
-          forecastDetails += 'wind direction: ' + forecasthour.wind_dir;
-        } else {
-          forecastDetails = 'No weather data available'
-        }
-      } else {
-        forecastDetails = 'No weather data available!';
-      }
-      //Creates a pop up with addtional information when an appointment is clicked
-      Popup.create({
-        title: event.cityName,
-        content: forecastDetails,
-        noOverlay: true
+      $.ajax({
+        url: '/allWeather',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          this.setState({
+            weather: response
+          });
+          this.popupWeather(event);
+        }.bind(this),
+        error: function (err) {
+          console.error(err);
+        }.bind(this)
       });
     }
+  };
+
+  popupWeather(event) {
+    let forecastcity
+    let forecastday;
+    let forecasthour;
+    let startDate = event.start;
+    let currentYear = startDate.getFullYear();
+    let currentMonth = startDate.getMonth() + 1;
+    if (currentMonth < 10) {
+      currentMonth = '0' + currentMonth;
+    }
+    let currentDay = startDate.getDate();
+    if (currentDay < 10) {
+      currentDay = '0' + currentDay;
+    }
+    let currentDate = currentYear + '-' + currentMonth + '-' + currentDay;
+    let currentHour = startDate.getHours();
+    let forecastDetails = '';
+
+    //Gets the hourly data and formats it
+    if (this.state.weather) {
+      for (let i = 0; i < this.state.weather.length; i++) {
+        if (this.state.weather[i].location && this.state.weather[i].location.name === event.cityName) {
+          forecastcity = this.state.weather[i].forecast.forecastday;
+          break;
+        }
+      }
+    }
+
+    if (forecastcity) {
+      for (let i = 0; i < forecastcity.length; i++) {
+        if (forecastcity[i].date === currentDate) {
+          forecastday = forecastcity[i];
+          break;
+        }
+      }
+
+      if (forecastday) {
+        forecasthour = forecastday.hour[currentHour];
+        forecastDetails += forecasthour.condition.text + '\n';
+        forecastDetails += forecasthour.temp_c + ' ˚C\n';
+        forecastDetails += forecasthour.temp_f + ' ˚F\n';
+        forecastDetails += 'wind speed: ' + forecasthour.wind_mph + ' mph\n';
+        forecastDetails += 'wind direction: ' + forecasthour.wind_dir;
+      } else {
+        forecastDetails = 'No weather data available'
+      }
+    } else {
+      forecastDetails = 'No weather data available!';
+    }
+    //Creates a pop up with addtional information when an appointment is clicked
+    Popup.create({
+      title: event.cityName,
+      content: forecastDetails,
+      noOverlay: true
+    });
   };
 
   getWeather (selectedCity) {
