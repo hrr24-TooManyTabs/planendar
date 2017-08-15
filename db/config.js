@@ -62,4 +62,16 @@ db.knex.schema.hasTable('reminders').then(function(exists) {
   }
 });
 
+db.knex.schema.hasTable('weathers').then(function(exists) {
+  if(!exists) {
+    db.knex.schema.createTable('weathers', function(weathers) {
+      weathers.increments('id').primary();
+      weathers.string('cityName', 100);
+      weathers.text('weatherData');
+    }).then((table) => {
+      console.log("Created table ", table);
+    });
+  }
+});
+
 module.exports = db;

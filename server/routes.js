@@ -10,9 +10,10 @@ const requestHandler = require('../lib/request-handler.js');
 
 const weatherHelper = require('../lib/weather-helper.js');
 
+// weatherHelper.updateAllWeatherData();
 const threeHours = 3 * 60 * 60 * 1000;
 setInterval(() => {
-  weatherHelper.updateWeatherData();
+  weatherHelper.updateAllWeatherData();
 }, threeHours);
 
 const app = express();

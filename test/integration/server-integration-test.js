@@ -8,6 +8,7 @@ const handler = require('../../lib/request-handler.js');
 const db = require('../../db/config.js');
 const User = require('../../db/models/user.js');
 const Appointment = require('../../db/models/appointment.js');
+const Weather = require('../../db/models/weather.js');
 const Reminder = require('../../db/models/reminder.js');
 const Reminders= require('../../db/collections/reminders.js');
 
@@ -517,4 +518,118 @@ describe('', function() {
       });
     }); // Updating a schedule updates record in db
   }); // Scheduling
+
+  describe('Weather data', function() {
+    let requestWithSession = request.defaults({jar: true});
+
+    let hashedPass = bcrypt.hashSync('testpass', null);
+
+    beforeEach((done) => {
+      new User({
+        'name': 'Test User',
+        'email': 'testuser@test.com',
+        'password': hashedPass
+      })
+      .save()
+      .then(() => {
+        let options = {
+          'method': 'POST',
+          'uri': testHost + '/login',
+          'form': {
+            'email': 'testuser@test.com',
+            'password': 'testpass'
+          }
+        };
+        requestWithSession(options, (err, res, body) => {
+          done();
+        });
+      });
+    }); // beforeEach
+
+    afterEach((done) => {
+      db.knex('appointments')
+      .where({
+        'title': 'Test title',
+        'description': 'Test description',
+        'start_date_time': '2017-07-19 01:00',
+        'end_date_time': '2017-07-19 02:00',
+        'cityName': 'New York',
+        'isTrackingWeather': 'true'
+      })
+      .then(testAppointment => {
+        // console.log('testAppointment', testAppointment);
+        if(testAppointment[0] === undefined) return;
+        db.knex('reminders')
+          .where('appointment_id', testAppointment[0].id)
+          .del()
+          .catch(error => {
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data',
+              error: error
+            }
+          });
+
+        return testAppointment;
+      })
+      .then((testAppointment) => {
+        if(testAppointment === undefined) return;
+        db.knex('appointments')
+          .where('id', testAppointment[0].id)
+          .del()
+          .catch(error => {
+            throw {
+              type: 'DatabaseError',
+              message: 'Failed to create test setup data'
+            }
+          });
+      })
+      .then(() => done());
+    }); // afterEach
+
+    xit('Adds weather data when an appointment with new city is posted', function (done) {
+      this.timeout(3000);
+      let options = {
+        'method': 'POST',
+        'uri': testHost + '/schedule',
+        'form': {
+          'title': 'Test title',
+          'description': 'Test description',
+          'start_date_time': '2017-07-19 01:00',
+          'end_date_time': '2017-07-19 02:00',
+          'cityName': 'New York',
+          'isTrackingWeather': 'true'
+        }
+      };
+
+      requestWithSession(options, (err, res, body) => {
+        if(err) {
+          console.log('DatabaseError in Weather Data');
+          throw {
+            type: 'DatabaseError',
+            message: 'Failed to create test setup data'
+          };
+        }
+
+        let options = {
+          'method': 'GET',
+          'uri': testHost + '/allweather'
+        };
+
+        setTimeout(() => {
+          requestWithSession(options, (err, res, body) => {
+            let found = false;
+            weatherData = JSON.parse(body);
+            weatherData.forEach(weather => {
+              if(weather.location && weather.location.name === 'New York') {
+                found = true;
+              }
+            });
+            expect(found).to.be.true;
+            done();
+          });
+        }, 2500);
+      });
+    });
+  }); // Weather Data
 });
