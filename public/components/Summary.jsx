@@ -15,18 +15,24 @@ class Summary extends React.Component {
     this.showDailySummary = this.showDailySummary.bind(this);
     this.showNextDay = this.showNextDay.bind(this);
     this.showPrevDay = this.showPrevDay.bind(this);
+    this.getTodaysSummary = this.getTodaysSummary.bind(this);
+  }
+
+  getTodaysSummary() {
+    this.setState({ currentDate: moment() });
+    this.getDailySummary();
   }
 
   getDailySummary(date) {
     if(!date) {
       date = new Date();
-      this.setState({ currentDate: moment() })
+      this.setState({ currentDate: moment() });
     }
 
     let startDayTime = moment(date).startOf('day').toString();
     let endDayTime = moment(date).endOf('day').toString();
-    console.log('startDayTime: ', startDayTime);
-    console.log('endDayTime: ', endDayTime);
+    // console.log('startDayTime: ', startDayTime);
+    // console.log('endDayTime: ', endDayTime);
 
     $.ajax({
       url: `/summary/${startDayTime}/${endDayTime}`,
@@ -94,7 +100,7 @@ class Summary extends React.Component {
 
   render() {
     return (
-      <button onClick={this.getDailySummary}>Daily Summary</button>
+      <button onClick={this.getTodaysSummary}>Daily Summary</button>
     );
   }
 }
